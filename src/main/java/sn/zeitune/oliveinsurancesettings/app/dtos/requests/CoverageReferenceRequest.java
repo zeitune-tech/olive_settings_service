@@ -1,4 +1,4 @@
-package sn.zeitune.oliveinsurancesettings.app.dto.request;
+package sn.zeitune.oliveinsurancesettings.app.dtos.requests;
 import jakarta.validation.constraints.*;
 import lombok.Builder;
 
@@ -16,9 +16,6 @@ public record CoverageReferenceRequest(
         Boolean accessCharacteristic,
 
         @NotNull(message = "Tariff access must be specified")
-        Boolean tariffAccess,
-
-        @NotNull(message = "Management entity ID is required")
-        UUID managementEntity
+        Boolean tariffAccess
 ) {
 }

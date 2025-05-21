@@ -1,91 +1,82 @@
 package sn.zeitune.oliveinsurancesettings.security;
 
-
-import io.jsonwebtoken.JwtException;
-import jakarta.servlet.FilterChain;
-import jakarta.servlet.ServletException;
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
-
+import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.Jwts;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
-import org.springframework.lang.NonNull;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.json.JSONObject;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
-import org.springframework.stereotype.Component;
-import org.springframework.web.filter.OncePerRequestFilter;
+import org.springframework.stereotype.Service;
 
-import java.io.IOException;
-import java.util.List;
-import java.util.stream.Collectors;
+import java.security.PublicKey;
+import java.util.*;
+import java.util.function.Function;
 
-import org.springframework.security.core.context.SecurityContextHolder;
-import sn.zeitune.oliveinsurancesettings.client.UserRole;
+import sn.zeitune.oliveinsurancesettings.enums.UserRole;
 
-@Slf4j
-@Component
+@Service
 @RequiredArgsConstructor
-public class JwtSecurityFilter extends OncePerRequestFilter {
+public class JwtService {
 
-    private final TokenDecoderService tokenDecoderService;
+    private final KeyProviderService keyProvider;
 
-    @Override
-    protected void doFilterInternal(
-            @NonNull HttpServletRequest request,
-            @NonNull HttpServletResponse response,
-            @NonNull FilterChain filterChain
-    ) throws ServletException, IOException {
+    @Value("${jwt.user.expiration}")
+    private long userExp;
 
-        // Skip authentication for auth endpoints
-        if (request.getServletPath().contains("/api/v1/auth")) {
-            filterChain.doFilter(request, response);
-            return;
+    @Value("${jwt.admin.expiration}")
+    private long adminExp;
+
+    private long getExpiration(UserRole userType) {
+        if (userType == UserRole.ADMIN) {
+            return adminExp;
+        } else if (userType == UserRole.USER) {
+            return userExp;
         }
+        throw new IllegalArgumentException("Invalid user type: " + userType);
+    }
 
-        final String authorizationHeader = request.getHeader("Authorization");
-        if (authorizationHeader == null || !authorizationHeader.startsWith("Bearer ")) {
-            filterChain.doFilter(request, response);
-            return;
-        }
+    public String extractUsername(String token, UserRole userType) throws Exception {
+        return extractClaim(token, Claims::getSubject, userType);
+    }
 
-        String token = authorizationHeader.substring(7);
+    public List<SimpleGrantedAuthority> extractAuthorities(Claims claims) {
+        List<String> roles = claims.get("authorities", List.class);
+        if (roles == null) return List.of();
+        return roles.stream().map(SimpleGrantedAuthority::new).toList();
+    }
 
-        if (tokenDecoderService.isExpired(token)) {
-            filterChain.doFilter(request, response);
-            return;
-        }
 
-        try {
 
-            UserRole userType = request.getHeader("X-User-Type") != null ?
-            UserRole.valueOf(request.getHeader("X-User-Type")) : null;
+    public <T> T extractClaim(String token, Function<Claims, T> claimsResolver, UserRole userType) throws Exception {
+        final Claims claims = extractAllClaims(token, userType);
+        return claimsResolver.apply(claims);
+    }
 
-            String username = tokenDecoderService.getUsername(token);
-            if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
-                if (tokenDecoderService.isExpired(jwt, userDetails)) {
-                    UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(
-                            userDetails, null, userDetails.getAuthorities());
-                    authToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
-                    SecurityContextHolder.getContext().setAuthentication(authToken);
+    public Claims extractAllClaims(String token, UserRole userType) throws Exception {
+        PublicKey publicKey = keyProvider.getPublicKey(userType);
+        return Jwts.parser()
+                .verifyWith(publicKey)
+                .build()
+                .parseSignedClaims(token)
+                .getPayload();
+    }
 
-                    log.info("Authentication successful for username: {}", username);
-                } else {
-                    log.warn("JWT validation failed for username: {}", username);
-                    throw new JwtException("Invalid token");
-                }
-            }
+    public UserRole extractUserRoleWithoutValidation(String token) {
+        String[] parts = token.split("\\.");
+        if (parts.length != 3) throw new IllegalArgumentException("Invalid JWT");
 
-        } catch (JwtException | IllegalArgumentException ex) {
-            log.error("JWT Processing Error: {}", ex.getMessage());
-            response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
-            response.setContentType("application/json");
-            response.getWriter().write(
-                    "{\"error\": \"Unauthorized\", \"message\": \"" + ex.getMessage() + "\"}"
-            );
-            return;
-        }
+        String payloadJson = new String(Base64.getUrlDecoder().decode(parts[1]));
+        JSONObject payload = new JSONObject(payloadJson);
+        return UserRole.valueOf(payload.getString("userType"));
+    }
 
-        filterChain.doFilter(request, response);
+    public boolean isTokenValid(String token, UserRole role) throws Exception {
+        final String username = extractUsername(token, role);
+        return username != null && !isTokenExpired(token, role);
+    }
+
+    private boolean isTokenExpired(String token, UserRole userType) throws Exception {
+        Date expiration = extractClaim(token, Claims::getExpiration, userType);
+        return expiration.before(new Date());
     }
 }

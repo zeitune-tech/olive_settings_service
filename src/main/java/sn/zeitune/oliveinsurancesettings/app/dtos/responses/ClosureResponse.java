@@ -1,4 +1,4 @@
-package sn.zeitune.oliveinsurancesettings.app.dto.response;
+package sn.zeitune.oliveinsurancesettings.app.dtos.responses;
 
 
 import lombok.Builder;
@@ -9,8 +9,7 @@ import sn.zeitune.oliveinsurancesettings.enums.ClosureType;
 
 @Builder
 public record ClosureResponse(
-        Long id,
-        UUID uuid,
+        UUID id,
         ClosureType type,
         LocalDate date,
         UUID managementEntity

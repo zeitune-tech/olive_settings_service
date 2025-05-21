@@ -1,4 +1,4 @@
-package sn.zeitune.oliveinsurancesettings.app.dto.request;
+package sn.zeitune.oliveinsurancesettings.app.dtos.requests;
 
 
 import jakarta.validation.constraints.NotNull;
@@ -9,14 +9,10 @@ import java.util.UUID;
 @Builder
 public record IncompatibleCoverageRequest(
 
-        @NotNull(message = "Coverage UUID is required")
-        UUID coverageUuid,
+        @NotNull(message = "Coverage ID is required")
+        UUID coverageId,
 
-        @NotNull(message = "Incompatible coverage UUID is required")
-        UUID incompatibleCoverageUuid,
-
-        @NotNull(message = "Management entity ID is required")
-        UUID managementEntity
-
+        @NotNull(message = "Incompatible coverage ID is required")
+        UUID incompatibleId
 ) {}
 

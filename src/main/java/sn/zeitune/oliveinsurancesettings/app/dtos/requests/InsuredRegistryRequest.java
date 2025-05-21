@@ -1,4 +1,4 @@
-package sn.zeitune.oliveinsurancesettings.app.dto.request;
+package sn.zeitune.oliveinsurancesettings.app.dtos.requests;
 
 
 import jakarta.validation.constraints.*;
@@ -13,9 +13,6 @@ public record InsuredRegistryRequest(
         String prefix,
 
         @Min(value = 1, message = "Length must be at least 1")
-        int length,
-
-        @NotNull(message = "Management entity ID is required")
-        UUID managementEntity
+        int length
 
 ) {}

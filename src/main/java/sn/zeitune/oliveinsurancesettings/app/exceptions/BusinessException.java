@@ -1,4 +1,4 @@
-package sn.zeitune.olive_insurance_administration.app.exceptions;
+package sn.zeitune.oliveinsurancesettings.app.exceptions;
 
 public class BusinessException extends RuntimeException {
     public BusinessException(String message) {

@@ -1,4 +1,4 @@
-package sn.zeitune.olive_insurance_administration.app.exceptions;
+package sn.zeitune.oliveinsurancesettings.app.exceptions;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ResponseStatus;

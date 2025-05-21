@@ -1,19 +1,18 @@
-package sn.zeitune.oliveinsurancesettings.app.dto.response;
+package sn.zeitune.oliveinsurancesettings.app.dtos.responses;
 import lombok.Builder;
 import sn.zeitune.oliveinsurancesettings.enums.CoverageDurationType;
+import sn.zeitune.oliveinsurancesettings.enums.Unit;
 
-import java.time.LocalDate;
 import java.util.UUID;
 
 @Builder
 public record CoverageDurationResponse(
-        Long id,
-        UUID uuid,
-        LocalDate from,
-        LocalDate to,
+        UUID id,
+        Double from,
+        Double to,
         CoverageDurationType type,
         String prorotaMode,
-        String unit,
+        Unit unit,
         UUID managementEntity
 ) {
 }

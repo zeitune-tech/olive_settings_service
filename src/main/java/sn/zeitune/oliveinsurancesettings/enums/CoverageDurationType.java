@@ -1,4 +1,6 @@
 package sn.zeitune.oliveinsurancesettings.enums;
 
-public class CoverageDurationType {
+public enum CoverageDurationType {
+    FIXED,
+    VARIABLE
 }

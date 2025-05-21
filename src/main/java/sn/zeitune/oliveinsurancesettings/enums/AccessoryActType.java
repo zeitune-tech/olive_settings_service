@@ -1,4 +1,8 @@
 package sn.zeitune.oliveinsurancesettings.enums;
 
-public class AccessoryActType {
+public enum AccessoryActType {
+    NEW_BUSINESS,
+    MODIFICATION,
+    SUSPENSION,
+    REINSTATEMENT
 }

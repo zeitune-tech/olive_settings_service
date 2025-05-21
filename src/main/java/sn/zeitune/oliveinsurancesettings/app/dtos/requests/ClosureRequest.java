@@ -1,4 +1,4 @@
-package sn.zeitune.oliveinsurancesettings.app.dto.request;
+package sn.zeitune.oliveinsurancesettings.app.dtos.requests;
 
 
 import jakarta.validation.constraints.NotNull;
@@ -19,8 +19,7 @@ public record ClosureRequest(
         @PastOrPresent(message = "Effective date cannot be in the future")
         LocalDate date,
 
-        @NotNull(message = "Management entity ID must not be null")
-        UUID managementEntity
-
+        @NotNull(message = "Product not null")
+        UUID productId
 ) {}
 

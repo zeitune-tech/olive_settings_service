@@ -1,4 +1,4 @@
-package sn.zeitune.olive_insurance_administration.security;
+package sn.zeitune.oliveinsurancesettings.security;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

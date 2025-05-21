@@ -1,4 +1,4 @@
-package sn.zeitune.olive_insurance_administration.handler;
+package sn.zeitune.oliveinsurancesettings.handler;
 
 import lombok.Getter;
 import org.springframework.http.HttpStatus;

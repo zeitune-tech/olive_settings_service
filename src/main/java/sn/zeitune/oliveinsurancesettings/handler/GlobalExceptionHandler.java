@@ -1,4 +1,4 @@
-package sn.zeitune.olive_insurance_administration.handler;
+package sn.zeitune.oliveinsurancesettings.handler;
 
 import jakarta.validation.ConstraintViolationException;
 import lombok.extern.slf4j.Slf4j;
@@ -12,13 +12,11 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
-import sn.zeitune.olive_insurance_administration.app.exceptions.BusinessException;
-import sn.zeitune.olive_insurance_administration.app.exceptions.NotFoundException;
+import sn.zeitune.oliveinsurancesettings.app.exceptions.BusinessException;
+import sn.zeitune.oliveinsurancesettings.app.exceptions.NotFoundException;
 
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Map;
-import java.util.Set;
 
 @Slf4j
 @RestControllerAdvice

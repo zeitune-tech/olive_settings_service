@@ -1,4 +1,4 @@
-package sn.zeitune.oliveinsurancesettings.client;
+package sn.zeitune.oliveinsurancesettings.enums;
 
 public enum UserRole {
     ADMIN,

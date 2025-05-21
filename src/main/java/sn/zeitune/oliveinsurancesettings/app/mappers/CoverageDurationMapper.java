@@ -1,4 +1,31 @@
 package sn.zeitune.oliveinsurancesettings.app.mappers;
 
+import sn.zeitune.oliveinsurancesettings.app.dtos.requests.CoverageDurationRequest;
+import sn.zeitune.oliveinsurancesettings.app.dtos.responses.CoverageDurationResponse;
+import sn.zeitune.oliveinsurancesettings.app.entities.CoverageDuration;
+
 public class CoverageDurationMapper {
+
+    public static CoverageDuration map(CoverageDurationRequest request) {
+        return CoverageDuration.builder()
+                .from(request.from())
+                .to(request.to())
+                .type(request.type())
+                .prorotaMode(request.prorotaMode())
+                .unit(request.unit())
+                .build();
+    }
+
+    public static CoverageDurationResponse map(CoverageDuration duration) {
+        return CoverageDurationResponse.builder()
+                .id(duration.getUuid())
+                .from(duration.getFrom())
+                .to(duration.getTo())
+                .type(duration.getType())
+                .prorotaMode(duration.getProrotaMode())
+                .unit(duration.getUnit())
+                .managementEntity(duration.getManagementEntity())
+                .build();
+    }
 }
+

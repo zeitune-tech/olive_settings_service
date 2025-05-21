@@ -1,4 +1,4 @@
-package sn.zeitune.olive_insurance_administration.app.dto.responses;
+package sn.zeitune.oliveinsurancesettings.app.dtos.externals;
 
 import lombok.Builder;
 

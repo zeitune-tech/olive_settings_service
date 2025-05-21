@@ -1,4 +1,7 @@
 package sn.zeitune.oliveinsurancesettings.enums;
 
-public class TaxNature {
+public enum TaxNature {
+    TAX,
+    FGA,
+    OTHER
 }

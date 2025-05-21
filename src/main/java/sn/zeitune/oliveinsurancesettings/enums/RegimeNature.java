@@ -1,4 +1,6 @@
 package sn.zeitune.oliveinsurancesettings.enums;
 
-public class RegimeNature {
+public enum RegimeNature {
+    NORMAL,
+    EXCEPTIONAL
 }

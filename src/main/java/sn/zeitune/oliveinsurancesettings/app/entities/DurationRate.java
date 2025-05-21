@@ -13,7 +13,7 @@ import java.util.UUID;
 @Entity(name = "taux_duree")
 @NoArgsConstructor
 @AllArgsConstructor
-public class TauxDuration {
+public class DurationRate {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -38,10 +38,9 @@ public class TauxDuration {
     private CoverageDuration duration;
 
     @Column(name = "rate", nullable = false)
-    private BigDecimal rate;
+    private Double rate;
 
 
-    private UUID pointOfSale;
     private UUID product;
     private UUID managementEntity;
 }

@@ -1,4 +1,4 @@
-package sn.zeitune.oliveinsurancesettings.app.dto.response;
+package sn.zeitune.oliveinsurancesettings.app.dtos.responses;
 
 import lombok.Builder;
 
@@ -7,12 +7,10 @@ import java.util.UUID;
 @Builder
 public record CoverageReferenceResponse(
 
-        Long id,
-        UUID uuid,
+        UUID id,
         String designation,
         String family,
         boolean accessCharacteristic,
         boolean tariffAccess,
         UUID managementEntity
-
 ) {}

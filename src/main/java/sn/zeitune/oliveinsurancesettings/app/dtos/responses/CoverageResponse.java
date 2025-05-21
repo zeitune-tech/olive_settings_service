@@ -1,28 +1,26 @@
-package sn.zeitune.oliveinsurancesettings.app.dto.response;
+package sn.zeitune.oliveinsurancesettings.app.dtos.responses;
 
 import lombok.Builder;
 import sn.zeitune.oliveinsurancesettings.enums.CalculationMode;
 
-import java.math.BigDecimal;
 import java.util.UUID;
 
 @Builder
 public record CoverageResponse(
 
-        Long id,
-        UUID uuid,
+        UUID id,
         String nature,
         boolean isFree,
         boolean isFixed,
         CalculationMode calculationMode,
-        BigDecimal fixedCapital,
-        BigDecimal minCapital,
-        BigDecimal maxCapital,
+        Long fixedCapital,
+        Long minCapital,
+        Long maxCapital,
         int order,
         String prorata,
         boolean displayPrime,
         boolean generatesCharacteristic,
-        UUID coverageReferenceId,
+        CoverageReferenceResponse reference,
         UUID product,
         UUID managementEntity
 

@@ -1,4 +1,7 @@
 package sn.zeitune.oliveinsurancesettings.enums;
 
-public class ContributorType {
+public enum ContributorType {
+    COMPANY,
+    INDIVIDUAL,
+    SALES_POINT
 }
