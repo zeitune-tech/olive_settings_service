@@ -2,19 +2,24 @@ package sn.zeitune.oliveinsurancesettings.app.entities;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
+import lombok.experimental.SuperBuilder;
+import org.hibernate.annotations.Filter;
+import org.hibernate.annotations.FilterDef;
+import org.hibernate.annotations.ParamDef;
 
 import java.util.UUID;
 
-@Data
-@Builder
-@Entity(name = "reference_garantie")
+@Getter
+@Setter
+@SuperBuilder
+@Entity(name = "references_garantie")
 @NoArgsConstructor
 @AllArgsConstructor
-public class CoverageReference {
+@FilterDef(name = "deletedFilter", parameters = @ParamDef(name = "isDeleted", type = Boolean.class))
+@Filter(name = "deletedFilter", condition = "deleted = :isDeleted")
+
+public class CoverageReference extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

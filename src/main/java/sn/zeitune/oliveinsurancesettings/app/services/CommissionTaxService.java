@@ -1,5 +1,6 @@
 package sn.zeitune.oliveinsurancesettings.app.services;
 
+import jakarta.validation.Valid;
 import sn.zeitune.oliveinsurancesettings.app.dtos.requests.CommissionTaxRequest;
 import sn.zeitune.oliveinsurancesettings.app.dtos.responses.CommissionTaxResponse;
 
@@ -35,4 +36,6 @@ public interface CommissionTaxService {
      * @param uuid identifiant unique
      */
     void delete(UUID uuid);
+
+    CommissionTaxResponse update(UUID uuid, @Valid CommissionTaxRequest request, UUID managementEntity);
 }

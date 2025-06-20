@@ -59,6 +59,8 @@ public class InsuredRegistryServiceImpl implements InsuredRegistryService {
     public void delete(UUID uuid) {
         InsuredRegistry entity = insuredRegistryRepository.findByUuid(uuid)
                 .orElseThrow(() -> new IllegalArgumentException("InsuredRegistry not found with UUID: " + uuid));
-        insuredRegistryRepository.delete(entity);
+
+        entity.setDeleted(true);
+        insuredRegistryRepository.save(entity);
     }
 }

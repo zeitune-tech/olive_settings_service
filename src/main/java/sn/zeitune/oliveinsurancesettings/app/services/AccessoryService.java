@@ -1,5 +1,6 @@
 package sn.zeitune.oliveinsurancesettings.app.services;
 
+import jakarta.validation.Valid;
 import sn.zeitune.oliveinsurancesettings.app.dtos.requests.AccessoryRequest;
 import sn.zeitune.oliveinsurancesettings.app.dtos.responses.AccessoryResponse;
 
@@ -11,4 +12,6 @@ public interface AccessoryService {
     AccessoryResponse getByUuid(UUID uuid);
     List<AccessoryResponse> getAll(UUID managementEntity);
     void delete(UUID uuid);
+
+    AccessoryResponse update(UUID uuid, AccessoryRequest request, UUID managementEntity);
 }

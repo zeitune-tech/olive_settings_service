@@ -11,7 +11,7 @@ public record CoverageDurationResponse(
         Double from,
         Double to,
         CoverageDurationType type,
-        String prorotaMode,
+        String designation,
         Unit unit,
         UUID managementEntity
 ) {

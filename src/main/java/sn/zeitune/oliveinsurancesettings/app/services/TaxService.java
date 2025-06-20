@@ -1,5 +1,6 @@
 package sn.zeitune.oliveinsurancesettings.app.services;
 
+import jakarta.validation.Valid;
 import sn.zeitune.oliveinsurancesettings.app.dtos.requests.TaxRequest;
 import sn.zeitune.oliveinsurancesettings.app.dtos.responses.TaxResponse;
 
@@ -12,4 +13,6 @@ public interface TaxService {
     TaxResponse getByUuid(UUID uuid);
     List<TaxResponse> getAll(UUID managementEntity);
     void delete(UUID uuid);
+
+    TaxResponse update(UUID uuid, TaxRequest request, UUID managementEntity);
 }

@@ -13,7 +13,7 @@ import java.util.UUID;
 public interface CoverageService {
 
     CoverageResponse getByUuid(UUID uuid);
-    List<CoverageResponse> getAll();
+    List<CoverageResponse> getAll(UUID managementEntity);
     CoverageResponse update(UUID uuid, CoverageRequest request);
     Page<CoverageResponse> search(
             String nature,

@@ -3,17 +3,20 @@ package sn.zeitune.oliveinsurancesettings.app.entities;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
+import lombok.experimental.SuperBuilder;
+import sn.zeitune.oliveinsurancesettings.app.entities.product.Product;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.UUID;
 
-@Data
-@Builder
+@Getter
+@Setter
+@SuperBuilder
 @Entity(name = "taux_duree")
 @NoArgsConstructor
 @AllArgsConstructor
-public class DurationRate {
+public class DurationRate extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -41,6 +44,9 @@ public class DurationRate {
     private Double rate;
 
 
-    private UUID product;
+    @ManyToOne
+    @JoinColumn(name = "code_produit", nullable = false)
+    private Product product;
+
     private UUID managementEntity;
 }

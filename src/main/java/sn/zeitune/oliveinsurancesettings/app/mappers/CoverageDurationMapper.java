@@ -11,7 +11,7 @@ public class CoverageDurationMapper {
                 .from(request.from())
                 .to(request.to())
                 .type(request.type())
-                .prorotaMode(request.prorotaMode())
+                .designation(request.designation())
                 .unit(request.unit())
                 .build();
     }
@@ -22,7 +22,7 @@ public class CoverageDurationMapper {
                 .from(duration.getFrom())
                 .to(duration.getTo())
                 .type(duration.getType())
-                .prorotaMode(duration.getProrotaMode())
+                .designation(duration.getDesignation())
                 .unit(duration.getUnit())
                 .managementEntity(duration.getManagementEntity())
                 .build();

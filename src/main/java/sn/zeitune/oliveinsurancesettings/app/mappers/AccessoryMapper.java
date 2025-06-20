@@ -1,6 +1,6 @@
 package sn.zeitune.oliveinsurancesettings.app.mappers;
 
-import sn.zeitune.oliveinsurancesettings.app.dtos.externals.ProductResponseDTO;
+import sn.zeitune.oliveinsurancesettings.app.dtos.responses.ProductResponseDTO;
 import sn.zeitune.oliveinsurancesettings.app.dtos.requests.AccessoryRequest;
 import sn.zeitune.oliveinsurancesettings.app.dtos.responses.AccessoryResponse;
 import sn.zeitune.oliveinsurancesettings.app.entities.Accessory;
@@ -12,7 +12,6 @@ public class AccessoryMapper {
                 .dateEffective(request.dateEffective())
                 .actType(request.actType())
                 .accessoryAmount(request.accessoryAmount())
-                .product(request.productId())
                 .build();
     }
 

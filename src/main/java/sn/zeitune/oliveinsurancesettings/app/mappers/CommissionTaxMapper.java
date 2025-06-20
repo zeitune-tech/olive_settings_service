@@ -1,6 +1,6 @@
 package sn.zeitune.oliveinsurancesettings.app.mappers;
 
-import sn.zeitune.oliveinsurancesettings.app.dtos.externals.ProductResponseDTO;
+import sn.zeitune.oliveinsurancesettings.app.dtos.responses.ProductResponseDTO;
 import sn.zeitune.oliveinsurancesettings.app.dtos.requests.CommissionTaxRequest;
 import sn.zeitune.oliveinsurancesettings.app.dtos.responses.CommissionTaxResponse;
 import sn.zeitune.oliveinsurancesettings.app.entities.CommissionTax;
@@ -13,7 +13,6 @@ public class CommissionTaxMapper {
                 .commissionTaxType(request.commissionTaxType())
                 .rate(request.rate())
                 .pointOfSale(request.pointOfSaleId())
-                .product(request.productId())
                 .build();
     }
 

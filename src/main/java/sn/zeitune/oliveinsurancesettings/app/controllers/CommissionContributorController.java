@@ -30,6 +30,17 @@ public class CommissionContributorController {
         return ResponseEntity.ok(response);
     }
 
+    @PutMapping("/{uuid}")
+    public ResponseEntity<CommissionContributorResponse> update(
+            @PathVariable UUID uuid,
+            @RequestBody @Valid CommissionContributorRequest request,
+            Authentication authentication
+    ) {
+        Employee employee = (Employee) authentication.getPrincipal();
+        CommissionContributorResponse response = commissionContributorService.update(uuid, request, employee.getManagementEntity());
+        return ResponseEntity.ok(response);
+    }
+
 
     @GetMapping("/{uuid}")
     public ResponseEntity<CommissionContributorResponse> getByUuid(@PathVariable UUID uuid) {

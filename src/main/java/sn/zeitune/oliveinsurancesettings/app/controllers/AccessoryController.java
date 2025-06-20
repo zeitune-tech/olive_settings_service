@@ -30,6 +30,16 @@ public class AccessoryController {
         return ResponseEntity.ok(response);
     }
 
+    @PutMapping("/{uuid}")
+    public ResponseEntity<AccessoryResponse> update(
+            @PathVariable UUID uuid,
+            @RequestBody @Valid AccessoryRequest request,
+            Authentication authentication
+    ) {
+        Employee employee = (Employee) authentication.getPrincipal();
+        AccessoryResponse response = accessoryService.update(uuid, request, employee.getManagementEntity());
+        return ResponseEntity.ok(response);
+    }
 
     @GetMapping("/{uuid}")
     public ResponseEntity<AccessoryResponse> getByUuid(@PathVariable UUID uuid) {

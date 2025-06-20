@@ -5,9 +5,6 @@ import lombok.Builder;
 import sn.zeitune.oliveinsurancesettings.enums.CoverageDurationType;
 import sn.zeitune.oliveinsurancesettings.enums.Unit;
 
-import java.time.LocalDate;
-import java.util.UUID;
-
 @Builder
 public record CoverageDurationRequest(
         @NotNull(message = "Start date is required")
@@ -20,7 +17,7 @@ public record CoverageDurationRequest(
         CoverageDurationType type,
 
         @NotBlank(message = "Prorata mode is required")
-        String prorotaMode,
+        String designation,
 
         @NotNull(message = "Unit is required")
         Unit unit

@@ -3,18 +3,20 @@ package sn.zeitune.oliveinsurancesettings.app.entities;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
+import sn.zeitune.oliveinsurancesettings.app.entities.product.Product;
 import sn.zeitune.oliveinsurancesettings.enums.AccessoryActType;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.UUID;
 
-@Data
+@Getter
+@Setter
 @Builder
-@Entity(name = "accessoire")
+@Entity(name = "accessoires")
 @NoArgsConstructor
 @AllArgsConstructor
-public class Accessory {
+public class Accessory  extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -42,6 +44,10 @@ public class Accessory {
     @Column(name = "accessory_amount", nullable = false)
     private Double accessoryAmount;
 
-    private UUID product;
+    @ManyToOne
+    @JoinColumn(name = "code_produit", nullable = false)
+    private Product product;
+
+    @Column(name="code_entite_gestion", nullable = false)
     private UUID managementEntity;
 }

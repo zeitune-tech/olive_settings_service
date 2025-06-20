@@ -4,22 +4,25 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import sn.zeitune.oliveinsurancesettings.app.clients.AdministrationClient;
-import sn.zeitune.oliveinsurancesettings.app.dtos.externals.ProductResponseDTO;
 import sn.zeitune.oliveinsurancesettings.app.dtos.requests.BaseTaxRequest;
 import sn.zeitune.oliveinsurancesettings.app.dtos.responses.BaseTaxResponse;
 import sn.zeitune.oliveinsurancesettings.app.entities.BaseTax;
 import sn.zeitune.oliveinsurancesettings.app.entities.CoverageReference;
 import sn.zeitune.oliveinsurancesettings.app.entities.Tax;
+import sn.zeitune.oliveinsurancesettings.app.entities.product.Product;
 import sn.zeitune.oliveinsurancesettings.app.mappers.BaseTaxMapper;
 import sn.zeitune.oliveinsurancesettings.app.mappers.CoverageReferenceMapper;
+import sn.zeitune.oliveinsurancesettings.app.mappers.ProductMapper;
 import sn.zeitune.oliveinsurancesettings.app.mappers.TaxMapper;
 import sn.zeitune.oliveinsurancesettings.app.repositories.BaseTaxRepository;
 import sn.zeitune.oliveinsurancesettings.app.repositories.CoverageReferenceRepository;
+import sn.zeitune.oliveinsurancesettings.app.repositories.ProductRepository;
 import sn.zeitune.oliveinsurancesettings.app.repositories.TaxRepository;
 import sn.zeitune.oliveinsurancesettings.app.services.BaseTaxService;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
@@ -32,7 +35,7 @@ public class BaseTaxServiceImpl implements BaseTaxService {
     private final TaxRepository taxRepository;
     private final CoverageReferenceRepository coverageRepository;
 
-    private final AdministrationClient administrationClient;
+    private final ProductRepository productRepository;
 
     @Override
     public BaseTaxResponse create(BaseTaxRequest request, UUID managementEntity) {
@@ -45,26 +48,29 @@ public class BaseTaxServiceImpl implements BaseTaxService {
 
         // Set the Tax and Coverage entities in the BaseTax entity
         entity.setTax(tax);
-        entity.setProduct(request.productId());
-
-        CoverageReference coverage = null;
-
-        if (request.coverageId() != null) {
-            // Get Coverage entity from the repository
-            coverage = coverageRepository.findByUuid(request.coverageId())
-                    .orElseThrow(() -> new IllegalArgumentException("Coverage not found"));
-            entity.setCoverage(coverage);
+        // Validate that the product exists in the product repository
+        Optional<Product> product = productRepository.findByUuid(request.productId());
+        if (product.isEmpty()) {
+            throw new IllegalArgumentException("Product not found");
         }
+        entity.setProduct(product.get());
+
+        // Get Coverage entity from the repository
+        CoverageReference coverage = coverageRepository.findByUuid(request.coverageId())
+                .orElseThrow(() -> new IllegalArgumentException("Coverage not found"));
+        entity.setCoverage(coverage);
 
         entity = repository.save(entity);
-        return BaseTaxMapper.map(entity, TaxMapper.map(tax), CoverageReferenceMapper.map(coverage), ProductResponseDTO.builder().build());
+        return BaseTaxMapper.map(entity, TaxMapper.map(tax), CoverageReferenceMapper.map(coverage),
+                ProductMapper.map(product.get()));
     }
 
 
     @Override
     public BaseTaxResponse getByUuid(UUID uuid) {
         return repository.findByUuid(uuid)
-                .map(bTax -> BaseTaxMapper.map(bTax, TaxMapper.map(bTax.getTax()), CoverageReferenceMapper.map(bTax.getCoverage()), ProductResponseDTO.builder().build()))
+                .map(bTax -> BaseTaxMapper.map(bTax, TaxMapper.map(bTax.getTax()), CoverageReferenceMapper.map(bTax.getCoverage()),
+                        ProductMapper.map(bTax.getProduct())))
                 .orElseThrow(() -> new IllegalArgumentException("BaseTax not found"));
     }
 
@@ -73,22 +79,13 @@ public class BaseTaxServiceImpl implements BaseTaxService {
         // Assuming you want to fetch all base taxes for a specific management entity
         List<BaseTax> baseTaxes = repository.findAllByManagementEntity(managementEntity);
 
-        Map<UUID, ProductResponseDTO> products;
-
-        // Fetch products for the management entity
-        List<ProductResponseDTO> productResponseDTOS = administrationClient.getByManagementEntity(managementEntity);
-
-        // Map the products to a UUID to ProductResponseDTO map
-        products = productResponseDTOS.stream()
-                .collect(Collectors.toMap(ProductResponseDTO::id, product -> product));
-
         // Map each base tax to its corresponding product
         return baseTaxes.stream()
                 .map(baseTax -> {
                     Tax tax = baseTax.getTax();
                     CoverageReference coverage = baseTax.getCoverage();
-                    ProductResponseDTO product = products.get(baseTax.getProduct());
-                    return BaseTaxMapper.map(baseTax, TaxMapper.map(tax), CoverageReferenceMapper.map(coverage), product);
+                    return BaseTaxMapper.map(baseTax, TaxMapper.map(tax), CoverageReferenceMapper.map(coverage),
+                            ProductMapper.map(baseTax.getProduct()));
                 })
                 .collect(Collectors.toList());
 
@@ -99,6 +96,45 @@ public class BaseTaxServiceImpl implements BaseTaxService {
     public void delete(UUID uuid) {
         BaseTax entity = repository.findByUuid(uuid)
                 .orElseThrow(() -> new IllegalArgumentException("BaseTax not found"));
-        repository.delete(entity);
+
+        // Mark the entity as deleted
+        entity.setDeleted(true);
+        repository.save(entity);
+    }
+
+    @Override
+    public BaseTaxResponse update(UUID uuid, BaseTaxRequest request, UUID managementEntity) {
+        BaseTax baseTax = repository.findByUuid(uuid)
+                .orElseThrow(() -> new IllegalArgumentException("BaseTax not found"));
+
+        // Validate that the management entity matches
+        if (!baseTax.getManagementEntity().equals(managementEntity)) {
+            throw new IllegalArgumentException("BaseTax does not belong to the specified management entity");
+        }
+
+        // Validate that the tax exists in the tax repository
+        Tax tax = taxRepository.findByUuid(request.taxId())
+                .orElseThrow(() -> new IllegalArgumentException("Tax not found"));
+        baseTax.setTax(tax);
+
+        // Validate that the product exists in the product repository
+        Product product = productRepository.findByUuid(request.productId())
+                .orElseThrow(() -> new IllegalArgumentException("Product not found"));
+        baseTax.setProduct(product);
+
+        // Validate that the coverage exists in the coverage repository
+        CoverageReference coverage = coverageRepository.findByUuid(request.coverageId())
+                .orElseThrow(() -> new IllegalArgumentException("Coverage not found"));
+        baseTax.setCoverage(coverage);
+
+        // Update other fields
+        baseTax.setCalculationBase(request.calculationBase());
+        baseTax.setRate(request.rate());
+        baseTax.setFixedAmount(request.fixedAmount());
+        baseTax.setFlat(request.isFlat());
+
+        baseTax = repository.save(baseTax);
+        return BaseTaxMapper.map(baseTax, TaxMapper.map(tax), CoverageReferenceMapper.map(coverage),
+                ProductMapper.map(product));
     }
 }

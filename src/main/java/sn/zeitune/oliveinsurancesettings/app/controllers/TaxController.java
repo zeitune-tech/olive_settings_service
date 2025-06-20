@@ -31,6 +31,17 @@ public class TaxController {
         return ResponseEntity.ok(response);
     }
 
+    @PutMapping("/{uuid}")
+    public ResponseEntity<TaxResponse> update(
+            @PathVariable UUID uuid,
+            @RequestBody @Valid TaxRequest request,
+            Authentication authentication
+    ) {
+        Employee employee = (Employee) authentication.getPrincipal();
+        TaxResponse response = taxService.update(uuid, request, employee.getManagementEntity());
+        return ResponseEntity.ok(response);
+    }
+
 
     @GetMapping("/{uuid}")
     public ResponseEntity<TaxResponse> getByUuid(@PathVariable UUID uuid) {

@@ -97,6 +97,9 @@ public class CoverageReferenceServiceImpl implements CoverageReferenceService {
     public void delete(UUID uuid) {
         CoverageReference entity = coverageReferenceRepository.findByUuid(uuid)
                 .orElseThrow(() -> new IllegalArgumentException("CoverageReference not found with UUID: " + uuid));
-        coverageReferenceRepository.delete(entity);
+
+        // Soft delete the entity
+        entity.setDeleted(true);
+        coverageReferenceRepository.save(entity);
     }
 }

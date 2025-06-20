@@ -1,6 +1,6 @@
 package sn.zeitune.oliveinsurancesettings.app.mappers;
 
-import sn.zeitune.oliveinsurancesettings.app.dtos.externals.ProductResponseDTO;
+import sn.zeitune.oliveinsurancesettings.app.dtos.responses.ProductResponseDTO;
 import sn.zeitune.oliveinsurancesettings.app.dtos.requests.CommissionContributorRequest;
 import sn.zeitune.oliveinsurancesettings.app.dtos.responses.CommissionContributorResponse;
 import sn.zeitune.oliveinsurancesettings.app.entities.CommissionContributor;

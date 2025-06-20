@@ -57,6 +57,8 @@ public class TaxRegimeServiceImpl implements TaxRegimeService {
     public void delete(UUID uuid) {
         TaxRegime regime = repository.findByUuid(uuid)
                 .orElseThrow(() -> new IllegalArgumentException("TaxRegime not found"));
-        repository.delete(regime);
+
+        regime.setDeleted(true);
+        repository.save(regime);
     }
 }

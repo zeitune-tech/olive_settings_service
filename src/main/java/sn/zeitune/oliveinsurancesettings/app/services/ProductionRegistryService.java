@@ -15,6 +15,7 @@ public interface ProductionRegistryService {
     ProductionRegistryResponse getByUuid(UUID uuid);
 
     Page<ProductionRegistryResponse> getAll(UUID managementEntity, Pageable pageable);
+    List<ProductionRegistryResponse> getAll(UUID managementEntity);
 
     ProductionRegistryResponse update(UUID uuid, ProductionRegistryRequest request);
 

@@ -2,21 +2,20 @@ package sn.zeitune.oliveinsurancesettings.app.entities;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
+import lombok.experimental.SuperBuilder;
 import sn.zeitune.oliveinsurancesettings.enums.CoverageDurationType;
 import sn.zeitune.oliveinsurancesettings.enums.Unit;
 
 import java.util.UUID;
 
-@Data
-@Builder
-@Entity(name = "duree_de_couverture")
+@Getter
+@Setter
+@SuperBuilder
+@Entity(name = "durees_de_couverture")
 @NoArgsConstructor
 @AllArgsConstructor
-public class CoverageDuration {
+public class CoverageDuration extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -41,8 +40,8 @@ public class CoverageDuration {
     @Column(name = "a")
     private Double to;
     private CoverageDurationType type;
-    @Column(name = "mode_de_prorata")
-    private String prorotaMode;
+    @Column(name = "designation")
+    private String designation;
     @Column(name = "unite")
     private Unit unit;
 

@@ -3,18 +3,21 @@ package sn.zeitune.oliveinsurancesettings.app.entities;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
+import lombok.experimental.SuperBuilder;
+import sn.zeitune.oliveinsurancesettings.app.entities.product.Product;
 import sn.zeitune.oliveinsurancesettings.enums.CalculationBase;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.UUID;
 
-@Data
-@Builder
-@Entity(name = "commission_contributor")
+@Getter
+@Setter
+@SuperBuilder
+@Entity(name = "commissions_apporteur")
 @NoArgsConstructor
 @AllArgsConstructor
-public class CommissionContributor {
+public class CommissionContributor  extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -45,8 +48,13 @@ public class CommissionContributor {
     @Column(name = "upper_entity_contributor_rate")
     private Double upperEntityContributorRate;
 
+    @ManyToOne
+    @JoinColumn(name = "code_produit", nullable = false)
+    private Product product;
 
+    @Column(name = "code_apporteur", nullable = false)
     private UUID contributor;
-    private UUID product;
+
+    @Column(name = "code_entite_gestion", nullable = false)
     private UUID managementEntity;
 }

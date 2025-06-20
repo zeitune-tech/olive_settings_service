@@ -38,14 +38,12 @@ public class ProductionRegistryController {
     }
 
     @GetMapping
-    public ResponseEntity<Page<ProductionRegistryResponse>> getAll(
-            @PageableDefault(size = 10) Pageable pageable,
+    public ResponseEntity<List<ProductionRegistryResponse>> getAll(
             Authentication authentication
     ) {
         Employee employee = (Employee) authentication.getPrincipal();
         return ResponseEntity.ok(productionRegistryService.getAll(
-                employee.getManagementEntity(),
-                pageable
+                employee.getManagementEntity()
         ));
     }
 

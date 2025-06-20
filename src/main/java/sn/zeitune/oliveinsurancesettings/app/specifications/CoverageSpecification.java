@@ -35,8 +35,22 @@ public class CoverageSpecification {
     }
 
     public static Specification<Coverage> managementEntityEquals(UUID entityUuid) {
-        return (root, query, cb) -> entityUuid == null ? null :
-                cb.equal(root.get("managementEntity"), entityUuid);
+
+        final String visibility ="PUBLIC";
+
+        return (root, query, cb) -> {
+            if (entityUuid == null) {
+                return null;
+            }
+
+            return cb.or(
+                    cb.equal(root.get("managementEntity"), entityUuid),
+                    cb.and(
+                            cb.equal(root.get("product").get("visibility"), visibility),
+                            cb.isMember(entityUuid, root.get("product").get("sharedWithCompanies"))
+                    )
+            );
+        };
     }
 
     public static Specification<Coverage> withFilters(

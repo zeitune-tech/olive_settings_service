@@ -1,5 +1,6 @@
 package sn.zeitune.oliveinsurancesettings.app.services;
 
+import jakarta.validation.Valid;
 import sn.zeitune.oliveinsurancesettings.app.dtos.requests.CommissionContributorRequest;
 import sn.zeitune.oliveinsurancesettings.app.dtos.responses.CommissionContributorResponse;
 
@@ -11,4 +12,6 @@ public interface CommissionContributorService {
     CommissionContributorResponse getByUuid(UUID uuid);
     List<CommissionContributorResponse> getAll(UUID managementEntity);
     void delete(UUID uuid);
+
+    CommissionContributorResponse update(UUID uuid, @Valid CommissionContributorRequest request, UUID managementEntity);
 }

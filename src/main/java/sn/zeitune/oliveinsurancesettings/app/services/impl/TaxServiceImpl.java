@@ -53,6 +53,23 @@ public class TaxServiceImpl implements TaxService {
     public void delete(UUID uuid) {
         Tax tax = repository.findByUuid(uuid)
                 .orElseThrow(() -> new IllegalArgumentException("Tax not found"));
-        repository.delete(tax);
+
+        tax.setDeleted(true);
+        // Save the entity to mark it as deleted
+        repository.save(tax);
+    }
+
+    @Override
+    public TaxResponse update(UUID uuid, TaxRequest request, UUID managementEntity) {
+        Tax tax = repository.findByUuid(uuid)
+                .orElseThrow(() -> new IllegalArgumentException("Tax not found"));
+
+        tax.setDesignation(request.designation());
+        tax.setNature(request.nature());
+        tax.setRgr(request.rgr());
+
+        // Save the updated entity
+        tax = repository.save(tax);
+        return TaxMapper.map(tax);
     }
 }

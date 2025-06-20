@@ -1,10 +1,9 @@
 package sn.zeitune.oliveinsurancesettings.app.mappers;
 
-import sn.zeitune.oliveinsurancesettings.app.dtos.externals.ProductResponseDTO;
+import sn.zeitune.oliveinsurancesettings.app.dtos.responses.ProductResponseDTO;
 import sn.zeitune.oliveinsurancesettings.app.dtos.requests.BaseTaxRequest;
 import sn.zeitune.oliveinsurancesettings.app.dtos.responses.BaseTaxResponse;
 import sn.zeitune.oliveinsurancesettings.app.dtos.responses.CoverageReferenceResponse;
-import sn.zeitune.oliveinsurancesettings.app.dtos.responses.CoverageResponse;
 import sn.zeitune.oliveinsurancesettings.app.dtos.responses.TaxResponse;
 import sn.zeitune.oliveinsurancesettings.app.entities.BaseTax;
 

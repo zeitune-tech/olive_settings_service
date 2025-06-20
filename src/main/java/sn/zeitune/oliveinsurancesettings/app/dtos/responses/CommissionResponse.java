@@ -5,7 +5,7 @@ import lombok.Builder;
 import java.time.LocalDate;
 import java.util.UUID;
 
-import sn.zeitune.oliveinsurancesettings.app.dtos.externals.ProductResponseDTO;
+import sn.zeitune.oliveinsurancesettings.app.dtos.externals.ManagementEntityResponse;
 import sn.zeitune.oliveinsurancesettings.enums.CalculationBase;
 
 @Builder
@@ -15,6 +15,6 @@ public record CommissionResponse(
         CalculationBase calculationBase,
         Double managementRate,
         Double contributionRate,
-        UUID salesPointId,
+        ManagementEntityResponse pointOfSale,
         ProductResponseDTO product
 ) {}

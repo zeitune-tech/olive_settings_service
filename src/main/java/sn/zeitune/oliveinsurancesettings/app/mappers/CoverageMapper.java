@@ -1,5 +1,7 @@
 package sn.zeitune.oliveinsurancesettings.app.mappers;
 
+import sn.zeitune.oliveinsurancesettings.app.dtos.externals.ManagementEntityResponse;
+import sn.zeitune.oliveinsurancesettings.app.dtos.responses.ProductResponseDTO;
 import sn.zeitune.oliveinsurancesettings.app.dtos.requests.CoverageRequest;
 import sn.zeitune.oliveinsurancesettings.app.dtos.responses.CoverageResponse;
 import sn.zeitune.oliveinsurancesettings.app.entities.Coverage;
@@ -11,36 +13,57 @@ public class CoverageMapper {
         return Coverage.builder()
                 .nature(request.nature())
                 .isFree(request.isFree())
-                .isFixed(request.isFixed())
+                .isFlatRate(request.isFlatRate())
                 .calculationMode(request.calculationMode())
                 .fixedCapital(request.fixedCapital())
                 .minCapital(request.minCapital())
                 .maxCapital(request.maxCapital())
                 .order(request.order())
                 .prorata(request.prorata())
+                .clause(request.clause())
                 .displayPrime(request.displayPrime())
                 .generatesCharacteristic(request.generatesCharacteristic())
                 .coverageReference(reference)
                 .build();
     }
 
-    public static CoverageResponse map(Coverage coverage) {
+    public static CoverageResponse map(Coverage coverage, ProductResponseDTO product) {
         return CoverageResponse.builder()
                 .id(coverage.getUuid())
                 .nature(coverage.getNature())
                 .isFree(coverage.isFree())
-                .isFixed(coverage.isFixed())
+                .isFlatRate(coverage.isFlatRate())
                 .calculationMode(coverage.getCalculationMode())
                 .fixedCapital(coverage.getFixedCapital())
                 .minCapital(coverage.getMinCapital())
                 .maxCapital(coverage.getMaxCapital())
                 .order(coverage.getOrder())
-                .prorata(coverage.getProrata())
+                .prorata(coverage.isProrata())
                 .displayPrime(coverage.isDisplayPrime())
                 .generatesCharacteristic(coverage.isGeneratesCharacteristic())
                 .reference(CoverageReferenceMapper.map(coverage.getCoverageReference()))
-                .product(coverage.getProduct())
-                .managementEntity(coverage.getManagementEntity())
+                .product(product)
+                .managementEntity(ManagementEntityResponse.builder().id(coverage.getManagementEntity()).build())
+                .build();
+    }
+
+    public static CoverageResponse map(Coverage coverage, ProductResponseDTO product, ManagementEntityResponse managementEntityResponse) {
+        return CoverageResponse.builder()
+                .id(coverage.getUuid())
+                .nature(coverage.getNature())
+                .isFree(coverage.isFree())
+                .isFlatRate(coverage.isFlatRate())
+                .calculationMode(coverage.getCalculationMode())
+                .fixedCapital(coverage.getFixedCapital())
+                .minCapital(coverage.getMinCapital())
+                .maxCapital(coverage.getMaxCapital())
+                .order(coverage.getOrder())
+                .prorata(coverage.isProrata())
+                .displayPrime(coverage.isDisplayPrime())
+                .generatesCharacteristic(coverage.isGeneratesCharacteristic())
+                .reference(CoverageReferenceMapper.map(coverage.getCoverageReference()))
+                .product(product)
+                .managementEntity(managementEntityResponse)
                 .build();
     }
 }

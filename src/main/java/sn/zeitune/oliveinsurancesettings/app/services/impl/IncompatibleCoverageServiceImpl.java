@@ -13,6 +13,7 @@ import sn.zeitune.oliveinsurancesettings.app.entities.IncompatibleCoverage;
 import sn.zeitune.oliveinsurancesettings.app.mappers.IncompatibleCoverageMapper;
 import sn.zeitune.oliveinsurancesettings.app.repositories.CoverageRepository;
 import sn.zeitune.oliveinsurancesettings.app.repositories.IncompatibleCoverageRepository;
+import sn.zeitune.oliveinsurancesettings.app.repositories.ProductRepository;
 import sn.zeitune.oliveinsurancesettings.app.services.IncompatibleCoverageService;
 import sn.zeitune.oliveinsurancesettings.app.specifications.IncompatibleCoverageSpecification;
 
@@ -27,6 +28,7 @@ public class IncompatibleCoverageServiceImpl implements IncompatibleCoverageServ
 
     private final IncompatibleCoverageRepository incompatibleCoverageRepository;
     private final CoverageRepository coverageRepository;
+    private final ProductRepository productRepository;
 
     @Override
     public IncompatibleCoverageResponse create(IncompatibleCoverageRequest request, UUID managementEntity) {
@@ -77,7 +79,10 @@ public class IncompatibleCoverageServiceImpl implements IncompatibleCoverageServ
     public void delete(UUID uuid) {
         IncompatibleCoverage entity = incompatibleCoverageRepository.findByUuid(uuid)
                 .orElseThrow(() -> new IllegalArgumentException("IncompatibleCoverage not found with UUID: " + uuid));
-        incompatibleCoverageRepository.delete(entity);
+
+        // Soft delete the entity
+        entity.setDeleted(true);
+        incompatibleCoverageRepository.save(entity);
     }
 
     public List<IncompatibleCoverageResponse> getByProductAndManagementEntity(

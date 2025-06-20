@@ -1,5 +1,7 @@
 package sn.zeitune.oliveinsurancesettings.enums;
 
 public enum CalculationMode {
-    FIXE
+    AUTOMATIC,
+    FIXE,
+    MANUAL,
 }

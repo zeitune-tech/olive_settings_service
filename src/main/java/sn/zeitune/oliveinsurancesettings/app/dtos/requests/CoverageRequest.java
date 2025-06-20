@@ -4,19 +4,18 @@ package sn.zeitune.oliveinsurancesettings.app.dtos.requests;
 import jakarta.validation.constraints.*;
 import lombok.Builder;
 import sn.zeitune.oliveinsurancesettings.enums.CalculationMode;
+import sn.zeitune.oliveinsurancesettings.enums.CoverageNature;
 
 
 @Builder
 public record CoverageRequest(
 
-        @NotBlank(message = "Nature is required")
-        String nature,
+        CoverageNature nature,
 
         @NotNull(message = "Free status must be specified")
         Boolean isFree,
 
-        @NotNull(message = "Fixed status must be specified")
-        Boolean isFixed,
+        boolean isFlatRate,
 
         @NotNull(message = "Calculation mode is required")
         CalculationMode calculationMode,
@@ -33,8 +32,9 @@ public record CoverageRequest(
         @Min(value = 0, message = "Order must be non-negative")
         int order,
 
-        @NotBlank(message = "Prorata mode is required")
-        String prorata,
+        boolean prorata,
+
+        String clause,
 
         @NotNull(message = "Display prime must be specified")
         Boolean displayPrime,
@@ -42,5 +42,6 @@ public record CoverageRequest(
         @NotNull(message = "Characteristic generation flag must be specified")
         Boolean generatesCharacteristic
 
-) {}
+) {
+}
 

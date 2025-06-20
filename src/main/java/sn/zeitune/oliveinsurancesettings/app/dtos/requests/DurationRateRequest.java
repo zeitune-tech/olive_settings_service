@@ -12,18 +12,14 @@ import java.util.UUID;
 public record DurationRateRequest(
 
         @NotNull(message = "Effective date must not be null")
-        @PastOrPresent(message = "Effective date cannot be in the future")
         LocalDate dateEffective,
 
         @NotNull(message = "Duration code must not be null")
-        String durationCode,
+        UUID durationId,
 
         @NotNull(message = "Rate must not be null")
         Double rate,
 
         @NotNull(message = "Product ID must not be null")
-        UUID productId,
-
-        @NotNull(message = "Company ID must not be null")
-        UUID companyId
+        UUID productId
 ) {}

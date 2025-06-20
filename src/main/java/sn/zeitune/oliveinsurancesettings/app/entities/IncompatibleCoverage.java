@@ -2,19 +2,18 @@ package sn.zeitune.oliveinsurancesettings.app.entities;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
+import lombok.experimental.SuperBuilder;
 
 import java.util.UUID;
 
-@Data
-@Builder
-@Entity(name = "garantie_incompatible")
+@Getter
+@Setter
+@SuperBuilder
+@Entity(name = "garanties_incompatibles")
 @NoArgsConstructor
 @AllArgsConstructor
-public class IncompatibleCoverage {
+public class IncompatibleCoverage  extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

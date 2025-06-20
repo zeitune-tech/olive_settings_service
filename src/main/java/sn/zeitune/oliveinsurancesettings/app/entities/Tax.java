@@ -3,17 +3,19 @@ package sn.zeitune.oliveinsurancesettings.app.entities;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
+import lombok.experimental.SuperBuilder;
 import sn.zeitune.oliveinsurancesettings.enums.TaxGroup;
 import sn.zeitune.oliveinsurancesettings.enums.TaxNature;
 
 import java.util.UUID;
 
-@Data
-@Builder
-@Entity(name = "tax")
+@Getter
+@Setter
+@SuperBuilder
+@Entity(name = "taxes")
 @NoArgsConstructor
 @AllArgsConstructor
-public class Tax {
+public class Tax  extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

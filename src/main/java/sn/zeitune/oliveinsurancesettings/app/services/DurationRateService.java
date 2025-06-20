@@ -10,6 +10,7 @@ public interface DurationRateService {
     DurationRateResponse create(DurationRateRequest request, UUID managementEntity);
 
     DurationRateResponse getByUuid(UUID uuid);
-    List<DurationRateResponse> getAll();
+
+    List<DurationRateResponse> getAll(UUID managementEntity);
     void delete(UUID uuid);
 }

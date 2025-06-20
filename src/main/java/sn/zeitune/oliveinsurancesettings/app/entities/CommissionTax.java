@@ -2,21 +2,21 @@ package sn.zeitune.oliveinsurancesettings.app.entities;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
+import lombok.experimental.SuperBuilder;
+import sn.zeitune.oliveinsurancesettings.app.entities.product.Product;
 import sn.zeitune.oliveinsurancesettings.enums.CommissionTaxType;
 
 import java.time.LocalDate;
 import java.util.UUID;
 
-@Data
-@Builder
-@Entity(name = "commission_tax")
+@Getter
+@Setter
+@SuperBuilder
+@Entity(name = "commissions_taxe")
 @NoArgsConstructor
 @AllArgsConstructor
-public class CommissionTax {
+public class CommissionTax extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -44,8 +44,14 @@ public class CommissionTax {
     @Column(name = "rate")
     private Double rate;
 
+    @ManyToOne
+    @JoinColumn(name = "code_produit", nullable = false)
+    private Product product;
+
+    @Column(name = "code_point_de_vente", nullable = false)
     private UUID pointOfSale;
-    private UUID product;
+
+    @Column(name = "code_entite", nullable = false)
     private UUID managementEntity;
 
 }

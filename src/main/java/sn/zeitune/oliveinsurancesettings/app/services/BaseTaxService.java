@@ -1,5 +1,6 @@
 package sn.zeitune.oliveinsurancesettings.app.services;
 
+import jakarta.validation.Valid;
 import sn.zeitune.oliveinsurancesettings.app.dtos.requests.BaseTaxRequest;
 import sn.zeitune.oliveinsurancesettings.app.dtos.responses.BaseTaxResponse;
 
@@ -12,4 +13,6 @@ public interface BaseTaxService {
     BaseTaxResponse getByUuid(UUID uuid);
     List<BaseTaxResponse> getAll(UUID managementEntity);
     void delete(UUID uuid);
+
+    BaseTaxResponse update(UUID uuid, @Valid BaseTaxRequest request, UUID managementEntity);
 }

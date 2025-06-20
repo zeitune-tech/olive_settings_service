@@ -4,14 +4,14 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import sn.zeitune.oliveinsurancesettings.app.clients.AdministrationClient;
-import sn.zeitune.oliveinsurancesettings.app.dtos.externals.ProductResponseDTO;
 import sn.zeitune.oliveinsurancesettings.app.dtos.requests.CommissionContributorRequest;
 import sn.zeitune.oliveinsurancesettings.app.dtos.responses.CommissionContributorResponse;
-import sn.zeitune.oliveinsurancesettings.app.entities.Commission;
 import sn.zeitune.oliveinsurancesettings.app.entities.CommissionContributor;
+import sn.zeitune.oliveinsurancesettings.app.entities.product.Product;
 import sn.zeitune.oliveinsurancesettings.app.mappers.CommissionContributorMapper;
-import sn.zeitune.oliveinsurancesettings.app.mappers.CommissionMapper;
+import sn.zeitune.oliveinsurancesettings.app.mappers.ProductMapper;
 import sn.zeitune.oliveinsurancesettings.app.repositories.CommissionContributorRepository;
+import sn.zeitune.oliveinsurancesettings.app.repositories.ProductRepository;
 import sn.zeitune.oliveinsurancesettings.app.services.CommissionContributorService;
 
 import java.util.List;
@@ -26,17 +26,23 @@ public class CommissionContributorServiceImpl implements CommissionContributorSe
 
     private final CommissionContributorRepository repository;
     private final AdministrationClient administrationClient;
+    private final ProductRepository productRepository;
 
     @Override
     public CommissionContributorResponse create(CommissionContributorRequest request, UUID managementEntity) {
         CommissionContributor entity = CommissionContributorMapper.map(request);
         entity.setManagementEntity(managementEntity);
         entity.setContributor(request.contributorId());
-        entity.setProduct(request.productId());
+
+        // Validate that the product exists in the product repository
+        Product product = productRepository.findByUuid(request.productId())
+                .orElseThrow(() -> new IllegalArgumentException("Product not found"));
+
+        entity.setProduct(product);
         entity = repository.save(entity);
         return CommissionContributorMapper.map(
                 entity,
-                ProductResponseDTO.builder().id(entity.getProduct()).build()
+                ProductMapper.map(product)
         );
     }
 
@@ -44,7 +50,8 @@ public class CommissionContributorServiceImpl implements CommissionContributorSe
     @Override
     public CommissionContributorResponse getByUuid(UUID uuid) {
         return repository.findByUuid(uuid)
-                .map(commission -> CommissionContributorMapper.map(commission, ProductResponseDTO.builder().id(commission.getProduct()).build()))
+                .map(commission -> CommissionContributorMapper.map(commission,
+                        ProductMapper.map(commission.getProduct())))
                 .orElseThrow(() -> new IllegalArgumentException("CommissionContributor not found"));
     }
 
@@ -52,21 +59,11 @@ public class CommissionContributorServiceImpl implements CommissionContributorSe
     public List<CommissionContributorResponse> getAll(UUID managementEntity) {
         List<CommissionContributor> commissions = repository.findAllByManagementEntity(managementEntity);
 
-        Map<UUID, ProductResponseDTO> products;
-
-        // Fetch products for the management entity
-        List<ProductResponseDTO> productResponseDTOS = administrationClient.getByManagementEntity(managementEntity);
-
-        // Map the products to a UUID to ProductResponseDTO map
-        products = productResponseDTOS.stream()
-                .collect(Collectors.toMap(ProductResponseDTO::id, product -> product));
 
         // Map each commission to its corresponding product
         return commissions.stream()
-                .map(commission -> {
-                    ProductResponseDTO product = products.get(commission.getProduct());
-                    return CommissionContributorMapper.map(commission, product);
-                })
+                .map(commission -> CommissionContributorMapper.map(commission,
+                        ProductMapper.map(commission.getProduct())))
                 .collect(Collectors.toList());
     }
 
@@ -74,6 +71,34 @@ public class CommissionContributorServiceImpl implements CommissionContributorSe
     public void delete(UUID uuid) {
         CommissionContributor entity = repository.findByUuid(uuid)
                 .orElseThrow(() -> new IllegalArgumentException("CommissionContributor not found"));
-        repository.delete(entity);
+
+        // Soft delete the commission contributor
+        entity.setDeleted(true);
+        repository.save(entity);
+    }
+
+    @Override
+    public CommissionContributorResponse update(UUID uuid, CommissionContributorRequest request, UUID managementEntity) {
+        CommissionContributor entity = repository.findByUuid(uuid)
+                .orElseThrow(() -> new IllegalArgumentException("CommissionContributor not found"));
+
+        // Update the entity with the new values from the request
+
+        entity.setCommissionBase(request.commissionBase());
+        entity.setContributorRate(request.contributorRate());
+        entity.setDateEffective(request.dateEffective());
+        entity.setUpperEntityContributorRate(request.upperEntityContributorRate());
+        entity.setContributor(request.contributorId());
+
+        // Validate that the product exists in the product repository
+        Product product = productRepository.findByUuid(request.productId())
+                .orElseThrow(() -> new IllegalArgumentException("Product not found"));
+        entity.setProduct(product);
+
+        entity = repository.save(entity);
+        return CommissionContributorMapper.map(
+                entity,
+                ProductMapper.map(product)
+        );
     }
 }

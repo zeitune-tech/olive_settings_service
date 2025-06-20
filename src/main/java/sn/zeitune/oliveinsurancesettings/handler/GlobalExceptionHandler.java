@@ -24,7 +24,13 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(BusinessException.class)
     public ResponseEntity<String> handleBusiness(BusinessException ex) {
-        return ResponseEntity.badRequest().body(ex.getMessage());
+        return ResponseEntity.badRequest().body(
+                ExceptionResponse.builder()
+                        .businessErrorCode(400)
+                        .businessErrorDescription("Business error occurred")
+                        .error(ex.getMessage())
+                        .build().toString()
+        );
     }
 
     @ExceptionHandler(NotFoundException.class)

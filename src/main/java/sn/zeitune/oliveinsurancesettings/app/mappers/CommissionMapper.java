@@ -1,6 +1,7 @@
 package sn.zeitune.oliveinsurancesettings.app.mappers;
 
-import sn.zeitune.oliveinsurancesettings.app.dtos.externals.ProductResponseDTO;
+import sn.zeitune.oliveinsurancesettings.app.dtos.externals.ManagementEntityResponse;
+import sn.zeitune.oliveinsurancesettings.app.dtos.responses.ProductResponseDTO;
 import sn.zeitune.oliveinsurancesettings.app.dtos.requests.CommissionRequest;
 import sn.zeitune.oliveinsurancesettings.app.dtos.responses.CommissionResponse;
 import sn.zeitune.oliveinsurancesettings.app.entities.Commission;
@@ -25,7 +26,19 @@ public class CommissionMapper {
                 .calculationBase(commission.getCalculationBase())
                 .managementRate(commission.getManagementRate())
                 .contributionRate(commission.getContributionRate())
-                .salesPointId(commission.getPointOfSale())
+                .pointOfSale(ManagementEntityResponse.builder().id(commission.getPointOfSale()).build())
+                .product(product)
+                .build();
+    }
+
+    public static CommissionResponse map(Commission commission, ProductResponseDTO product, ManagementEntityResponse pointOfSale) {
+        return CommissionResponse.builder()
+                .id(commission.getUuid())
+                .dateEffective(commission.getDateEffective())
+                .calculationBase(commission.getCalculationBase())
+                .managementRate(commission.getManagementRate())
+                .contributionRate(commission.getContributionRate())
+                .pointOfSale(pointOfSale)
                 .product(product)
                 .build();
     }

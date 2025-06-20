@@ -41,20 +41,11 @@ public class CoverageController {
     }
 
     @GetMapping
-    public ResponseEntity<Page<CoverageResponse>> searchCoverages(
-            @RequestParam(required = false) String nature,
-            @RequestParam(required = false) Boolean isFree,
-            @RequestParam(required = false) Boolean isFixed,
-            @RequestParam(required = false) CalculationMode calculationMode,
-            @RequestParam(required = false) UUID productUuid,
-            @RequestParam(required = false) String designation,
-            @PageableDefault(size = 10, sort = "nature") Pageable pageable,
+    public ResponseEntity<List<CoverageResponse>> getAll(
             Authentication authentication
     ) {
         Employee employee = (Employee) authentication.getPrincipal();
-        return ResponseEntity.ok(
-                coverageService.search(nature, designation, isFree, isFixed, calculationMode, productUuid, employee.getManagementEntity(), pageable)
-        );
+        return ResponseEntity.ok(coverageService.getAll(employee.getManagementEntity()));
     }
 
     @PutMapping("/{uuid}")
