@@ -7,7 +7,7 @@ spring:
     application:
         name: olive_insurance_settings_service
     datasource:
-        url: ${SPRING_DATASOURCE_URL:jdbc:postgresql://localhost:5434/olive_settings}
+        url: ${SPRING_DATASOURCE_URL:jdbc:postgresql://localhost:5600/olive_settings}
         username: ${SPRING_DATASOURCE_USERNAME:lhacksrt}
         password: ${SPRING_DATASOURCE_PASSWORD:lhacksrt}
 
@@ -29,6 +29,7 @@ spring:
                 deregister: ${SPRING_CLOUD_CONSUL_DISCOVERY_DEREGISTER:true}
                 health-check-path: ${SPRING_CLOUD_CONSUL_DISCOVERY_HEALTHCHECKPATH:/api/v1/actuator/health}
                 prefer-ip-address: ${SPRING_CLOUD_CONSUL_DISCOVERY_PREFER_IP_ADDRESS:true}
+                instance-id: ${spring.application.name}:${random.value}
 management:
     endpoints:
         web:
