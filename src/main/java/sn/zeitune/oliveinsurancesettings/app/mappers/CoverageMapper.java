@@ -4,8 +4,8 @@ import sn.zeitune.oliveinsurancesettings.app.dtos.externals.ManagementEntityResp
 import sn.zeitune.oliveinsurancesettings.app.dtos.responses.ProductResponseDTO;
 import sn.zeitune.oliveinsurancesettings.app.dtos.requests.CoverageRequest;
 import sn.zeitune.oliveinsurancesettings.app.dtos.responses.CoverageResponse;
-import sn.zeitune.oliveinsurancesettings.app.entities.Coverage;
-import sn.zeitune.oliveinsurancesettings.app.entities.CoverageReference;
+import sn.zeitune.oliveinsurancesettings.app.entities.coverage.Coverage;
+import sn.zeitune.oliveinsurancesettings.app.entities.coverage.CoverageReference;
 
 public class CoverageMapper {
 

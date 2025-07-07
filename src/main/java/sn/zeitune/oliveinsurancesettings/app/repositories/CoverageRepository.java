@@ -3,8 +3,8 @@ package sn.zeitune.oliveinsurancesettings.app.repositories;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.jpa.repository.Query;
-import sn.zeitune.oliveinsurancesettings.app.entities.Coverage;
-import sn.zeitune.oliveinsurancesettings.app.entities.CoverageReference;
+import sn.zeitune.oliveinsurancesettings.app.entities.coverage.Coverage;
+import sn.zeitune.oliveinsurancesettings.app.entities.coverage.CoverageReference;
 import sn.zeitune.oliveinsurancesettings.app.entities.product.Product;
 
 import java.util.List;

@@ -4,7 +4,7 @@ import jakarta.validation.constraints.NotBlank;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
-import sn.zeitune.oliveinsurancesettings.app.entities.CoverageReference;
+import sn.zeitune.oliveinsurancesettings.app.entities.coverage.CoverageReference;
 
 import java.util.*;
 

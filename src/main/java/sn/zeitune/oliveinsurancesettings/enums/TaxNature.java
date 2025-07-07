@@ -1,7 +1,9 @@
 package sn.zeitune.oliveinsurancesettings.enums;
 
 public enum TaxNature {
-    TAX,
+    VAT_PREMIUMS,
+    VAT_ACCESSORIES,
     FGA,
+    BROWN_CARD,
     OTHER
 }

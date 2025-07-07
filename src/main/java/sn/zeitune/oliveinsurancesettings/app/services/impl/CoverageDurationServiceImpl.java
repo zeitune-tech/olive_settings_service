@@ -5,7 +5,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import sn.zeitune.oliveinsurancesettings.app.dtos.requests.CoverageDurationRequest;
 import sn.zeitune.oliveinsurancesettings.app.dtos.responses.CoverageDurationResponse;
-import sn.zeitune.oliveinsurancesettings.app.entities.CoverageDuration;
+import sn.zeitune.oliveinsurancesettings.app.entities.coverage.CoverageDuration;
 import sn.zeitune.oliveinsurancesettings.app.mappers.CoverageDurationMapper;
 import sn.zeitune.oliveinsurancesettings.app.repositories.CoverageDurationRepository;
 import sn.zeitune.oliveinsurancesettings.app.services.CoverageDurationService;
