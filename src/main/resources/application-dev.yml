@@ -5,7 +5,7 @@ server:
 
 spring:
     application:
-        name: dev_olive_insurance_settings_service
+        name: dev-olive-insurance-settings-service
     datasource:
         url: ${OLIVE_DEV_SETTINGS_SPRING_DATASOURCE_URL}
         username: ${OLIVE_DEV_SETTINGS_SPRING_DATASOURCE_USERNAME}
