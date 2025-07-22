@@ -13,6 +13,6 @@ public record CommissionTaxResponse(
         CommissionTaxType commissionTaxType,
         Double rate,
         UUID pointOfSale,
-        ProductResponseDTO product,
+        ProductResponse product,
         UUID managementEntityId
 ) {}

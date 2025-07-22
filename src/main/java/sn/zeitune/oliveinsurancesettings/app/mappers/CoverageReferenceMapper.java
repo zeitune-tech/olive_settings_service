@@ -2,7 +2,7 @@ package sn.zeitune.oliveinsurancesettings.app.mappers;
 
 import sn.zeitune.oliveinsurancesettings.app.dtos.requests.CoverageReferenceRequest;
 import sn.zeitune.oliveinsurancesettings.app.dtos.responses.CoverageReferenceResponse;
-import sn.zeitune.oliveinsurancesettings.app.entities.CoverageReference;
+import sn.zeitune.oliveinsurancesettings.app.entities.coverage.CoverageReference;
 
 public class CoverageReferenceMapper {
 

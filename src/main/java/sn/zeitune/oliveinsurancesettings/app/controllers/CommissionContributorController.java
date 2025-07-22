@@ -1,6 +1,5 @@
 package sn.zeitune.oliveinsurancesettings.app.controllers;
 
-import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
@@ -14,7 +13,7 @@ import java.util.List;
 import java.util.UUID;
 
 @RestController
-@RequestMapping("/app/commission-contributors")
+@RequestMapping("/app/commissions/contributors")
 @RequiredArgsConstructor
 public class CommissionContributorController {
 
@@ -22,38 +21,48 @@ public class CommissionContributorController {
 
     @PostMapping
     public ResponseEntity<CommissionContributorResponse> create(
-            @RequestBody @Valid CommissionContributorRequest request,
+            @RequestBody CommissionContributorRequest request,
             Authentication authentication
-    ) {
+            ) {
+
         Employee employee = (Employee) authentication.getPrincipal();
-        CommissionContributorResponse response = commissionContributorService.create(request, employee.getManagementEntity());
+        UUID managementEntity = employee.getManagementEntity();
+        CommissionContributorResponse response =
+                commissionContributorService.create(request, managementEntity);
         return ResponseEntity.ok(response);
     }
 
     @PutMapping("/{uuid}")
     public ResponseEntity<CommissionContributorResponse> update(
             @PathVariable UUID uuid,
-            @RequestBody @Valid CommissionContributorRequest request,
-            Authentication authentication
-    ) {
+            @RequestBody CommissionContributorRequest request,
+            Authentication authentication) {
         Employee employee = (Employee) authentication.getPrincipal();
-        CommissionContributorResponse response = commissionContributorService.update(uuid, request, employee.getManagementEntity());
-        return ResponseEntity.ok(response);
-    }
-
-
-    @GetMapping("/{uuid}")
-    public ResponseEntity<CommissionContributorResponse> getByUuid(@PathVariable UUID uuid) {
-        CommissionContributorResponse response = commissionContributorService.getByUuid(uuid);
+        UUID managementEntity = employee.getManagementEntity();
+        CommissionContributorResponse response =
+                commissionContributorService.update(uuid, request, managementEntity);
         return ResponseEntity.ok(response);
     }
 
     @GetMapping
-    public ResponseEntity<List<CommissionContributorResponse>> getAll(Authentication authentication) {
+    public ResponseEntity<List<CommissionContributorResponse>> getAll(
+            Authentication authentication
+    ) {
         Employee employee = (Employee) authentication.getPrincipal();
-        List<CommissionContributorResponse> responses = commissionContributorService.getAll(employee.getManagementEntity());
+        UUID managementEntity = employee.getManagementEntity();
+        List<CommissionContributorResponse> responses =
+                commissionContributorService.getAll(managementEntity);
         return ResponseEntity.ok(responses);
     }
+
+    @GetMapping("/{uuid}")
+    public ResponseEntity<CommissionContributorResponse> getByUuid(@PathVariable UUID uuid) {
+        CommissionContributorResponse response =
+                commissionContributorService.getByUuid(uuid);
+        return ResponseEntity.ok(response);
+    }
+
+
 
     @DeleteMapping("/{uuid}")
     public ResponseEntity<Void> delete(@PathVariable UUID uuid) {

@@ -13,9 +13,7 @@ import java.util.UUID;
 
 public interface InsuredRegistryRepository extends JpaRepository<InsuredRegistry, Long> {
 
-    @Query("SELECT ir FROM registres_des_assures ir WHERE ir.uuid = :uuid AND ir.deleted = false")
     Optional<InsuredRegistry> findByUuid(UUID uuid);
 
-    @Query("SELECT ir FROM registres_des_assures ir WHERE ir.managementEntity = :managementEntity AND ir.deleted = false")
     Page<InsuredRegistry> findAllByManagementEntity(UUID managementEntity, Pageable pageable);
 }

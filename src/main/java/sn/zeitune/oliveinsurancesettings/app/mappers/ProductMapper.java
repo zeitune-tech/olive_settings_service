@@ -3,7 +3,7 @@ package sn.zeitune.oliveinsurancesettings.app.mappers;
 import sn.zeitune.oliveinsurancesettings.app.dtos.externals.ManagementEntityResponse;
 import sn.zeitune.oliveinsurancesettings.app.dtos.requests.ProductRequestDTO;
 import sn.zeitune.oliveinsurancesettings.app.dtos.responses.BranchResponseDTO;
-import sn.zeitune.oliveinsurancesettings.app.dtos.responses.ProductResponseDTO;
+import sn.zeitune.oliveinsurancesettings.app.dtos.responses.ProductResponse;
 import sn.zeitune.oliveinsurancesettings.app.entities.product.Product;
 import sn.zeitune.oliveinsurancesettings.app.entities.product.PublicProduct;
 
@@ -29,7 +29,7 @@ public class ProductMapper {
         return product;
     }
 
-    public static ProductResponseDTO map(Product product) {
+    public static ProductResponse map(Product product) {
 
 
         List<UUID> sharedWith;
@@ -41,7 +41,7 @@ public class ProductMapper {
             sharedWith = List.of();
         }
 
-        return ProductResponseDTO.builder()
+        return ProductResponse.builder()
                 .id(product.getUuid())
                 .name(product.getName())
                 .description(product.getDescription())
@@ -59,8 +59,8 @@ public class ProductMapper {
                 .build();
     }
 
-    public static ProductResponseDTO map(Product product, BranchResponseDTO branch, ManagementEntityResponse managementEntityResponse) {
-        return ProductResponseDTO.builder()
+    public static ProductResponse map(Product product, BranchResponseDTO branch, ManagementEntityResponse managementEntityResponse) {
+        return ProductResponse.builder()
                 .id(product.getUuid())
                 .name(product.getName())
                 .description(product.getDescription())
