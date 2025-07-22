@@ -5,7 +5,6 @@ import lombok.Builder;
 import java.time.LocalDate;
 import java.util.UUID;
 
-import sn.zeitune.oliveinsurancesettings.app.dtos.responses.ProductResponseDTO;
 import sn.zeitune.oliveinsurancesettings.enums.AccessoryActType;
 
 @Builder
@@ -14,6 +13,6 @@ public record AccessoryResponse(
         LocalDate dateEffective,
         AccessoryActType actType,
         Double accessoryAmount,
-        ProductResponseDTO product,
+        ProductResponse product,
         UUID managementEntityId
 ) {}

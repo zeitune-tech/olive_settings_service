@@ -20,11 +20,14 @@ public record CommissionContributorRequest(
         CalculationBase commissionBase,
 
         @NotNull(message = "Contributor rate must not be null")
-        Double contributorRate,
+        Double contributionRate,
 
-        Double upperEntityContributorRate,
+        Double managementRate,
 
+        UUID contributorTypeId,
         UUID contributorId,
+
+        UUID coverageId,
 
         @NotNull(message = "Product ID must not be null")
         UUID productId

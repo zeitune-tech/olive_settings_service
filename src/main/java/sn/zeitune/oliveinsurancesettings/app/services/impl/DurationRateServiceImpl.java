@@ -4,11 +4,10 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import sn.zeitune.oliveinsurancesettings.app.clients.AdministrationClient;
-import sn.zeitune.oliveinsurancesettings.app.dtos.externals.ProductResponseDTO;
 import sn.zeitune.oliveinsurancesettings.app.dtos.requests.DurationRateRequest;
 import sn.zeitune.oliveinsurancesettings.app.dtos.responses.DurationRateResponse;
-import sn.zeitune.oliveinsurancesettings.app.entities.CoverageDuration;
-import sn.zeitune.oliveinsurancesettings.app.entities.DurationRate;
+import sn.zeitune.oliveinsurancesettings.app.entities.coverage.CoverageDuration;
+import sn.zeitune.oliveinsurancesettings.app.entities.coverage.CoverageDurationRate;
 import sn.zeitune.oliveinsurancesettings.app.entities.product.Product;
 import sn.zeitune.oliveinsurancesettings.app.mappers.DurationRateMapper;
 import sn.zeitune.oliveinsurancesettings.app.mappers.ProductMapper;
@@ -18,7 +17,6 @@ import sn.zeitune.oliveinsurancesettings.app.repositories.ProductRepository;
 import sn.zeitune.oliveinsurancesettings.app.services.DurationRateService;
 
 import java.util.List;
-import java.util.Map;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
@@ -34,7 +32,7 @@ public class DurationRateServiceImpl implements DurationRateService {
 
     @Override
     public DurationRateResponse create(DurationRateRequest request, UUID managementEntity) {
-        DurationRate entity = DurationRateMapper.map(request);
+        CoverageDurationRate entity = DurationRateMapper.map(request);
         entity.setManagementEntity(managementEntity);
         // Validate that the product exists in the product repository
         Product product = productRepository.findByUuid(request.productId())
@@ -62,18 +60,18 @@ public class DurationRateServiceImpl implements DurationRateService {
     public List<DurationRateResponse> getAll(UUID managementEntity) {
 
         // Fetch all duration rates for the management entity
-        List<DurationRate> durationRates = repository.findAllByManagementEntity(managementEntity);
+        List<CoverageDurationRate> coverageDurationRates = repository.findAllByManagementEntity(managementEntity);
 
         // Map each duration rate to its corresponding product
-        return durationRates.stream()
-                .map(durationRate -> DurationRateMapper.map(durationRate,
-                        ProductMapper.map(durationRate.getProduct())))
+        return coverageDurationRates.stream()
+                .map(coverageDurationRate -> DurationRateMapper.map(coverageDurationRate,
+                        ProductMapper.map(coverageDurationRate.getProduct())))
                 .collect(Collectors.toList());
     }
 
     @Override
     public void delete(UUID uuid) {
-        DurationRate entity = repository.findByUuid(uuid)
+        CoverageDurationRate entity = repository.findByUuid(uuid)
                 .orElseThrow(() -> new IllegalArgumentException("DurationRate not found"));
 
         entity.setDeleted(true);

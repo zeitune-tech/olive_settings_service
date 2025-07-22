@@ -3,7 +3,6 @@ package sn.zeitune.oliveinsurancesettings.app.dtos.responses;
 import lombok.Builder;
 import sn.zeitune.oliveinsurancesettings.enums.CalculationBase;
 
-import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.UUID;
 
@@ -11,9 +10,11 @@ import java.util.UUID;
 public record CommissionContributorResponse(
         UUID id,
         LocalDate dateEffective,
-        CalculationBase commissionBase,
-        Double contributorRate,
-        Double upperEntityContributorRate,
+        CalculationBase calculationBase,
+        Double managementRate,
+        Double contributionRate,
         UUID contributorId,
-        ProductResponseDTO product
+        ProductResponse product,
+        CoverageResponse coverage,
+        ContributorResponse contributor
 ) {}

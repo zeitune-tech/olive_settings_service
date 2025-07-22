@@ -2,7 +2,7 @@ package sn.zeitune.oliveinsurancesettings.app.mappers;
 
 import sn.zeitune.oliveinsurancesettings.app.dtos.requests.CoverageDurationRequest;
 import sn.zeitune.oliveinsurancesettings.app.dtos.responses.CoverageDurationResponse;
-import sn.zeitune.oliveinsurancesettings.app.entities.CoverageDuration;
+import sn.zeitune.oliveinsurancesettings.app.entities.coverage.CoverageDuration;
 
 public class CoverageDurationMapper {
 

@@ -13,9 +13,7 @@ import java.util.UUID;
 public interface AccessoryRepository extends JpaRepository<Accessory, Long>, JpaSpecificationExecutor<Accessory> {
 
 
-    @Query("SELECT a FROM accessoires a WHERE a.uuid = :uuid AND a.deleted = false")
     Optional<Accessory> findByUuid(UUID uuid);
 
-    @Query("SELECT a FROM accessoires a WHERE a.deleted = false")
     List<Accessory> findAllByManagementEntity(UUID managementEntity);
 }

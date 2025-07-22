@@ -10,11 +10,9 @@ import java.util.UUID;
 
 public interface CategoryRepository extends JpaRepository<Category, Long> {
 
-    @Query("SELECT c FROM classes c WHERE c.uuid = :uuid AND c.deleted = false")
     Optional<Category> findByUuid(UUID uuid);
 
     boolean existsByName(@NotBlank(message = "Name is mandatory") String name);
 
-    @Query("SELECT c FROM classes c WHERE c.name = :name AND c.deleted = false")
     Optional<Category> findByName(String name);
 }

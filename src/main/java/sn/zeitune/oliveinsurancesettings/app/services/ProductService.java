@@ -1,31 +1,29 @@
 package sn.zeitune.oliveinsurancesettings.app.services;
 
-import jakarta.validation.Valid;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import sn.zeitune.oliveinsurancesettings.app.dtos.requests.ProductCoveragesUpdate;
 import sn.zeitune.oliveinsurancesettings.app.dtos.requests.ProductRequestDTO;
 import sn.zeitune.oliveinsurancesettings.app.dtos.requests.ProductUpdate;
-import sn.zeitune.oliveinsurancesettings.app.dtos.responses.ProductResponseDTO;
+import sn.zeitune.oliveinsurancesettings.app.dtos.responses.ProductResponse;
 
 import java.util.List;
-import java.util.Set;
 import java.util.UUID;
 
 public interface ProductService {
 
-    ProductResponseDTO createProduct(ProductRequestDTO dto, UUID ownerUuid);
-    ProductResponseDTO updateProduct(UUID uuid, ProductUpdate dto);
-    ProductResponseDTO addCoverageToProduct(UUID productUuid, ProductCoveragesUpdate productCoverages);
-    ProductResponseDTO removeCoverageFromProduct(UUID productUuid, ProductCoveragesUpdate productCoverages);
+    ProductResponse createProduct(ProductRequestDTO dto, UUID ownerUuid);
+    ProductResponse updateProduct(UUID uuid, ProductUpdate dto);
+    ProductResponse addCoverageToProduct(UUID productUuid, ProductCoveragesUpdate productCoverages);
+    ProductResponse removeCoverageFromProduct(UUID productUuid, ProductCoveragesUpdate productCoverages);
 
     void sharePublicProductWithCompanies(UUID productUuid, List<UUID> companyUuids);
-    ProductResponseDTO getByUuid(UUID uuid);
-    List<ProductResponseDTO> getAll();
+    ProductResponse getByUuid(UUID uuid);
+    List<ProductResponse> getAll();
 
-    List<ProductResponseDTO> getByManagementEntityUuid(UUID uuid);
+    List<ProductResponse> getByManagementEntityUuid(UUID uuid);
 
-    Page<ProductResponseDTO> search(
+    Page<ProductResponse> search(
             String name,
             String branchUuid,
             Integer minRisk,
@@ -36,7 +34,7 @@ public interface ProductService {
             UUID ownerUuid
     );
 
-    List<ProductResponseDTO> getByManagementEntityUuids(List<UUID> uuids);
+    List<ProductResponse> getByManagementEntityUuids(List<UUID> uuids);
 
 
     void deleteProduct(UUID uuid);

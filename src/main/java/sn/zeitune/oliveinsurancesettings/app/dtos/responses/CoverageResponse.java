@@ -2,7 +2,6 @@ package sn.zeitune.oliveinsurancesettings.app.dtos.responses;
 
 import lombok.Builder;
 import sn.zeitune.oliveinsurancesettings.app.dtos.externals.ManagementEntityResponse;
-import sn.zeitune.oliveinsurancesettings.app.dtos.responses.ProductResponseDTO;
 import sn.zeitune.oliveinsurancesettings.enums.CalculationMode;
 import sn.zeitune.oliveinsurancesettings.enums.CoverageNature;
 
@@ -24,7 +23,7 @@ public record CoverageResponse(
         boolean displayPrime,
         boolean generatesCharacteristic,
         CoverageReferenceResponse reference,
-        ProductResponseDTO product,
+        ProductResponse product,
         ManagementEntityResponse managementEntity
 
 ) {}

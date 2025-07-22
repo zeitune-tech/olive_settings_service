@@ -10,10 +10,8 @@ import java.util.UUID;
 
 public interface BranchRepository extends JpaRepository<Branch, Long> {
 
-    @Query("SELECT a FROM branches a WHERE a.uuid = :uuid AND a.deleted = false")
     Optional<Branch> findByUuid(UUID uuid);
 
-    @Query("SELECT a FROM branches a WHERE a.name = :name AND a.deleted = false")
     Optional<Branch> findByName(String name);
 
     boolean existsByCategory(Category category);

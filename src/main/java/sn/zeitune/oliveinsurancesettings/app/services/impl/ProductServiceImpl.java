@@ -9,23 +9,20 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import sn.zeitune.oliveinsurancesettings.app.clients.AdministrationClient;
 import sn.zeitune.oliveinsurancesettings.app.dtos.externals.ManagementEntityResponse;
-import sn.zeitune.oliveinsurancesettings.app.dtos.requests.CoverageRequest;
 import sn.zeitune.oliveinsurancesettings.app.dtos.requests.ProductCoveragesUpdate;
 import sn.zeitune.oliveinsurancesettings.app.dtos.requests.ProductRequestDTO;
 import sn.zeitune.oliveinsurancesettings.app.dtos.requests.ProductUpdate;
 import sn.zeitune.oliveinsurancesettings.app.dtos.responses.BranchResponseDTO;
-import sn.zeitune.oliveinsurancesettings.app.dtos.responses.ProductResponseDTO;
+import sn.zeitune.oliveinsurancesettings.app.dtos.responses.ProductResponse;
 import sn.zeitune.oliveinsurancesettings.app.entities.Branch;
-import sn.zeitune.oliveinsurancesettings.app.entities.Coverage;
-import sn.zeitune.oliveinsurancesettings.app.entities.CoverageReference;
-import sn.zeitune.oliveinsurancesettings.app.entities.PointOfSaleProduct;
+import sn.zeitune.oliveinsurancesettings.app.entities.coverage.Coverage;
+import sn.zeitune.oliveinsurancesettings.app.entities.coverage.CoverageReference;
 import sn.zeitune.oliveinsurancesettings.app.entities.product.PrivateProduct;
 import sn.zeitune.oliveinsurancesettings.app.entities.product.Product;
 import sn.zeitune.oliveinsurancesettings.app.entities.product.PublicProduct;
 import sn.zeitune.oliveinsurancesettings.app.exceptions.BusinessException;
 import sn.zeitune.oliveinsurancesettings.app.exceptions.NotFoundException;
 import sn.zeitune.oliveinsurancesettings.app.mappers.BranchMapper;
-import sn.zeitune.oliveinsurancesettings.app.mappers.CoverageMapper;
 import sn.zeitune.oliveinsurancesettings.app.mappers.ProductMapper;
 import sn.zeitune.oliveinsurancesettings.app.repositories.*;
 import sn.zeitune.oliveinsurancesettings.app.services.ProductService;
@@ -50,7 +47,7 @@ public class ProductServiceImpl implements ProductService {
 
 
     @Override
-    public ProductResponseDTO createProduct(ProductRequestDTO dto, UUID ownerUuid) {
+    public ProductResponse createProduct(ProductRequestDTO dto, UUID ownerUuid) {
 
         // Fetch the owner entity
         ManagementEntityResponse owner = administrationClient.findManagementEntityByUuid(ownerUuid)
@@ -92,9 +89,9 @@ public class ProductServiceImpl implements ProductService {
             throw new BusinessException("Product with the same name already exists in this branch and owner.");
         }
 
-        ProductResponseDTO productResponseDTO = ProductMapper.map(productRepository.save(product), BranchMapper.map(branch), owner);
+        ProductResponse productResponse = ProductMapper.map(productRepository.save(product), BranchMapper.map(branch), owner);
 
-        log.info("Product created successfully: {}", productResponseDTO.id());
+        log.info("Product created successfully: {}", productResponse.id());
 
         // create coverages
         try {
@@ -116,15 +113,15 @@ public class ProductServiceImpl implements ProductService {
                 coverageRepository.save(coverage);
             }
         } catch (Exception e) {
-            log.error("Error creating coverages for product {}: {}", productResponseDTO.id(), e.getMessage());
+            log.error("Error creating coverages for product {}: {}", productResponse.id(), e.getMessage());
             throw new BusinessException("Error creating coverages for product");
         }
 
-        return productResponseDTO;
+        return productResponse;
     }
 
     @Override
-    public ProductResponseDTO updateProduct(UUID uuid, ProductUpdate dto) {
+    public ProductResponse updateProduct(UUID uuid, ProductUpdate dto) {
         Product product = productRepository.findByUuid(uuid)
                 .orElseThrow(() -> new NotFoundException("Product not found"));
 
@@ -140,7 +137,7 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public ProductResponseDTO addCoverageToProduct(UUID productUuid, ProductCoveragesUpdate productCoverages) {
+    public ProductResponse addCoverageToProduct(UUID productUuid, ProductCoveragesUpdate productCoverages) {
         Product product = productRepository.findByUuid(productUuid)
                 .orElseThrow(() -> new NotFoundException("Product not found"));
 
@@ -168,7 +165,7 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public ProductResponseDTO removeCoverageFromProduct(UUID productUuid, ProductCoveragesUpdate productCoverages) {
+    public ProductResponse removeCoverageFromProduct(UUID productUuid, ProductCoveragesUpdate productCoverages) {
         Product product = productRepository.findByUuid(productUuid)
                 .orElseThrow(() -> new NotFoundException("Product not found"));
 
@@ -209,21 +206,21 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public ProductResponseDTO getByUuid(UUID uuid) {
+    public ProductResponse getByUuid(UUID uuid) {
         Product product = productRepository.findByUuid(uuid)
                 .orElseThrow(() -> new NotFoundException("Product not found"));
         return ProductMapper.map(product);
     }
 
     @Override
-    public List<ProductResponseDTO> getAll() {
+    public List<ProductResponse> getAll() {
         return productRepository.findAll().stream()
                 .map(ProductMapper::map)
                 .collect(Collectors.toList());
     }
 
     @Override
-    public List<ProductResponseDTO> getByManagementEntityUuid(UUID uuid) {
+    public List<ProductResponse> getByManagementEntityUuid(UUID uuid) {
 
         Specification<Product> specification = ProductSpecification.ownerEquals(uuid);
 
@@ -249,7 +246,7 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public Page<ProductResponseDTO> search(
+    public Page<ProductResponse> search(
             String name,
             String branchName,
             Integer minRisk,
@@ -263,7 +260,7 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public List<ProductResponseDTO> getByManagementEntityUuids(List<UUID> uuids) {
+    public List<ProductResponse> getByManagementEntityUuids(List<UUID> uuids) {
         return productRepository.findAllByUuidIn(uuids).stream()
                 .filter(product -> !product.isDeleted())
                 .map(ProductMapper::map)

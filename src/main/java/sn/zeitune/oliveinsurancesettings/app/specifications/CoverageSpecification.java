@@ -2,7 +2,7 @@ package sn.zeitune.oliveinsurancesettings.app.specifications;
 
 
 import org.springframework.data.jpa.domain.Specification;
-import sn.zeitune.oliveinsurancesettings.app.entities.Coverage;
+import sn.zeitune.oliveinsurancesettings.app.entities.coverage.Coverage;
 import sn.zeitune.oliveinsurancesettings.enums.CalculationMode;
 
 import java.util.UUID;
