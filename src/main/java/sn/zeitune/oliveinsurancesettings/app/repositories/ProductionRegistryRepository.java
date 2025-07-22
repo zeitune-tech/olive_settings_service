@@ -14,11 +14,8 @@ import java.util.UUID;
 @Repository
 public interface ProductionRegistryRepository extends JpaRepository<ProductionRegistry, Long> {
 
-    @Query("SELECT pr FROM registres_de_production pr WHERE pr.uuid = :uuid AND pr.deleted = false")
     Optional<ProductionRegistry> findByUuid(UUID uuid);
 
-    @Query("SELECT pr FROM registres_de_production pr WHERE pr.managementEntity = :managementEntity AND pr.deleted = false")
     Page<ProductionRegistry> findAllByManagementEntity(UUID managementEntity, Pageable pageable);
-    @Query("SELECT pr FROM registres_de_production pr WHERE pr.managementEntity = :managementEntity AND pr.deleted = false")
     List<ProductionRegistry> findAllByManagementEntity(UUID managementEntity);
 }
