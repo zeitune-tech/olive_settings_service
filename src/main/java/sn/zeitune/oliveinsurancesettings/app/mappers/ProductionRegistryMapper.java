@@ -1,6 +1,6 @@
 package sn.zeitune.oliveinsurancesettings.app.mappers;
 
-import sn.zeitune.oliveinsurancesettings.app.dtos.responses.ProductResponseDTO;
+import sn.zeitune.oliveinsurancesettings.app.dtos.responses.ProductResponse;
 import sn.zeitune.oliveinsurancesettings.app.dtos.requests.ProductionRegistryRequest;
 import sn.zeitune.oliveinsurancesettings.app.dtos.responses.ProductionRegistryResponse;
 import sn.zeitune.oliveinsurancesettings.app.entities.ProductionRegistry;
@@ -15,7 +15,7 @@ public class ProductionRegistryMapper {
                 .build();
     }
 
-    public static ProductionRegistryResponse map(ProductionRegistry registry, ProductResponseDTO product) {
+    public static ProductionRegistryResponse map(ProductionRegistry registry, ProductResponse product) {
         return ProductionRegistryResponse.builder()
                 .id(registry.getUuid())
                 .prefix(registry.getPrefix())

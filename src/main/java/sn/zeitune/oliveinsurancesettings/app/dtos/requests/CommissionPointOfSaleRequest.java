@@ -7,9 +7,10 @@ import lombok.Builder;
 import java.time.LocalDate;
 import java.util.UUID;
 import sn.zeitune.oliveinsurancesettings.enums.CalculationBase;
+import sn.zeitune.oliveinsurancesettings.enums.PointOfSaleType;
 
 @Builder
-public record CommissionRequest(
+public record CommissionPointOfSaleRequest(
 
         @NotNull(message = "Effective date must not be null")
         @PastOrPresent(message = "Effective date cannot be in the future")
@@ -26,6 +27,10 @@ public record CommissionRequest(
 
         UUID salesPointId,
 
+        PointOfSaleType pointOfSaleType,
+
         @NotNull(message = "Product ID must not be null")
-        UUID productId
+        UUID productId,
+
+        UUID coverageId
 ) {}

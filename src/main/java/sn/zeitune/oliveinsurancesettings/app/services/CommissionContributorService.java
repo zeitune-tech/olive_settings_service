@@ -13,5 +13,5 @@ public interface CommissionContributorService {
     List<CommissionContributorResponse> getAll(UUID managementEntity);
     void delete(UUID uuid);
 
-    CommissionContributorResponse update(UUID uuid, @Valid CommissionContributorRequest request, UUID managementEntity);
+    CommissionContributorResponse update(UUID uuid, CommissionContributorRequest request, UUID managementEntity);
 }

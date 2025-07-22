@@ -12,10 +12,8 @@ import java.util.UUID;
 
 public interface IncompatibleCoverageRepository extends JpaRepository<IncompatibleCoverage, Long>, JpaSpecificationExecutor<IncompatibleCoverage> {
 
-    @Query("SELECT ic FROM garanties_incompatibles ic WHERE ic.uuid = :uuid AND ic.deleted = false")
     Optional<IncompatibleCoverage> findByUuid(UUID uuid);
 
-    @Query("SELECT ic FROM garanties_incompatibles ic WHERE ic.managementEntity = :managementEntity AND ic.deleted = false")
     Page<IncompatibleCoverage> findAllByManagementEntity(UUID managementEntity, Pageable pageable);
 }
 

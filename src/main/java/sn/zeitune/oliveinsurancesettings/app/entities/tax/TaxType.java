@@ -37,8 +37,8 @@ public class TaxType extends BaseEntity {
         }
     }
 
-    @Column(name = "designation", nullable = false)
-    private String designation;
+    @Column(name = "name", nullable = false)
+    private String name;
 
     @Enumerated(EnumType.STRING)
     @Column(name = "nature", nullable = false)

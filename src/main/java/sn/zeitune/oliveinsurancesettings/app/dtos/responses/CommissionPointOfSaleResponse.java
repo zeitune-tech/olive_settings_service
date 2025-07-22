@@ -9,12 +9,13 @@ import sn.zeitune.oliveinsurancesettings.app.dtos.externals.ManagementEntityResp
 import sn.zeitune.oliveinsurancesettings.enums.CalculationBase;
 
 @Builder
-public record CommissionResponse(
+public record CommissionPointOfSaleResponse(
         UUID id,
         LocalDate dateEffective,
         CalculationBase calculationBase,
         Double managementRate,
         Double contributionRate,
         ManagementEntityResponse pointOfSale,
-        ProductResponseDTO product
+        CoverageResponse coverage,
+        ProductResponse product
 ) {}

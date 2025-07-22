@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.experimental.SuperBuilder;
 import sn.zeitune.oliveinsurancesettings.app.entities.BaseEntity;
+import sn.zeitune.oliveinsurancesettings.app.entities.tax.TaxType;
 
 import java.time.LocalDate;
 import java.util.UUID;
@@ -37,6 +38,9 @@ public abstract class TaxCommissions extends BaseEntity {
             this.uuid = UUID.randomUUID();
         }
     }
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    private TaxType taxType;
 
     @Column(name = "date_effective", nullable = false)
     private LocalDate dateEffective;

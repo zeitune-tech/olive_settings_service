@@ -12,5 +12,5 @@ public record TaxRegimeResponse(
         String designation,
         RegimeNature nature,
         boolean stampExemption,
-        Set<TaxResponse> exemptedTaxes
+        Set<TaxTypeResponse> exemptedTaxes
 ) {}

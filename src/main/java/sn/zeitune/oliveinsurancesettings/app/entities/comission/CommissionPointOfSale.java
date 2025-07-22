@@ -11,6 +11,8 @@ import lombok.Setter;
 import lombok.experimental.SuperBuilder;
 import sn.zeitune.oliveinsurancesettings.enums.PointOfSaleType;
 
+import java.util.UUID;
+
 @Getter
 @Setter
 @SuperBuilder
@@ -22,7 +24,7 @@ import sn.zeitune.oliveinsurancesettings.enums.PointOfSaleType;
 public abstract class CommissionPointOfSale extends Commission {
 
     @Column(name = "point_de_vente", nullable = true)
-    private String pointOfSaleCode;
+    private UUID pointOfSale;
 
     @Column(name = "type_point_de_vente", nullable = true)
     private PointOfSaleType pointOfSaleType;

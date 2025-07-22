@@ -38,8 +38,8 @@ public abstract class Tax extends BaseEntity {
         }
     }
 
-    @Column(name = "designation", nullable = false)
-    private String designation;
+    @Column(name = "name", nullable = false)
+    private String name;
 
     @Column(name = "entite_de_gestion", nullable = false)
     private UUID managementEntity;

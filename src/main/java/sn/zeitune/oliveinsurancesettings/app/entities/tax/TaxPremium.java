@@ -6,6 +6,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.experimental.SuperBuilder;
+import sn.zeitune.oliveinsurancesettings.app.entities.coverage.Coverage;
 import sn.zeitune.oliveinsurancesettings.app.entities.coverage.CoverageReference;
 import sn.zeitune.oliveinsurancesettings.app.entities.product.Product;
 
@@ -18,7 +19,7 @@ import java.time.LocalDate;
 @AllArgsConstructor
 @NoArgsConstructor
 @Table(name = "taxes_primes")
-public class TaxPremiums extends Tax {
+public class TaxPremium extends Tax {
 
     @Column(name = "date_effective", nullable = false)
     private LocalDate dateEffective;
@@ -35,7 +36,7 @@ public class TaxPremiums extends Tax {
 
     @ManyToOne
     @JoinColumn(name = "code_garantie")
-    private CoverageReference coverage;
+    private Coverage coverage;
 
     @ManyToOne
     @JoinColumn(name = "code_produit", nullable = false)

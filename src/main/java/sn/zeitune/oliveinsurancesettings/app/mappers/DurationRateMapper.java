@@ -1,6 +1,6 @@
 package sn.zeitune.oliveinsurancesettings.app.mappers;
 
-import sn.zeitune.oliveinsurancesettings.app.dtos.responses.ProductResponseDTO;
+import sn.zeitune.oliveinsurancesettings.app.dtos.responses.ProductResponse;
 import sn.zeitune.oliveinsurancesettings.app.dtos.requests.DurationRateRequest;
 import sn.zeitune.oliveinsurancesettings.app.dtos.responses.DurationRateResponse;
 import sn.zeitune.oliveinsurancesettings.app.entities.coverage.CoverageDurationRate;
@@ -15,7 +15,7 @@ public class DurationRateMapper {
     }
 
 
-    public static DurationRateResponse map(CoverageDurationRate entity, ProductResponseDTO product) {
+    public static DurationRateResponse map(CoverageDurationRate entity, ProductResponse product) {
         return DurationRateResponse.builder()
                 .id(entity.getUuid())
                 .dateEffective(entity.getDateEffective())

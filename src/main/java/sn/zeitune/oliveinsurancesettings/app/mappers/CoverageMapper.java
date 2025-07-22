@@ -1,7 +1,7 @@
 package sn.zeitune.oliveinsurancesettings.app.mappers;
 
 import sn.zeitune.oliveinsurancesettings.app.dtos.externals.ManagementEntityResponse;
-import sn.zeitune.oliveinsurancesettings.app.dtos.responses.ProductResponseDTO;
+import sn.zeitune.oliveinsurancesettings.app.dtos.responses.ProductResponse;
 import sn.zeitune.oliveinsurancesettings.app.dtos.requests.CoverageRequest;
 import sn.zeitune.oliveinsurancesettings.app.dtos.responses.CoverageResponse;
 import sn.zeitune.oliveinsurancesettings.app.entities.coverage.Coverage;
@@ -27,7 +27,7 @@ public class CoverageMapper {
                 .build();
     }
 
-    public static CoverageResponse map(Coverage coverage, ProductResponseDTO product) {
+    public static CoverageResponse map(Coverage coverage, ProductResponse product) {
         return CoverageResponse.builder()
                 .id(coverage.getUuid())
                 .nature(coverage.getNature())
@@ -47,7 +47,7 @@ public class CoverageMapper {
                 .build();
     }
 
-    public static CoverageResponse map(Coverage coverage, ProductResponseDTO product, ManagementEntityResponse managementEntityResponse) {
+    public static CoverageResponse map(Coverage coverage, ProductResponse product, ManagementEntityResponse managementEntityResponse) {
         return CoverageResponse.builder()
                 .id(coverage.getUuid())
                 .nature(coverage.getNature())

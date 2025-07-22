@@ -14,15 +14,11 @@ import java.util.UUID;
 
 public interface CoverageRepository extends JpaRepository<Coverage, Long>, JpaSpecificationExecutor<Coverage> {
     
-    @Query("SELECT c FROM produits_garanties c WHERE c.uuid = :uuid AND c.deleted = false")
     Optional<Coverage> findByUuid(UUID uuid);
-    @Query("SELECT c FROM produits_garanties c WHERE c.product = :product AND c.managementEntity = :managementEntity AND c.deleted = false")
     List<Coverage> findAllByProductAndManagementEntity(Product product, UUID managementEntity);
     
-    @Query("SELECT c FROM produits_garanties c WHERE c.managementEntity = :managementEntity AND c.deleted = false")
     List<Coverage> findAllByManagementEntity(UUID managementEntity);
 
-    @Query("SELECT c FROM produits_garanties c WHERE c.product = :product AND c.deleted = false")
     Set<Coverage> findAllByProduct(Product product);
 
     void deleteAllByProduct(Product product);

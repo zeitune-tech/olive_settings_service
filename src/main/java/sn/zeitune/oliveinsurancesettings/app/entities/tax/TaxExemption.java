@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 import sn.zeitune.oliveinsurancesettings.app.entities.BaseEntity;
+import sn.zeitune.oliveinsurancesettings.app.entities.product.Product;
 
 import java.util.Set;
 import java.util.UUID;
@@ -34,8 +35,8 @@ public class TaxExemption extends BaseEntity {
         }
     }
 
-    @Column(name = "designation", nullable = false)
-    private String designation;
+    @Column(name = "nom", nullable = false)
+    private String name;
 
     @OneToMany
     @JoinColumn(
@@ -45,4 +46,10 @@ public class TaxExemption extends BaseEntity {
     )
     private Set<Tax> taxes;
 
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "code_produit", nullable = false)
+    private Product product;
+
+    @Column(name = "code_entite")
+    private UUID managementEntity;
 }

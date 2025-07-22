@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.*;
 import sn.zeitune.oliveinsurancesettings.app.dtos.requests.ProductCoveragesUpdate;
 import sn.zeitune.oliveinsurancesettings.app.dtos.requests.ProductRequestDTO;
 import sn.zeitune.oliveinsurancesettings.app.dtos.requests.ProductUpdate;
-import sn.zeitune.oliveinsurancesettings.app.dtos.responses.ProductResponseDTO;
+import sn.zeitune.oliveinsurancesettings.app.dtos.responses.ProductResponse;
 import sn.zeitune.oliveinsurancesettings.app.services.ProductService;
 import sn.zeitune.oliveinsurancesettings.security.Employee;
 
@@ -24,7 +24,7 @@ public class ProductController {
     private final ProductService productService;
 
     @PostMapping
-    public ResponseEntity<ProductResponseDTO> create(
+    public ResponseEntity<ProductResponse> create(
             @Valid @RequestBody ProductRequestDTO dto,
             Authentication authentication
     ) {
@@ -36,7 +36,7 @@ public class ProductController {
 
 
     @PutMapping("/{uuid}")
-    public ResponseEntity<ProductResponseDTO> update(
+    public ResponseEntity<ProductResponse> update(
             @PathVariable UUID uuid,
             @Valid @RequestBody ProductUpdate dto
     ) {
@@ -44,7 +44,7 @@ public class ProductController {
     }
 
     @PutMapping("/{uuid}/coverages")
-    public ResponseEntity<ProductResponseDTO> updateCoverage(
+    public ResponseEntity<ProductResponse> updateCoverage(
             @PathVariable UUID uuid,
             @Valid @RequestBody ProductCoveragesUpdate dto
     ) {
@@ -52,7 +52,7 @@ public class ProductController {
     }
 
     @PutMapping("/{uuid}/coverages/remove")
-    public ResponseEntity<ProductResponseDTO> removeCoverage(
+    public ResponseEntity<ProductResponse> removeCoverage(
             @PathVariable UUID uuid,
             @Valid @RequestBody ProductCoveragesUpdate dto
     ) {
@@ -60,17 +60,17 @@ public class ProductController {
     }
 
     @GetMapping("/{uuid}")
-    public ResponseEntity<ProductResponseDTO> getByUuid(@PathVariable UUID uuid) {
+    public ResponseEntity<ProductResponse> getByUuid(@PathVariable UUID uuid) {
         return ResponseEntity.ok(productService.getByUuid(uuid));
     }
 
     @GetMapping
-    public ResponseEntity<List<ProductResponseDTO>> getProduct(
+    public ResponseEntity<List<ProductResponse>> getProduct(
             Authentication authentication
     ) {
 
         Employee employee = (Employee) authentication.getPrincipal();
-        List<ProductResponseDTO> result = productService.getByManagementEntityUuid(
+        List<ProductResponse> result = productService.getByManagementEntityUuid(
                 employee.getManagementEntity()
         );
         return ResponseEntity.ok(result);
@@ -78,7 +78,7 @@ public class ProductController {
 
 
     @GetMapping("/all")
-    public ResponseEntity<List<ProductResponseDTO>> getAll() {
+    public ResponseEntity<List<ProductResponse>> getAll() {
         return ResponseEntity.ok(productService.getAll());
     }
 

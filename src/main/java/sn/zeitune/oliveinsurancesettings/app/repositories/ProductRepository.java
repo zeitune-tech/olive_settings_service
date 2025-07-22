@@ -16,7 +16,6 @@ import java.util.UUID;
 
 public interface ProductRepository extends JpaRepository<Product, Long>, JpaSpecificationExecutor<Product> {
 
-    @Query("SELECT p FROM produits p WHERE p.uuid = :uuid AND p.deleted = false")
     Optional<Product> findByUuid(UUID uuid);
 
     List<Product> findAllByOwner(UUID owner);
