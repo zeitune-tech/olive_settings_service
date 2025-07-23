@@ -16,7 +16,7 @@ import java.util.UUID;
 @Getter
 @Setter
 @SuperBuilder
-@Entity(name = "taxes")
+@Entity(name = "type-taxes")
 @NoArgsConstructor
 @AllArgsConstructor
 public class TaxType extends BaseEntity {

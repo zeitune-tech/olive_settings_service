@@ -9,6 +9,7 @@ import sn.zeitune.oliveinsurancesettings.app.dtos.responses.EndorsementResponse;
 import sn.zeitune.oliveinsurancesettings.app.services.EndorsementService;
 import sn.zeitune.oliveinsurancesettings.security.Employee;
 
+import java.util.List;
 import java.util.UUID;
 
 @RestController
@@ -19,14 +20,11 @@ public class EndorsementController {
     private final EndorsementService endorsementService;
 
     @GetMapping
-    public EndorsementResponse getEndorsements(
+    public List<EndorsementResponse> getEndorsements(
             Authentication authentication
     ) {
         Employee employee = (Employee) authentication.getPrincipal();
-        return endorsementService.findAllByManagementEntity(employee.getManagementEntity())
-                .stream()
-                .findFirst()
-                .orElseThrow(() -> new IllegalArgumentException("No endorsements found for management entity: " + employee.getManagementEntity()));
+        return endorsementService.findAllByManagementEntity(employee.getManagementEntity());
     }
 
     @GetMapping("/uuid")

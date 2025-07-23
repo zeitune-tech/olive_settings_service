@@ -14,4 +14,8 @@ public interface CommissionPointOfSaleService {
     void delete(UUID uuid);
 
     CommissionPointOfSaleResponse update(UUID uuid, @Valid CommissionPointOfSaleRequest request, UUID managementEntity);
+
+    List<CommissionPointOfSaleResponse> getAllPrimes(UUID managementEntity);
+
+    List<CommissionPointOfSaleResponse> getAllAccessories(UUID managementEntity);
 }

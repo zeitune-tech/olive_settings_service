@@ -83,7 +83,7 @@ public class CommissionContributorServiceImpl implements CommissionContributorSe
     @Override
     public CommissionContributorResponse update(UUID uuid, CommissionContributorRequest request, UUID managementEntity) {
         CommissionContributor commission = commissionContributorRepository
-                .findByUuidAndDeletedFalse(uuid)
+                .findByUuid(uuid)
                 .orElseThrow(() -> new NotFoundException("CommissionContributor not found"));
 
         if (commission instanceof CommissionContributorPremium) {
@@ -119,9 +119,38 @@ public class CommissionContributorServiceImpl implements CommissionContributorSe
     }
 
     @Override
+    public List<CommissionContributorResponse> getAllAccessories(UUID managementEntity) {
+        return commissionContributorRepository
+                .findAllByManagementEntity(managementEntity).stream()
+                .filter(commission -> commission instanceof CommissionContributorAccessory)
+                .map(commission -> CommissionMapper.map(
+                        commission,
+                        ProductMapper.map(commission.getProduct(), null, null),
+                        null,
+                        null
+                ))
+                .toList();
+    }
+
+
+    @Override
+    public List<CommissionContributorResponse> getAllPrimes(UUID managementEntity) {
+        return commissionContributorRepository
+                .findAllByManagementEntity(managementEntity).stream()
+                .filter(commission -> commission instanceof CommissionContributorPremium)
+                .map(commission -> CommissionMapper.map(
+                        commission,
+                        ProductMapper.map(commission.getProduct(), null, null),
+                        CoverageMapper.map(commission.getCoverage(), null, null),
+                        null
+                ))
+                .toList();
+    }
+
+    @Override
     public CommissionContributorResponse getByUuid(UUID uuid) {
         CommissionContributor commission = commissionContributorRepository
-                .findByUuidAndDeletedFalse(uuid)
+                .findByUuid(uuid)
                 .orElseThrow(() -> new NotFoundException("CommissionContributor not found"));
 
         Product product = commission.getProduct();
@@ -138,7 +167,7 @@ public class CommissionContributorServiceImpl implements CommissionContributorSe
     @Override
     public List<CommissionContributorResponse> getAll(UUID managementEntity) {
         return commissionContributorRepository
-                .findAllByManagementEntityAndDeletedFalse(managementEntity).stream()
+                .findAllByManagementEntity(managementEntity).stream()
                 .map(commission -> CommissionMapper.map(
                         commission,
                         ProductMapper.map(commission.getProduct(), null, null),
@@ -152,7 +181,7 @@ public class CommissionContributorServiceImpl implements CommissionContributorSe
     @Override
     public void delete(UUID uuid) {
         CommissionContributor commission = commissionContributorRepository
-                .findByUuidAndDeletedFalse(uuid)
+                .findByUuid(uuid)
                 .orElseThrow(() -> new NotFoundException("CommissionContributor not found"));
 
         commission.setDeleted(true);

@@ -80,7 +80,7 @@ public class CommissionPointOfSaleServiceImpl implements CommissionPointOfSaleSe
     @Override
     public CommissionPointOfSaleResponse update(UUID uuid, CommissionPointOfSaleRequest request, UUID managementEntity) {
         CommissionPointOfSale commission = commissionPointOfSaleRepository
-                .findByUuidAndDeletedFalse(uuid)
+                .findByUuid(uuid)
                 .orElseThrow(() -> new NotFoundException("CommissionPointOfSale not found"));
 
         if (commission instanceof CommissionPointOfSalePremium) {
@@ -116,9 +116,37 @@ public class CommissionPointOfSaleServiceImpl implements CommissionPointOfSaleSe
     }
 
     @Override
+    public List<CommissionPointOfSaleResponse> getAllPrimes(UUID managementEntity) {
+        return commissionPointOfSaleRepository
+                .findAllByManagementEntity(managementEntity).stream()
+                .filter(commission -> commission instanceof CommissionPointOfSalePremium)
+                .map(commission -> CommissionMapper.map(
+                        (CommissionPointOfSalePremium) commission,
+                        ProductMapper.map(commission.getProduct(), null, null),
+                        CoverageMapper.map(((CommissionPointOfSalePremium) commission).getCoverage(), null, null),
+                        null
+                ))
+                .toList();
+    }
+
+    @Override
+    public List<CommissionPointOfSaleResponse> getAllAccessories(UUID managementEntity) {
+        return commissionPointOfSaleRepository
+                .findAllByManagementEntity(managementEntity).stream()
+                .filter(commission -> commission instanceof CommissionPointOfSaleAccessory)
+                .map(commission -> CommissionMapper.map(
+                        (CommissionPointOfSaleAccessory) commission,
+                        ProductMapper.map(commission.getProduct(), null, null),
+                        null,
+                        null
+                ))
+                .toList();
+    }
+
+    @Override
     public CommissionPointOfSaleResponse getByUuid(UUID uuid) {
         CommissionPointOfSale commission = commissionPointOfSaleRepository
-                .findByUuidAndDeletedFalse(uuid)
+                .findByUuid(uuid)
                 .orElseThrow(() -> new NotFoundException("CommissionPointOfSale not found"));
 
         Product product = commission.getProduct();
@@ -135,7 +163,7 @@ public class CommissionPointOfSaleServiceImpl implements CommissionPointOfSaleSe
     @Override
     public List<CommissionPointOfSaleResponse> getAll(UUID managementEntity) {
         return commissionPointOfSaleRepository
-                .findAllByManagementEntityAndDeletedFalse(managementEntity).stream()
+                .findAllByManagementEntity(managementEntity).stream()
                 .map(commission -> CommissionMapper.map(
                         commission,
                         ProductMapper.map(commission.getProduct(), null, null),
@@ -149,7 +177,7 @@ public class CommissionPointOfSaleServiceImpl implements CommissionPointOfSaleSe
     @Override
     public void delete(UUID uuid) {
         CommissionPointOfSale commission = commissionPointOfSaleRepository
-                .findByUuidAndDeletedFalse(uuid)
+                .findByUuid(uuid)
                 .orElseThrow(() -> new NotFoundException("CommissionPointOfSale not found"));
 
         commission.setDeleted(true);
