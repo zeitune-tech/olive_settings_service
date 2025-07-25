@@ -45,4 +45,19 @@ public class EndorsementServiceImpl implements EndorsementService {
     public void deleteByUuid(UUID uuid) {
         endorsementRepository.deleteByUuid(uuid);
     }
+
+    @Autowired
+    private final ProductRepository productRepository;
+
+    @Override
+    public void assignProducts(UUID endorsementId, List<UUID> productIds) {
+        Endorsement endorsement = endorsementRepository.findByUuid(endorsementId)
+                .orElseThrow(() -> new IllegalArgumentException("Endorsement not found with UUID: " + endorsementId));
+
+        List<Product> products = productRepository.findAllById(productIds);
+
+        endorsement.setProducts(products); // méthode à avoir dans ton entité Endorsement
+        endorsementRepository.save(endorsement);
+    }
+
 }

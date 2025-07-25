@@ -38,4 +38,7 @@ public interface EndorsementService {
      * @param uuid the UUID of the endorsement to delete
      */
     void deleteByUuid(UUID uuid);
+
+    void assignProducts(UUID endorsementId, List<UUID> productIds);
+
 }

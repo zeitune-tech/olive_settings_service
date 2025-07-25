@@ -57,4 +57,14 @@ public class EndorsementController {
         endorsementService.deleteByUuid(uuid);
         // Optionally, you can return a response indicating success
     }
+
+    @PostMapping("/{endorsementId}/products")
+    public ResponseEntity<?> assignProducts(
+            @PathVariable UUID endorsementId,
+            @RequestBody ProductAssignmentRequest request
+    ) {
+        endorsementService.assignProducts(endorsementId, request.getProductIds());
+        return ResponseEntity.ok().build();
+    }
+
 }
