@@ -8,7 +8,7 @@ import java.util.UUID;
 
 public interface TaxCommissionsPointOfSaleService {
 
-    TaxCommissionsPointOfSaleResponse create(TaxCommissionsPointOfSaleRequest request);
+    TaxCommissionsPointOfSaleResponse create(TaxCommissionsPointOfSaleRequest request, UUID managementEntity);
 
     TaxCommissionsPointOfSaleResponse update(UUID uuid, TaxCommissionsPointOfSaleRequest request);
 

@@ -37,9 +37,6 @@ public abstract class Commission extends BaseEntity {
         }
     }
 
-    @Column(name = "calculation_base", nullable = false)
-    CalculationBase calculationBase;
-
     @Column(name = "date_effective", nullable = false)
     private LocalDate dateEffective;
 
@@ -53,9 +50,6 @@ public abstract class Commission extends BaseEntity {
     @JoinColumn(name = "code_produit", nullable = false)
     private Product product;
 
-    @ManyToOne
-    @JoinColumn(name = "code_couverture", nullable = false)
-    private Coverage coverage;
 
     @Column(name = "entite_gestion", nullable = false)
     private UUID managementEntity;

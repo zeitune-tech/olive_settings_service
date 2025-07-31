@@ -35,7 +35,13 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(NotFoundException.class)
     public ResponseEntity<String> handleNotFound(NotFoundException ex) {
-        return ResponseEntity.notFound().build();
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(
+                ExceptionResponse.builder()
+                        .businessErrorCode(404)
+                        .businessErrorDescription("Resource not found")
+                        .error(ex.getMessage())
+                        .build().toString()
+        );
     }
 
 

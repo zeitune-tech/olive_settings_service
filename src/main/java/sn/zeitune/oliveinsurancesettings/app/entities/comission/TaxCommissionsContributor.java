@@ -20,9 +20,9 @@ import java.util.UUID;
 @Table(name = "taxes_commissions_apporteur")
 public class TaxCommissionsContributor extends TaxCommissions {
 
-    @Column(name = "apporteur", nullable = false)
+    @Column(name = "apporteur")
     private UUID contributor;
 
-    @Column(name = "type_apporteur", nullable = false)
+    @Column(name = "type_apporteur")
     private UUID contributorType;
 }

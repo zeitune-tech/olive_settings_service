@@ -54,7 +54,7 @@ public  class CommissionMapper {
                 .managementRate(request.managementRate())
                 .contributionRate(request.contributionRate())
                 .pointOfSaleType(request.pointOfSaleType())
-                .pointOfSale(request.salesPointId())
+                .pointOfSale(request.pointOfSaleId())
                 .product(product)
                 .build();
     }
@@ -69,7 +69,7 @@ public  class CommissionMapper {
                 .managementRate(request.managementRate())
                 .contributionRate(request.contributionRate())
                 .pointOfSaleType(request.pointOfSaleType())
-                .pointOfSale(request.salesPointId())
+                .pointOfSale(request.pointOfSaleId())
                 .coverage(coverage)
                 .product(product)
                 .build();
@@ -110,6 +110,7 @@ public  class CommissionMapper {
                 .contributionRate(commissionPointOfSale.getContributionRate())
                 .product(product)
                 .coverage(coverage)
+                .pointOfSaleType(commissionPointOfSale.getPointOfSaleType())
                 .pointOfSale(pointOfSale)
                 .build();
     }
@@ -131,11 +132,17 @@ public  class CommissionMapper {
             throw new IllegalArgumentException("Unknown commission type: " + commissionContributor.getClass().getSimpleName());
         }
 
+        ContributorTypeResponse contributorTypeResponse = null;
+        if (contributor != null) {
+            contributorTypeResponse = contributor.contributorType();
+        }
+
         return CommissionContributorResponse.builder()
                 .id(commissionContributor.getUuid())
                 .dateEffective(commissionContributor.getDateEffective())
                 .calculationBase(calculationBase)
                 .contributor(contributor)
+                .contributorType(contributorTypeResponse)
                 .managementRate(commissionContributor.getManagementRate())
                 .contributionRate(commissionContributor.getContributionRate())
                 .product(product)

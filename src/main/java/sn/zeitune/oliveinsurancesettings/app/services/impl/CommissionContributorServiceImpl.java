@@ -13,9 +13,7 @@ import sn.zeitune.oliveinsurancesettings.app.exceptions.NotFoundException;
 import sn.zeitune.oliveinsurancesettings.app.mappers.CommissionMapper;
 import sn.zeitune.oliveinsurancesettings.app.mappers.CoverageMapper;
 import sn.zeitune.oliveinsurancesettings.app.mappers.ProductMapper;
-import sn.zeitune.oliveinsurancesettings.app.repositories.CommissionContributorRepository;
-import sn.zeitune.oliveinsurancesettings.app.repositories.CoverageRepository;
-import sn.zeitune.oliveinsurancesettings.app.repositories.ProductRepository;
+import sn.zeitune.oliveinsurancesettings.app.repositories.*;
 import sn.zeitune.oliveinsurancesettings.app.services.CommissionContributorService;
 import sn.zeitune.oliveinsurancesettings.enums.CalculationBase;
 
@@ -27,6 +25,8 @@ import java.util.UUID;
 public class CommissionContributorServiceImpl implements CommissionContributorService {
 
     private final CommissionContributorRepository commissionContributorRepository;
+    private final CommissionContributorPrimeRepository commissionContributorPrimeRepository;
+    private final CommissionContributorAccessoryRepository commissionContributorAccessoryRepository;
     private final CoverageRepository coverageRepository;
     private final ProductRepository productRepository;
 
@@ -35,15 +35,12 @@ public class CommissionContributorServiceImpl implements CommissionContributorSe
         Product product = productRepository.findByUuid(request.productId())
                 .orElseThrow(() -> new NotFoundException("Product not found"));
 
-        if (request.commissionBase() == CalculationBase.PRIME) {
+        if (request.calculationBase() == CalculationBase.PRIME) {
 
             Coverage coverage = null;
             if (request.coverageId() != null) {
-                // If the commission base is PRIME, coverage must be provided
                 coverage = coverageRepository.findByUuid(request.coverageId())
-                        .orElse(null);
-            } else {
-                throw new IllegalArgumentException("Coverage ID must be provided for PRIME commission base");
+                        .orElseThrow( () -> new NotFoundException("Coverage not found"));
             }
 
             CommissionContributorPremium premium = CommissionMapper.map(request, coverage, product);
@@ -61,7 +58,7 @@ public class CommissionContributorServiceImpl implements CommissionContributorSe
                     ) : null,
                     null
             );
-        } else if (request.commissionBase() == CalculationBase.ACCESSORY) {
+        } else if (request.calculationBase() == CalculationBase.ACCESSORY) {
 
             CommissionContributorAccessory accessory = CommissionMapper.map(request, product);
             accessory.setManagementEntity(managementEntity);
@@ -87,14 +84,14 @@ public class CommissionContributorServiceImpl implements CommissionContributorSe
                 .orElseThrow(() -> new NotFoundException("CommissionContributor not found"));
 
         if (commission instanceof CommissionContributorPremium) {
-            if (request.commissionBase() != CalculationBase.PRIME) {
+            if (request.calculationBase() != CalculationBase.PRIME) {
                 throw new IllegalArgumentException("Cannot update to non-PRIME commission base for a premium contributor");
             }
             Coverage coverage = coverageRepository.findByUuid(request.coverageId())
                     .orElseThrow(() -> new NotFoundException("Coverage not found"));
             ((CommissionContributorPremium) commission).setCoverage(coverage);
         } else if (commission instanceof CommissionContributorAccessory) {
-            if (request.commissionBase() != CalculationBase.ACCESSORY) {
+            if (request.calculationBase() != CalculationBase.ACCESSORY) {
                 throw new IllegalArgumentException("Cannot update to non-ACCESSORY commission base for an accessory contributor");
             }
         } else {
@@ -120,9 +117,8 @@ public class CommissionContributorServiceImpl implements CommissionContributorSe
 
     @Override
     public List<CommissionContributorResponse> getAllAccessories(UUID managementEntity) {
-        return commissionContributorRepository
+        return commissionContributorAccessoryRepository
                 .findAllByManagementEntity(managementEntity).stream()
-                .filter(commission -> commission instanceof CommissionContributorAccessory)
                 .map(commission -> CommissionMapper.map(
                         commission,
                         ProductMapper.map(commission.getProduct(), null, null),
@@ -135,9 +131,8 @@ public class CommissionContributorServiceImpl implements CommissionContributorSe
 
     @Override
     public List<CommissionContributorResponse> getAllPrimes(UUID managementEntity) {
-        return commissionContributorRepository
+        return commissionContributorPrimeRepository
                 .findAllByManagementEntity(managementEntity).stream()
-                .filter(commission -> commission instanceof CommissionContributorPremium)
                 .map(commission -> CommissionMapper.map(
                         commission,
                         ProductMapper.map(commission.getProduct(), null, null),

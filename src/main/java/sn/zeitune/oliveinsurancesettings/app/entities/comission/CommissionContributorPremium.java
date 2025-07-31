@@ -23,6 +23,6 @@ import java.util.UUID;
 public class CommissionContributorPremium extends CommissionContributor {
 
     @ManyToOne
-    @JoinColumn(name = "code_garantie", nullable = false)
+    @JoinColumn(name = "code_garantie")
     private Coverage coverage;
 }

@@ -20,9 +20,9 @@ import java.util.UUID;
 @AllArgsConstructor
 public class TaxCommissionsPointOfSale extends TaxCommissions {
 
-    @Column(name = "code_point_de_vente", nullable = false)
+    @Column(name = "code_point_de_vente")
     private UUID pointOfSale;
 
-    @Column(name = "type_point_de_vente", nullable = false)
+    @Column(name = "type_point_de_vente")
     private PointOfSaleType pointOfSaleType;
 }

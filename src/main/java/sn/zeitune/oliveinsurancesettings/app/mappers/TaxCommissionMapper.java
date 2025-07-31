@@ -13,7 +13,7 @@ public class TaxCommissionMapper {
     // Contributor
     // =============================
 
-    public static TaxCommissionsContributor toContributorEntity(
+    public static TaxCommissionsContributor map(
             TaxCommissionsContributorRequest request
     ) {
         return TaxCommissionsContributor.builder()
