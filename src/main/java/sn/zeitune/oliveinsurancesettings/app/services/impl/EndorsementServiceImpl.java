@@ -1,12 +1,14 @@
 package sn.zeitune.oliveinsurancesettings.app.services.impl;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import sn.zeitune.oliveinsurancesettings.app.dtos.requests.EndorsementRequest;
 import sn.zeitune.oliveinsurancesettings.app.dtos.responses.EndorsementResponse;
 import sn.zeitune.oliveinsurancesettings.app.entities.endorsement.Endorsement;
 import sn.zeitune.oliveinsurancesettings.app.mappers.EndorsementMapper;
 import sn.zeitune.oliveinsurancesettings.app.repositories.EndorsementRepository;
+import sn.zeitune.oliveinsurancesettings.app.repositories.ProductRepository;
 import sn.zeitune.oliveinsurancesettings.app.services.EndorsementService;
 
 import java.util.List;
