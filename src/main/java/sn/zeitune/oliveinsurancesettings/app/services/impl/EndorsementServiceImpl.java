@@ -7,6 +7,7 @@ import sn.zeitune.oliveinsurancesettings.app.dtos.responses.EndorsementResponse;
 import sn.zeitune.oliveinsurancesettings.app.entities.endorsement.Endorsement;
 import sn.zeitune.oliveinsurancesettings.app.mappers.EndorsementMapper;
 import sn.zeitune.oliveinsurancesettings.app.repositories.EndorsementRepository;
+import sn.zeitune.oliveinsurancesettings.app.repositories.ProductRepository;
 import sn.zeitune.oliveinsurancesettings.app.services.EndorsementService;
 
 import java.util.List;
@@ -17,6 +18,7 @@ import java.util.UUID;
 public class EndorsementServiceImpl implements EndorsementService {
 
     private final EndorsementRepository endorsementRepository;
+    private final ProductRepository productRepository;
 
     @Override
     public EndorsementResponse create(EndorsementRequest request, UUID managementEntity) {
@@ -39,6 +41,42 @@ public class EndorsementServiceImpl implements EndorsementService {
         return endorsements.stream()
                 .map(EndorsementMapper::map)
                 .toList();
+    }
+
+    @Override
+    public EndorsementResponse addProductToEndorsement(UUID endorsementUuid, UUID productUuid) {
+        Endorsement endorsement = endorsementRepository.findByUuid(endorsementUuid)
+                .orElseThrow(() -> new IllegalArgumentException("Endorsement not found with UUID: " + endorsementUuid));
+
+        var product = productRepository.findByUuid(productUuid)
+                .orElseThrow(() -> new IllegalArgumentException("Product not found with UUID: " + productUuid));
+
+        // Ensure the product is not already in the endorsement
+        if (endorsement.getProduct().contains(product)) {
+            throw new IllegalArgumentException("Product already exists in the endorsement");
+        }
+        endorsement.getProduct().add(product);
+
+        endorsementRepository.save(endorsement);
+        return EndorsementMapper.map(endorsement);
+    }
+
+    @Override
+    public EndorsementResponse removeProductFromEndorsement(UUID endorsementUuid, UUID productUuid) {
+        Endorsement endorsement = endorsementRepository.findByUuid(endorsementUuid)
+                .orElseThrow(() -> new IllegalArgumentException("Endorsement not found with UUID: " + endorsementUuid));
+
+        var product = productRepository.findByUuid(productUuid)
+                .orElseThrow(() -> new IllegalArgumentException("Product not found with UUID: " + productUuid));
+
+        // Ensure the product is in the endorsement
+        if (!endorsement.getProduct().contains(product)) {
+            throw new IllegalArgumentException("Product does not exist in the endorsement");
+        }
+        endorsement.getProduct().remove(product);
+
+        endorsementRepository.save(endorsement);
+        return EndorsementMapper.map(endorsement);
     }
 
     @Override

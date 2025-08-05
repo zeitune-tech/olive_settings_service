@@ -21,6 +21,18 @@ public record AccessoryRequest(
         @NotNull(message = "Accessory amount must not be null")
         Double accessoryAmount,
 
+        @NotNull(message = "Accessory risk must not be null")
+        Double accessoryRisk,
+
+        @NotNull(message = "Day must not be null")
+        Integer day,
+
+        @NotNull(message = "Hour must not be null")
+        Integer hour,
+
+        @NotNull(message = "Minute must not be null")
+        Integer minute,
+
         @NotNull(message = "Product ID must not be null")
         UUID productId
 ) {}

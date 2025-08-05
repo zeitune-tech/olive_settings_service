@@ -46,6 +46,26 @@ public class EndorsementController {
         return endorsementService.create(request, employee.getManagementEntity());
     }
 
+    @PutMapping("/{endorsementUuid}/add-product/{productUuid}")
+    public EndorsementResponse addProductToEndorsement(
+            Authentication authentication,
+            @PathVariable UUID endorsementUuid,
+            @PathVariable UUID productUuid
+    ) {
+        Employee employee = (Employee) authentication.getPrincipal();
+        return endorsementService.addProductToEndorsement(endorsementUuid, productUuid);
+    }
+
+    @PutMapping("/{endorsementUuid}/remove-product/{productUuid}")
+    public EndorsementResponse removeProductFromEndorsement(
+            Authentication authentication,
+            @PathVariable UUID endorsementUuid,
+            @PathVariable UUID productUuid
+    ) {
+        Employee employee = (Employee) authentication.getPrincipal();
+        return endorsementService.removeProductFromEndorsement(endorsementUuid, productUuid);
+    }
+
     @DeleteMapping("/{uuid}")
     public void deleteEndorsement(
             Authentication authentication,

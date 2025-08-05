@@ -13,6 +13,10 @@ public record AccessoryResponse(
         LocalDate dateEffective,
         AccessoryActType actType,
         Double accessoryAmount,
+        Double accessoryRisk,
+        Integer day,
+        Integer hour,
+        Integer minute,
         ProductResponse product,
         UUID managementEntityId
 ) {}

@@ -44,6 +44,16 @@ public class Accessory  extends BaseEntity {
     @Column(name = "accessory_amount", nullable = false)
     private Double accessoryAmount;
 
+    @Column(name = "accessoire_risk", nullable = false)
+    private Double accessoryRisk;
+
+    @Column(name = "jour", nullable = false)
+    private Integer day;
+    @Column(name = "heure", nullable = false)
+    private Integer hour;
+    @Column(name = "minute", nullable = false)
+    private Integer minute;
+
     @ManyToOne
     @JoinColumn(name = "code_produit", nullable = false)
     private Product product;

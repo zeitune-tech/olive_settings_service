@@ -12,6 +12,10 @@ public class AccessoryMapper {
                 .dateEffective(request.dateEffective())
                 .actType(request.actType())
                 .accessoryAmount(request.accessoryAmount())
+                .accessoryRisk(request.accessoryRisk())
+                .day(request.day())
+                .hour(request.hour())
+                .minute(request.minute())
                 .build();
     }
 

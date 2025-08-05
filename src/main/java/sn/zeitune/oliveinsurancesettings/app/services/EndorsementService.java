@@ -32,6 +32,9 @@ public interface EndorsementService {
      */
     List<EndorsementResponse> findAllByManagementEntity(UUID managementEntity);
 
+    EndorsementResponse addProductToEndorsement(UUID endorsementUuid, UUID productUuid);
+    EndorsementResponse removeProductFromEndorsement(UUID endorsementUuid, UUID productUuid);
+
     /**
      * Deletes an endorsement by its UUID.
      *
