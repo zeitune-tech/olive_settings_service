@@ -14,7 +14,7 @@ public record AccessoryResponse(
         AccessoryActType actType,
         Double accessoryAmount,
         Double accessoryRisk,
-        Integer day,
+        LocalDate day,
         Integer hour,
         Integer minute,
         ProductResponse product,

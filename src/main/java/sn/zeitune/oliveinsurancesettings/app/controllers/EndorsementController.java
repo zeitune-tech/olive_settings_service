@@ -27,7 +27,7 @@ public class EndorsementController {
         return endorsementService.findAllByManagementEntity(employee.getManagementEntity());
     }
 
-    @GetMapping("/uuid")
+    @GetMapping("/{uuid}")
     public EndorsementResponse getEndorsementByUuid(
             Authentication authentication,
             @PathVariable UUID uuid

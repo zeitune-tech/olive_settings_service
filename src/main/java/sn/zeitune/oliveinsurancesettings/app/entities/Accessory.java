@@ -6,7 +6,6 @@ import lombok.*;
 import sn.zeitune.oliveinsurancesettings.app.entities.product.Product;
 import sn.zeitune.oliveinsurancesettings.enums.AccessoryActType;
 
-import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.UUID;
 
@@ -48,7 +47,7 @@ public class Accessory  extends BaseEntity {
     private Double accessoryRisk;
 
     @Column(name = "jour", nullable = false)
-    private Integer day;
+    private LocalDate day;
     @Column(name = "heure", nullable = false)
     private Integer hour;
     @Column(name = "minute", nullable = false)
