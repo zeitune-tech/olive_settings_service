@@ -5,7 +5,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import sn.zeitune.oliveinsurancesettings.app.dtos.requests.CoverageReferenceRequest;
 import sn.zeitune.oliveinsurancesettings.app.dtos.responses.CoverageReferenceResponse;
-import sn.zeitune.oliveinsurancesettings.app.entities.CoverageReference;
+import sn.zeitune.oliveinsurancesettings.app.entities.coverage.CoverageReference;
 import sn.zeitune.oliveinsurancesettings.app.exceptions.ConflictException;
 import sn.zeitune.oliveinsurancesettings.app.mappers.CoverageReferenceMapper;
 import sn.zeitune.oliveinsurancesettings.app.repositories.CoverageReferenceRepository;
@@ -97,6 +97,9 @@ public class CoverageReferenceServiceImpl implements CoverageReferenceService {
     public void delete(UUID uuid) {
         CoverageReference entity = coverageReferenceRepository.findByUuid(uuid)
                 .orElseThrow(() -> new IllegalArgumentException("CoverageReference not found with UUID: " + uuid));
-        coverageReferenceRepository.delete(entity);
+
+        // Soft delete the entity
+        entity.setDeleted(true);
+        coverageReferenceRepository.save(entity);
     }
 }

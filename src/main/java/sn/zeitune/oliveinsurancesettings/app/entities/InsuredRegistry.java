@@ -2,19 +2,18 @@ package sn.zeitune.oliveinsurancesettings.app.entities;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
+import lombok.experimental.SuperBuilder;
 
 import java.util.UUID;
 
-@Data
-@Builder
+@Getter
+@Setter
+@SuperBuilder
 @Entity(name = "registres_des_assures")
 @NoArgsConstructor
 @AllArgsConstructor
-public class InsuredRegistry {
+public class InsuredRegistry extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

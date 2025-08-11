@@ -2,19 +2,19 @@ package sn.zeitune.oliveinsurancesettings.app.entities;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
+import lombok.experimental.SuperBuilder;
+import sn.zeitune.oliveinsurancesettings.app.entities.product.Product;
 
 import java.util.UUID;
 
-@Data
-@Builder
+@Getter
+@Setter
+@SuperBuilder
 @Entity(name = "registres_de_production")
 @NoArgsConstructor
 @AllArgsConstructor
-public class ProductionRegistry {
+public class ProductionRegistry  extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -44,7 +44,7 @@ public class ProductionRegistry {
     @Column(name = "code_entite")
     private UUID managementEntity;
 
-    @Column(name = "code_produit")
-    private UUID product;
-
+    @ManyToOne
+    @JoinColumn(name = "code_produit", nullable = false)
+    private Product product;
 }

@@ -5,7 +5,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import sn.zeitune.oliveinsurancesettings.app.dtos.requests.CoverageDurationRequest;
 import sn.zeitune.oliveinsurancesettings.app.dtos.responses.CoverageDurationResponse;
-import sn.zeitune.oliveinsurancesettings.app.entities.CoverageDuration;
+import sn.zeitune.oliveinsurancesettings.app.entities.coverage.CoverageDuration;
 import sn.zeitune.oliveinsurancesettings.app.mappers.CoverageDurationMapper;
 import sn.zeitune.oliveinsurancesettings.app.repositories.CoverageDurationRepository;
 import sn.zeitune.oliveinsurancesettings.app.services.CoverageDurationService;
@@ -51,7 +51,7 @@ public class CoverageDurationServiceImpl implements CoverageDurationService {
         existing.setFrom(request.from());
         existing.setTo(request.to());
         existing.setType(request.type());
-        existing.setProrotaMode(request.prorotaMode());
+        existing.setDesignation(request.designation());
         existing.setUnit(request.unit());
 
         return CoverageDurationMapper.map(coverageDurationRepository.save(existing));
@@ -61,6 +61,8 @@ public class CoverageDurationServiceImpl implements CoverageDurationService {
     public void delete(UUID uuid) {
         CoverageDuration duration = coverageDurationRepository.findByUuid(uuid)
                 .orElseThrow(() -> new IllegalArgumentException("CoverageDuration not found with UUID: " + uuid));
-        coverageDurationRepository.delete(duration);
+
+        duration.setDeleted(true);
+        coverageDurationRepository.save(duration);
     }
 }

@@ -2,16 +2,15 @@ package sn.zeitune.oliveinsurancesettings.app.dtos.responses;
 
 import lombok.Builder;
 
-import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.UUID;
 
 @Builder
 public record DurationRateResponse(
-        UUID uuid,
+        UUID id,
         LocalDate dateEffective,
-        String durationCode,
+        CoverageDurationResponse duration,
         Double rate,
-        UUID productId,
+        ProductResponse product,
         UUID companyId
 ) {}

@@ -2,8 +2,8 @@ package sn.zeitune.oliveinsurancesettings.app.mappers;
 
 import sn.zeitune.oliveinsurancesettings.app.dtos.requests.IncompatibleCoverageRequest;
 import sn.zeitune.oliveinsurancesettings.app.dtos.responses.IncompatibleCoverageResponse;
-import sn.zeitune.oliveinsurancesettings.app.entities.Coverage;
-import sn.zeitune.oliveinsurancesettings.app.entities.IncompatibleCoverage;
+import sn.zeitune.oliveinsurancesettings.app.entities.coverage.Coverage;
+import sn.zeitune.oliveinsurancesettings.app.entities.coverage.IncompatibleCoverage;
 
 public class IncompatibleCoverageMapper {
 

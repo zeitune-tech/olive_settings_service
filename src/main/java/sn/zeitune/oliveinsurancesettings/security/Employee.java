@@ -16,6 +16,9 @@ public class Employee implements UserDetails {
     @Getter
     private UUID managementEntity;
 
+    @Getter
+    private UUID superiorEntity;
+
     private String username;
     private String password;
     private Collection<? extends GrantedAuthority> authorities;

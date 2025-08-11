@@ -10,6 +10,6 @@ public record ProductionRegistryResponse(
         String prefix,
         int length,
         UUID managementEntity,
-        UUID product,
+        ProductResponse product,
         int counter
 ) {}

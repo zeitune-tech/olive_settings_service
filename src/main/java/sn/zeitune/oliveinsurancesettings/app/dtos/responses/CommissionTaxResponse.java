@@ -1,7 +1,6 @@
 package sn.zeitune.oliveinsurancesettings.app.dtos.responses;
 
 import lombok.Builder;
-import sn.zeitune.oliveinsurancesettings.app.dtos.externals.ProductResponseDTO;
 import sn.zeitune.oliveinsurancesettings.enums.CommissionTaxType;
 
 import java.time.LocalDate;
@@ -14,6 +13,6 @@ public record CommissionTaxResponse(
         CommissionTaxType commissionTaxType,
         Double rate,
         UUID pointOfSale,
-        ProductResponseDTO product,
+        ProductResponse product,
         UUID managementEntityId
 ) {}

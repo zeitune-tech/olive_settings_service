@@ -2,6 +2,7 @@ package sn.zeitune.oliveinsurancesettings.app.clients.impl;
 
 import jakarta.transaction.Transactional;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Component;
@@ -14,10 +15,14 @@ import sn.zeitune.oliveinsurancesettings.app.clients.UserClient;
 @Slf4j
 public class UserClientImpl implements UserClient {
 
+
     private final WebClient userWebClient;
 
-    public UserClientImpl(WebClient.Builder webClientBuilder) {
-        this.userWebClient = webClientBuilder.baseUrl("http://localhost:8010/api/v1").build();
+    public UserClientImpl(WebClient.Builder webClientBuilder,
+          @Value("${services.olive-insurance-auth-service}")
+          String authServiceUrl
+    ) {
+        this.userWebClient = webClientBuilder.baseUrl(authServiceUrl).build();
     }
 
 

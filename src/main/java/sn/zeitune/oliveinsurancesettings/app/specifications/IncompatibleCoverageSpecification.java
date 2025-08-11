@@ -1,7 +1,7 @@
 package sn.zeitune.oliveinsurancesettings.app.specifications;
 
 import org.springframework.data.jpa.domain.Specification;
-import sn.zeitune.oliveinsurancesettings.app.entities.IncompatibleCoverage;
+import sn.zeitune.oliveinsurancesettings.app.entities.coverage.IncompatibleCoverage;
 
 import java.util.UUID;
 

@@ -6,15 +6,29 @@ import lombok.Builder;
 import sn.zeitune.oliveinsurancesettings.enums.TaxGroup;
 import sn.zeitune.oliveinsurancesettings.enums.TaxNature;
 
+import java.time.LocalDate;
+import java.util.UUID;
+
 @Builder
 public record TaxRequest(
 
-        @NotBlank(message = "Designation must not be blank")
-        String designation,
+        @NotBlank(message = "Tax name must not be blank")
+        String name,
 
-        @NotNull(message = "Tax group must not be null")
-        TaxGroup rgr,
+        @NotNull(message = "Effective date must not be null")
+        LocalDate dateEffective,
+        @NotNull(message = "Rate must not be null")
+        Double rate,
 
-        @NotNull(message = "Tax nature must not be null")
-        TaxNature nature
+        @NotNull(message = "Tax Type ID must not be null")
+        UUID taxTypeId,
+
+        Boolean isFlatRate,
+
+        Double flatRateAmount,
+
+        @NotNull(message = "Coverage ID must not be null")
+        UUID coverageId,
+        @NotNull(message = "Product ID must not be null")
+        UUID productId
 ) {}
