@@ -34,7 +34,6 @@ public class ProductController {
         return ResponseEntity.ok(productService.createProduct(dto, employee.getManagementEntity()));
     }
 
-
     @PutMapping("/{uuid}")
     public ResponseEntity<ProductResponse> update(
             @PathVariable UUID uuid,
@@ -80,6 +79,18 @@ public class ProductController {
     @GetMapping("/all")
     public ResponseEntity<List<ProductResponse>> getAll() {
         return ResponseEntity.ok(productService.getAll());
+    }
+
+    @GetMapping("/all-on-branch/{branchUuid}")
+    public ResponseEntity<List<ProductResponse>> getAllOnBranch(
+            @PathVariable UUID branchUuid,
+            Authentication authentication
+        ) {
+        return ResponseEntity.ok(
+                productService.getAllOnBranch(
+                    ((Employee) authentication.getPrincipal()).getManagementEntity(),
+                    branchUuid
+                ));
     }
 
     @PatchMapping("/{uuid}/share")

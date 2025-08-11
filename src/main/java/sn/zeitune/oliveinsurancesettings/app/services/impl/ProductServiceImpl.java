@@ -246,6 +246,19 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
+    public List<ProductResponse> getAllOnBranch(UUID managementEntityUuid, UUID branchUuid) {
+        return productRepository.findAllByOwnerAndBranch(
+                managementEntityUuid,
+                branchRepository.findByUuid(branchUuid)
+                        .orElseThrow(() -> new NotFoundException("Branch not found"))
+        ).stream()
+                .filter(product -> !product.isDeleted())
+                .map(ProductMapper::map)
+                .collect(Collectors.toList()
+        );
+    }
+
+    @Override
     public Page<ProductResponse> search(
             String name,
             String branchName,
