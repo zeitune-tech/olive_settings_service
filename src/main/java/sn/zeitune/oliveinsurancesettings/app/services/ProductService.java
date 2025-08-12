@@ -23,6 +23,8 @@ public interface ProductService {
 
     List<ProductResponse> getByManagementEntityUuid(UUID uuid);
 
+    List<ProductResponse> getAllOnBranch(UUID managementEntityUuid, UUID branchUuid);
+
     Page<ProductResponse> search(
             String name,
             String branchUuid,

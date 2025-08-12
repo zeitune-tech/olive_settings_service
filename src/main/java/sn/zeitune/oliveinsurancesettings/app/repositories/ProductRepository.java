@@ -21,6 +21,7 @@ public interface ProductRepository extends JpaRepository<Product, Long>, JpaSpec
     List<Product> findAllByOwner(UUID owner);
     Page<Product> findAllByOwner(UUID owner, Pageable pageable);
 
+    List<Product> findAllByOwnerAndBranch(UUID owner, Branch branch);
 
     boolean existsByNameAndBranchAndOwner(String name, Branch branch, UUID owner);
 
