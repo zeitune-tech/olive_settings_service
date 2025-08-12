@@ -7,6 +7,8 @@ import lombok.Builder;
 
 import java.time.LocalDate;
 import java.util.UUID;
+
+import sn.zeitune.oliveinsurancesettings.app.entities.endorsement.Endorsement;
 import sn.zeitune.oliveinsurancesettings.enums.AccessoryActType;
 
 @Builder
@@ -15,8 +17,8 @@ public record AccessoryRequest(
         @NotNull(message = "Effective date must not be null")
         LocalDate dateEffective,
 
-        @NotNull(message = "Act type must not be null")
-        AccessoryActType actType,
+        @NotNull(message = "Act type ID must not be null")
+        UUID actType,
 
         @NotNull(message = "Accessory amount must not be null")
         Double accessoryAmount,

@@ -1,8 +1,12 @@
 package sn.zeitune.oliveinsurancesettings.enums;
 
 public enum AccessoryActType {
-    NEW_BUSINESS,
     MODIFICATION,
+    RENEWAL,
     SUSPENSION,
-    REINSTATEMENT
+    REINSTATEMENT_WITH_DISCOUNT,
+    REINSTATEMENT,
+    CANCELLATION,
+    RETRACT,
+    INCORPORATION
 }

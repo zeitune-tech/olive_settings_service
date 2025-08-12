@@ -5,13 +5,14 @@ import lombok.Builder;
 import java.time.LocalDate;
 import java.util.UUID;
 
+import sn.zeitune.oliveinsurancesettings.app.entities.endorsement.Endorsement;
 import sn.zeitune.oliveinsurancesettings.enums.AccessoryActType;
 
 @Builder
 public record AccessoryResponse(
         UUID id,
         LocalDate dateEffective,
-        AccessoryActType actType,
+        EndorsementResponse actType,
         Double accessoryAmount,
         Double accessoryRisk,
         LocalDate day,

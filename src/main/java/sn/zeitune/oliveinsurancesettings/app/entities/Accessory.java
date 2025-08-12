@@ -3,6 +3,7 @@ package sn.zeitune.oliveinsurancesettings.app.entities;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
+import sn.zeitune.oliveinsurancesettings.app.entities.endorsement.Endorsement;
 import sn.zeitune.oliveinsurancesettings.app.entities.product.Product;
 import sn.zeitune.oliveinsurancesettings.enums.AccessoryActType;
 
@@ -36,10 +37,6 @@ public class Accessory  extends BaseEntity {
     @Column(name = "date_effective", nullable = false)
     private LocalDate dateEffective;
 
-    @Enumerated(EnumType.STRING)
-    @Column(name = "act_type", nullable = false)
-    private AccessoryActType actType;
-
     @Column(name = "accessory_amount", nullable = false)
     private Double accessoryAmount;
 
@@ -56,6 +53,10 @@ public class Accessory  extends BaseEntity {
     @ManyToOne
     @JoinColumn(name = "code_produit", nullable = false)
     private Product product;
+
+    @ManyToOne
+    @JoinColumn(name = "act_type", nullable = false)
+    private Endorsement actType;
 
     @Column(name="code_entite_gestion", nullable = false)
     private UUID managementEntity;
