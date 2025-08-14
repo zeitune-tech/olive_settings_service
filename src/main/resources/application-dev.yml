@@ -12,7 +12,7 @@ spring:
         password: ${OLIVE_DEV_SETTINGS_SPRING_DATASOURCE_PASSWORD}
     jpa:
         hibernate:
-            ddl-auto: create
+            ddl-auto: update
         show-sql: false
         properties:
             hibernate:
