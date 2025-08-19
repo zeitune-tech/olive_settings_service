@@ -4,14 +4,16 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Component;
+import sn.zeitune.oliveinsurancesettings.app.dtos.requests.VehicleCategoryRequestDTO;
 import sn.zeitune.oliveinsurancesettings.app.dtos.requests.VehicleDTTReferentialSimpleRequestDTO;
 import sn.zeitune.oliveinsurancesettings.app.dtos.requests.VehicleModelRequestDTO;
+import sn.zeitune.oliveinsurancesettings.app.dtos.requests.VehicleUsageRequestDTO;
 import sn.zeitune.oliveinsurancesettings.app.dtos.responses.VehicleBrandResponseDTO;
+import sn.zeitune.oliveinsurancesettings.app.dtos.responses.VehicleCategoryResponseDTO;
 import sn.zeitune.oliveinsurancesettings.app.dtos.responses.VehicleModelResponseDTO;
+import sn.zeitune.oliveinsurancesettings.app.dtos.responses.VehicleUsageResponseDTO;
 import sn.zeitune.oliveinsurancesettings.app.entities.vehicle.Brand;
-import sn.zeitune.oliveinsurancesettings.app.services.BranchService;
-import sn.zeitune.oliveinsurancesettings.app.services.VehicleDTTReferentialService;
-import sn.zeitune.oliveinsurancesettings.app.services.VehicleReferentialService;
+import sn.zeitune.oliveinsurancesettings.app.services.*;
 import sn.zeitune.oliveinsurancesettings.enums.BodyWorkType;
 import sn.zeitune.oliveinsurancesettings.enums.MotorizationType;
 
@@ -24,8 +26,12 @@ import java.util.stream.Collectors;
 public class AppInitializer implements CommandLineRunner {
 
     private final BranchService branchService;
+
     private final VehicleReferentialService vehicleReferentialService;
     private final VehicleDTTReferentialService vehicleDTTReferentialService;
+
+    private final VehicleUsageService vehicleUsageService;
+    private final VehicleCategoryService vehicleCategoryService;
 
     @Override
     public void run(String... args) throws Exception {
@@ -33,6 +39,8 @@ public class AppInitializer implements CommandLineRunner {
         branchService.init();
         initVehicleReferential();
         initVehicleDTTReferential();
+        initVehicleUsage();
+        initVehicleCategories();
     }
 
     private void initVehicleReferential() {
@@ -198,4 +206,34 @@ public class AppInitializer implements CommandLineRunner {
 
     }
 
+    private void initVehicleUsage () {
+        if (vehicleUsageService.getVehicleUsagesListResponseDTO(Pageable.ofSize(1)).stream().findAny().isPresent()) return;
+        VehicleUsageResponseDTO vehicleUsageResponseDTO = vehicleUsageService.createVehicleUsage(
+                VehicleUsageRequestDTO.builder()
+                        .name("Transport public")
+                        .build()
+        );
+    }
+
+    private void initVehicleCategories() {
+        if (vehicleCategoryService.getVehicleCategoriesListResponseDTO(Pageable.ofSize(1)).stream().findAny().isPresent()) return;
+
+        VehicleCategoryResponseDTO category1 = vehicleCategoryService.createVehicleCategory(
+                VehicleCategoryRequestDTO.builder()
+                        .name("Taxi-bus")
+                        .withTrailer(false)
+                        .withChassis(false)
+                        .build()
+        );
+
+        VehicleCategoryResponseDTO category2 = vehicleCategoryService.createVehicleCategory(
+                VehicleCategoryRequestDTO.builder()
+                        .name("bus")
+                        .withTrailer(false)
+                        .withChassis(false)
+                        .build()
+        );
+
+        System.out.println("Vehicle categories initialized with Taxi-bus category.");
+    }
 }

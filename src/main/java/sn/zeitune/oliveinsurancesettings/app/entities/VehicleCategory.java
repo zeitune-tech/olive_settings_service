@@ -8,6 +8,7 @@ import lombok.Setter;
 import lombok.experimental.SuperBuilder;
 import sn.zeitune.oliveinsurancesettings.app.entities.product.Product;
 
+import java.util.HashSet;
 import java.util.Set;
 import java.util.UUID;
 
@@ -42,7 +43,7 @@ public class VehicleCategory extends BaseEntity {
             joinColumns = @JoinColumn(name = "vehicule_genre_id"),
             inverseJoinColumns = @JoinColumn(name = "vehicule_usage_id")
     )
-    private Set<VehicleUsage> usages; // Liste des usages de véhicule associés à cette catégorie
+    private Set<VehicleUsage> usages = new HashSet<>(); // Liste des usages de véhicule associés à cette catégorie
 
     @ManyToMany
     @JoinTable(
@@ -50,7 +51,7 @@ public class VehicleCategory extends BaseEntity {
             joinColumns = @JoinColumn(name = "vehicule_genre_id"),
             inverseJoinColumns = @JoinColumn(name = "product_id")
     )
-    private Set<Product> products; // Liste des produits associés à cette catégorie de véhicule
+    private Set<Product> products = new HashSet<>(); // Liste des produits associés à cette catégorie de véhicule
 
     @PrePersist
     public void generateUuid() {
