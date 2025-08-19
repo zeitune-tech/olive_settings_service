@@ -4,9 +4,9 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Component;
-import sn.zeitune.oliveinsurancesettings.app.dtos.requests.VehicleCategoryRequestDTO;
-import sn.zeitune.oliveinsurancesettings.app.dtos.requests.VehicleDTTReferentialSimpleRequestDTO;
+import sn.zeitune.oliveinsurancesettings.app.dtos.requests.VehicleCategoryUpdateRequestDTO;
 import sn.zeitune.oliveinsurancesettings.app.dtos.requests.VehicleModelRequestDTO;
+import sn.zeitune.oliveinsurancesettings.app.dtos.requests.VehicleDTTReferentialSimpleRequestDTO;
 import sn.zeitune.oliveinsurancesettings.app.dtos.requests.VehicleUsageRequestDTO;
 import sn.zeitune.oliveinsurancesettings.app.dtos.responses.VehicleBrandResponseDTO;
 import sn.zeitune.oliveinsurancesettings.app.dtos.responses.VehicleCategoryResponseDTO;
@@ -219,7 +219,7 @@ public class AppInitializer implements CommandLineRunner {
         if (vehicleCategoryService.getVehicleCategoriesListResponseDTO(Pageable.ofSize(1)).stream().findAny().isPresent()) return;
 
         VehicleCategoryResponseDTO category1 = vehicleCategoryService.createVehicleCategory(
-                VehicleCategoryRequestDTO.builder()
+                VehicleCategoryUpdateRequestDTO.builder()
                         .name("Taxi-bus")
                         .withTrailer(false)
                         .withChassis(false)
@@ -227,7 +227,7 @@ public class AppInitializer implements CommandLineRunner {
         );
 
         VehicleCategoryResponseDTO category2 = vehicleCategoryService.createVehicleCategory(
-                VehicleCategoryRequestDTO.builder()
+                VehicleCategoryUpdateRequestDTO.builder()
                         .name("bus")
                         .withTrailer(false)
                         .withChassis(false)

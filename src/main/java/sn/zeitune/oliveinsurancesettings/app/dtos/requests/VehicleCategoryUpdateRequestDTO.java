@@ -18,11 +18,7 @@ public record VehicleCategoryUpdateRequestDTO(
         @NotNull
         @NotEmpty
         Boolean withChassis,
-        @NotNull
-        @NotEmpty
         Set<UUID> usages,
-        @NotNull
-        @NotEmpty
         Set<UUID> products
     ) {
 

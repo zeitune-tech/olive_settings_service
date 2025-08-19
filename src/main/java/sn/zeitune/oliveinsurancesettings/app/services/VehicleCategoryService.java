@@ -3,7 +3,6 @@ package sn.zeitune.oliveinsurancesettings.app.services;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import sn.zeitune.oliveinsurancesettings.app.dtos.requests.VehicleCategoryRequestDTO;
 import sn.zeitune.oliveinsurancesettings.app.dtos.requests.VehicleCategoryUpdateRequestDTO;
 import sn.zeitune.oliveinsurancesettings.app.dtos.responses.VehicleCategoryResponseDTO;
 import sn.zeitune.oliveinsurancesettings.app.entities.VehicleCategory;
@@ -18,7 +17,7 @@ public interface VehicleCategoryService {
      * @param requestDTO the vehicle category request DTO
      * @return the created vehicle category
      */
-    VehicleCategoryResponseDTO createVehicleCategory(VehicleCategoryRequestDTO requestDTO);
+    VehicleCategoryResponseDTO createVehicleCategory(VehicleCategoryUpdateRequestDTO requestDTO);
 
     /**
      * Updates an existing vehicle category.

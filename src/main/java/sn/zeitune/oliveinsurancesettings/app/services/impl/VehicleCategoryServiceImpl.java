@@ -6,7 +6,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import sn.zeitune.oliveinsurancesettings.app.dtos.requests.VehicleCategoryRequestDTO;
 import sn.zeitune.oliveinsurancesettings.app.dtos.requests.VehicleCategoryUpdateRequestDTO;
 import sn.zeitune.oliveinsurancesettings.app.dtos.responses.VehicleCategoryResponseDTO;
 import sn.zeitune.oliveinsurancesettings.app.entities.VehicleCategory;
@@ -35,13 +34,17 @@ public class VehicleCategoryServiceImpl implements VehicleCategoryService {
     private final ProductRepository productRepository;
 
     @Override
-    public VehicleCategoryResponseDTO createVehicleCategory(VehicleCategoryRequestDTO requestDTO) {
+    public VehicleCategoryResponseDTO createVehicleCategory(VehicleCategoryUpdateRequestDTO requestDTO) {
         if (vehicleCategoryRepository.existsByNameIgnoreCase(requestDTO.name()))
             throw new RuntimeException("Vehicle usage with name " + requestDTO.name() + " already exists.");
-
         VehicleCategory vehicleCategory = new VehicleCategory();
         VehicleCategoryMapper.put(vehicleCategory, requestDTO);
-
+        // Ajouter les nouveaux usages
+        for (UUID usageUuid : requestDTO.usages())
+            vehicleCategory.getUsages().add(vehicleUsageService.getEntityByUuid(usageUuid));
+        // Ajouter les nouveaux produits
+        for (UUID productUuid : requestDTO.products())
+                vehicleCategory.getProducts().add(getProductIfExist(productUuid));
         return VehicleCategoryMapper.map(vehicleCategoryRepository.save(vehicleCategory));
     }
 
@@ -51,9 +54,7 @@ public class VehicleCategoryServiceImpl implements VehicleCategoryService {
         if (!vehicleCategory.getName().equals(requestDTO.name()) &&
                 vehicleCategoryRepository.existsByNameIgnoreCase(requestDTO.name()))
             throw new RuntimeException("Vehicle category with name " + requestDTO.name() + " already exists.");
-
         VehicleCategoryMapper.put(vehicleCategory, requestDTO);
-
         // Supprimer les usages qui ne sont plus dans la liste
         Set<UUID> incomingVehicleUsageIds = requestDTO.usages();
         for (VehicleUsage u : vehicleCategory.getUsages()) {
@@ -62,7 +63,6 @@ public class VehicleCategoryServiceImpl implements VehicleCategoryService {
                 vehicleCategory.getUsages().remove(u);
             }
         }
-
         // Ajouter les nouveaux usages
         for (UUID usageUuid : requestDTO.usages()) {
             VehicleUsage usageEntity = vehicleUsageService.getEntityByUuid(usageUuid);
@@ -70,7 +70,6 @@ public class VehicleCategoryServiceImpl implements VehicleCategoryService {
                 vehicleCategory.getUsages().add(usageEntity);
             }
         }
-
         // Supprimer les produits qui ne sont plus dans la liste
         Set<UUID> productIds = requestDTO.products();
         for (Product p : vehicleCategory.getProducts()) {
@@ -78,7 +77,6 @@ public class VehicleCategoryServiceImpl implements VehicleCategoryService {
                 vehicleCategory.getProducts().remove(p);
             }
         }
-
         // Ajouter les nouveaux produits
         for (UUID productUuid : requestDTO.products()) {
             Product productEntity = getProductIfExist(productUuid);
@@ -86,7 +84,6 @@ public class VehicleCategoryServiceImpl implements VehicleCategoryService {
                 vehicleCategory.getProducts().add(productEntity);
             }
         }
-
         return VehicleCategoryMapper.map(vehicleCategoryRepository.save(vehicleCategory));
     }
 

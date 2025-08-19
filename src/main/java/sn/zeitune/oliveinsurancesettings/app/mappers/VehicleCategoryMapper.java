@@ -1,6 +1,5 @@
 package sn.zeitune.oliveinsurancesettings.app.mappers;
 
-import sn.zeitune.oliveinsurancesettings.app.dtos.requests.VehicleCategoryRequestDTO;
 import sn.zeitune.oliveinsurancesettings.app.dtos.requests.VehicleCategoryUpdateRequestDTO;
 import sn.zeitune.oliveinsurancesettings.app.dtos.responses.VehicleCategoryResponseDTO;
 import sn.zeitune.oliveinsurancesettings.app.entities.VehicleCategory;
@@ -8,13 +7,6 @@ import sn.zeitune.oliveinsurancesettings.app.entities.VehicleCategory;
 import java.util.stream.Collectors;
 
 public class VehicleCategoryMapper {
-
-    public static void put(VehicleCategory vehicleCategory, VehicleCategoryRequestDTO vehicleCategoryRequestDTO) {
-        if (vehicleCategoryRequestDTO == null || vehicleCategory == null) return;
-        vehicleCategory.setName(vehicleCategoryRequestDTO.name().toUpperCase());
-        vehicleCategory.setWithTrailer(vehicleCategoryRequestDTO.withTrailer());
-        vehicleCategory.setWithChassis(vehicleCategoryRequestDTO.withChassis());
-    }
 
     public static void put(VehicleCategory vehicleCategory, VehicleCategoryUpdateRequestDTO vehicleCategoryRequestDTO) {
         if (vehicleCategoryRequestDTO == null || vehicleCategory == null) return;

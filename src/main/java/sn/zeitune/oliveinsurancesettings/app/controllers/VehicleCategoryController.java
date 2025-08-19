@@ -5,7 +5,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import sn.zeitune.oliveinsurancesettings.app.dtos.requests.VehicleCategoryRequestDTO;
 import sn.zeitune.oliveinsurancesettings.app.dtos.requests.VehicleCategoryUpdateRequestDTO;
 import sn.zeitune.oliveinsurancesettings.app.dtos.responses.VehicleCategoryResponseDTO;
 import sn.zeitune.oliveinsurancesettings.app.services.VehicleCategoryService;
@@ -26,7 +25,7 @@ public class VehicleCategoryController {
     }
 
     @PostMapping("")
-    public ResponseEntity<VehicleCategoryResponseDTO> createVehicleCategory(@RequestBody VehicleCategoryRequestDTO requestDTO) {
+    public ResponseEntity<VehicleCategoryResponseDTO> createVehicleCategory(@RequestBody VehicleCategoryUpdateRequestDTO requestDTO) {
         VehicleCategoryResponseDTO vehicleUsageResponseDTO = vehicleUsageService.createVehicleCategory(requestDTO);
         return ResponseEntity.ok(vehicleUsageResponseDTO);
     }
