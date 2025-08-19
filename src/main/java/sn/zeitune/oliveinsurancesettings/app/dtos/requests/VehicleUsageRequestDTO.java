@@ -12,5 +12,7 @@ public record VehicleUsageRequestDTO(
         @NotEmpty
         String name
     ) {
-
+    public VehicleUsageRequestDTO {
+        name = name == null ? "" : name.toUpperCase();
+    }
 }

@@ -17,5 +17,5 @@ public interface VehicleUsageRepository extends JpaRepository<VehicleUsage, UUID
 //    Optional<VehicleUsage> findByIdAndActiveTrue(UUID id);
     Optional<VehicleUsage> findByUuid(UUID uuid);
 
-    boolean existsByName(@NotNull @NotEmpty String name);
+    boolean existsByNameIgnoreCase(@NotNull @NotEmpty String name);
 }

@@ -24,7 +24,7 @@ public class VehicleUsageServiceImpl implements VehicleUsageService {
 
     @Override
     public VehicleUsageResponseDTO createVehicleUsage(VehicleUsageRequestDTO requestDTO) {
-        if (vehicleUsageRepository.existsByName(requestDTO.name()))
+        if (vehicleUsageRepository.existsByNameIgnoreCase(requestDTO.name()))
             throw new RuntimeException("Vehicle usage with name " + requestDTO.name() + " already exists.");
 
         VehicleUsage vehicleUsage = new VehicleUsage();
@@ -37,7 +37,7 @@ public class VehicleUsageServiceImpl implements VehicleUsageService {
     public VehicleUsageResponseDTO updateVehicleUsage(UUID uuid, VehicleUsageRequestDTO requestDTO) {
         VehicleUsage vehicleUsage = getEntityByUuid(uuid);
         if (!vehicleUsage.getName().equals(requestDTO.name()) &&
-                vehicleUsageRepository.existsByName(requestDTO.name()))
+                vehicleUsageRepository.existsByNameIgnoreCase(requestDTO.name()))
             throw new RuntimeException("Vehicle usage with name " + requestDTO.name() + " already exists.");
 
         VehicleUsageMapper.put(vehicleUsage, requestDTO);
