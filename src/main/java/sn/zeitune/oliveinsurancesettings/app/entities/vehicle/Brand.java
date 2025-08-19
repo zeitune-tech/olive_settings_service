@@ -11,7 +11,7 @@ import java.util.UUID;
 
 @Getter
 @Setter
-@Entity(name = "marque_vehicule")
+@Entity(name = "referentiel_vehicule_marque")
 @SuperBuilder
 @NoArgsConstructor
 @AllArgsConstructor
@@ -25,6 +25,7 @@ public class Brand extends BaseEntity {
     @Column(name = "uuid", updatable = false, nullable = false, unique = true)
     private UUID uuid;
 
+    @Column(name = "name", nullable = false, unique = true)
     private String name;
 
     @PrePersist

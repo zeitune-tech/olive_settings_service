@@ -15,7 +15,7 @@ import java.util.UUID;
 
 @Getter
 @Setter
-@Entity(name = "modele_marque")
+@Entity(name = "referentiel_vehicule_modele")
 @SuperBuilder
 @NoArgsConstructor
 @AllArgsConstructor

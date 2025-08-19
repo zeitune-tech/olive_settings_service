@@ -28,7 +28,7 @@ public class VehicleDTTReferentialController {
         return ResponseEntity.ok(vehicleDTTReferentialService.getAll(pageable));
     }
 
-    @GetMapping("/registration-number/{registrationNumber}")
+    @GetMapping("/{registrationNumber}")
     public ResponseEntity<VehicleDTTReferentialResponseDTO> getByRegistrationNumber(@PathVariable String registrationNumber) {
         return ResponseEntity.ok(vehicleDTTReferentialService.findByRegistrationNumber(registrationNumber));
     }
