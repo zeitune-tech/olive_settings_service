@@ -184,8 +184,19 @@ public class VehicleReferentialServiceImpl implements VehicleReferentialService 
     }
 
     @Override
+    public Page<VehicleModelResponseDTO> getAllModels(Pageable pageable) {
+        return vehicleModelRepository.findAll(pageable).map(VehicleModelMapper::map);
+    }
+
+    @Override
     public Page<VehicleModelResponseDTO> findModelsWithName(Pageable pageable, UUID brandUuid, String name) {
         return vehicleModelRepository.findByNameContainingIgnoreCaseAndBrand(name, getBrandIfExist(brandUuid), pageable)
+                .map(VehicleModelMapper::map);
+    }
+
+    @Override
+    public Page<VehicleModelResponseDTO> findModelsWithName(Pageable pageable, String name) {
+        return vehicleModelRepository.findByNameContainingIgnoreCase(name, pageable)
                 .map(VehicleModelMapper::map);
     }
 

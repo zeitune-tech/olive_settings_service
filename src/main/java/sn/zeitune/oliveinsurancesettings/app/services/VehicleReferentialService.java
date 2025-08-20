@@ -38,7 +38,9 @@ public interface VehicleReferentialService {
 
 
     Page<VehicleModelResponseDTO> getModelsByBrand(Pageable pageable, UUID brandUuid);
+    Page<VehicleModelResponseDTO> getAllModels(Pageable pageable);
     Page<VehicleModelResponseDTO> findModelsWithName(Pageable pageable, UUID brandUuid, String name);
+    Page<VehicleModelResponseDTO> findModelsWithName(Pageable pageable, String name);
 
 
 

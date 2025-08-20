@@ -7,7 +7,6 @@ import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import sn.zeitune.oliveinsurancesettings.app.entities.vehicle.Brand;
 import sn.zeitune.oliveinsurancesettings.app.entities.vehicle.Model;
 
-import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -25,4 +24,5 @@ public interface VehicleModelRepository extends JpaRepository<Model, Long>, JpaS
 
     Page<Model> findByNameContainingIgnoreCaseAndBrand(String name, Brand brand, Pageable pageable);
 
+    Page<Model> findByNameContainingIgnoreCase(String name, Pageable pageable);
 }
