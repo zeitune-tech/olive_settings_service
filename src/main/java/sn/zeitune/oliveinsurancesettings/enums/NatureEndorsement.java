@@ -9,5 +9,7 @@ public enum NatureEndorsement {
     REINSTATEMENT,
     CANCELLATION,
     RETRACT,
-    INCORPORATION
+    INCORPORATION,
+    NEW_BUSINESS
+
 }
