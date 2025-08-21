@@ -12,7 +12,7 @@ import sn.zeitune.oliveinsurancesettings.app.mappers.AccessoryMapper;
 import sn.zeitune.oliveinsurancesettings.app.mappers.EndorsementMapper;
 import sn.zeitune.oliveinsurancesettings.app.mappers.ProductMapper;
 import sn.zeitune.oliveinsurancesettings.app.repositories.AccessoryRepository;
-import sn.zeitune.oliveinsurancesettings.app.repositories.EndorsementRepository;
+import sn.zeitune.oliveinsurancesettings.app.repositories.endorsement.EndorsementRepository;
 import sn.zeitune.oliveinsurancesettings.app.repositories.ProductRepository;
 import sn.zeitune.oliveinsurancesettings.app.services.AccessoryService;
 

@@ -1,12 +1,11 @@
+// sn/zeitune/oliveinsurancesettings/app/services/EndorsementSuccessionService.java
 package sn.zeitune.oliveinsurancesettings.app.services;
 
-import sn.zeitune.oliveinsurancesettings.enums.NatureEndorsement;
-
-import java.util.List;
-import java.util.Map;
+import sn.zeitune.oliveinsurancesettings.app.dtos.requests.SuccessionConfigRequest;
+import sn.zeitune.oliveinsurancesettings.app.dtos.responses.SuccessionConfigResponse;
 
 public interface EndorsementSuccessionService {
-    Map<NatureEndorsement, List<NatureEndorsement>> getRules();
-    Map<NatureEndorsement, List<NatureEndorsement>> saveRules(Map<NatureEndorsement, List<NatureEndorsement>> input);
-    Map<NatureEndorsement, List<NatureEndorsement>> defaultRules();
+    SuccessionConfigResponse getConfig();
+    SuccessionConfigResponse saveConfig(SuccessionConfigRequest request);
+    SuccessionConfigResponse defaultConfig();
 }

@@ -1,4 +1,4 @@
-package sn.zeitune.oliveinsurancesettings.app.repositories;
+package sn.zeitune.oliveinsurancesettings.app.repositories.endorsement;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;

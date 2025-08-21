@@ -1,14 +1,12 @@
+// sn/zeitune/oliveinsurancesettings/app/controllers/EndorsementSuccessionController.java
 package sn.zeitune.oliveinsurancesettings.app.controllers;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import sn.zeitune.oliveinsurancesettings.app.dtos.requests.SuccessionRulesRequest;
-import sn.zeitune.oliveinsurancesettings.app.dtos.responses.SuccessionRulesResponse;
+import sn.zeitune.oliveinsurancesettings.app.dtos.requests.SuccessionConfigRequest;
+import sn.zeitune.oliveinsurancesettings.app.dtos.responses.SuccessionConfigResponse;
 import sn.zeitune.oliveinsurancesettings.app.services.EndorsementSuccessionService;
-
-import java.util.List;
-import java.util.Map;
 
 @RestController
 @RequiredArgsConstructor
@@ -18,17 +16,17 @@ public class EndorsementSuccessionController {
     private final EndorsementSuccessionService service;
 
     @GetMapping("/succession-rules")
-    public ResponseEntity<SuccessionRulesResponse> getRules() {
-        return ResponseEntity.ok(new SuccessionRulesResponse(service.getRules()));
+    public ResponseEntity<SuccessionConfigResponse> getConfig() {
+        return ResponseEntity.ok(service.getConfig());
     }
 
     @PutMapping("/succession-rules")
-    public ResponseEntity<SuccessionRulesResponse> saveRules(@RequestBody SuccessionRulesRequest request) {
-        return ResponseEntity.ok(new SuccessionRulesResponse(service.saveRules(request.rules())));
+    public ResponseEntity<SuccessionConfigResponse> saveConfig(@RequestBody SuccessionConfigRequest request) {
+        return ResponseEntity.ok(service.saveConfig(request));
     }
 
     @GetMapping("/succession-rules/defaults")
-    public ResponseEntity<SuccessionRulesResponse> getDefaults() {
-        return ResponseEntity.ok(new SuccessionRulesResponse(service.defaultRules()));
+    public ResponseEntity<SuccessionConfigResponse> getDefaults() {
+        return ResponseEntity.ok(service.defaultConfig());
     }
 }
