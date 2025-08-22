@@ -20,6 +20,10 @@ public record VehicleCategoryUpdateRequestDTO(
         Boolean withChassis,
         Set<UUID> usages,
         Set<UUID> products
-    ) {
-
+) {
+    public VehicleCategoryUpdateRequestDTO {
+        // Ensure sets are not null to avoid NullPointerExceptions
+        if (usages == null) usages = Set.of();
+        if (products == null) products = Set.of();
+    }
 }
