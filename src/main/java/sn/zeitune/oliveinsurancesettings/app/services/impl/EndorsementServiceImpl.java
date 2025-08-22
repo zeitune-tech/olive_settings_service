@@ -6,7 +6,7 @@ import sn.zeitune.oliveinsurancesettings.app.dtos.requests.EndorsementRequest;
 import sn.zeitune.oliveinsurancesettings.app.dtos.responses.EndorsementResponse;
 import sn.zeitune.oliveinsurancesettings.app.entities.endorsement.Endorsement;
 import sn.zeitune.oliveinsurancesettings.app.mappers.EndorsementMapper;
-import sn.zeitune.oliveinsurancesettings.app.repositories.EndorsementRepository;
+import sn.zeitune.oliveinsurancesettings.app.repositories.endorsement.EndorsementRepository;
 import sn.zeitune.oliveinsurancesettings.app.repositories.ProductRepository;
 import sn.zeitune.oliveinsurancesettings.app.services.EndorsementService;
 
