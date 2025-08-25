@@ -297,4 +297,36 @@ public class ProductServiceImpl implements ProductService {
         productRepository.save(product);
     }
 
+    @Override
+    public ProductResponse updateCoverage(UUID productUuid, ProductCoveragesUpdate productCoverages) {
+        Product product = productRepository.findByUuid(productUuid)
+                .orElseThrow(() -> new NotFoundException("Product not found"));
+
+        if (productCoverages.coverages() == null || productCoverages.coverages().isEmpty()) {
+            log.warn("No coverages provided for product {}", product.getUuid());
+            return ProductMapper.map(product);
+        }
+
+        Set<UUID> coveragesToAdd = productCoverages.coverages();
+
+        coveragesToAdd.removeIf(coverage -> coverageRepository.existsByProductAndCoverageReference_Uuid(product, coverage));
+
+        Set<CoverageReference> references = coverageReferenceRepository.findAllByUuidInAndDeletedIsFalse(coveragesToAdd);
+        if (references.isEmpty()) {
+            log.warn("No valid coverage references found for product {}", product.getUuid());
+            return ProductMapper.map(product);
+        }
+
+        // Create new coverages
+        for (CoverageReference reference : references) {
+            Coverage coverage = new Coverage();
+            coverage.setCoverageReference(reference);
+            coverage.setProduct(product);
+            coverage.setManagementEntity(product.getOwner());
+            coverageRepository.save(coverage);
+        }
+
+        return ProductMapper.map(productRepository.save(product));
+    }
+
 }

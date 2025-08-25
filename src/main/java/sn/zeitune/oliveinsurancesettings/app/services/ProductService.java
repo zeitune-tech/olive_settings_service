@@ -1,5 +1,6 @@
 package sn.zeitune.oliveinsurancesettings.app.services;
 
+import jakarta.validation.Valid;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import sn.zeitune.oliveinsurancesettings.app.dtos.requests.ProductCoveragesUpdate;
@@ -40,4 +41,6 @@ public interface ProductService {
 
 
     void deleteProduct(UUID uuid);
+
+    ProductResponse updateCoverage(UUID uuid, @Valid ProductCoveragesUpdate dto);
 }

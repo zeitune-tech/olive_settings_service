@@ -42,12 +42,20 @@ public class ProductController {
         return ResponseEntity.ok(productService.updateProduct(uuid, dto));
     }
 
+//    @PutMapping("/{uuid}/coverages")
+    public ResponseEntity<ProductResponse> addCoverageToProduct(
+            @PathVariable UUID uuid,
+            @Valid @RequestBody ProductCoveragesUpdate dto
+    ) {
+        return ResponseEntity.ok(productService.addCoverageToProduct(uuid, dto));
+    }
+
     @PutMapping("/{uuid}/coverages")
     public ResponseEntity<ProductResponse> updateCoverage(
             @PathVariable UUID uuid,
             @Valid @RequestBody ProductCoveragesUpdate dto
     ) {
-        return ResponseEntity.ok(productService.addCoverageToProduct(uuid, dto));
+        return ResponseEntity.ok(productService.updateCoverage(uuid, dto));
     }
 
     @PutMapping("/{uuid}/coverages/remove")
