@@ -76,6 +76,7 @@ public class CoverageReferenceServiceImpl implements CoverageReferenceService {
     @Override
     public List<CoverageReferenceResponse> getAll(UUID managementEntity) {
         return coverageReferenceRepository.findAllByManagementEntity(managementEntity).stream()
+                .filter(coverageReference -> !coverageReference.isDeleted())
                 .map(CoverageReferenceMapper::map)
                 .collect(Collectors.toList());
     }
@@ -89,6 +90,7 @@ public class CoverageReferenceServiceImpl implements CoverageReferenceService {
         existing.setFamily(request.family());
         existing.setAccessCharacteristic(request.accessCharacteristic());
         existing.setTariffAccess(request.tariffAccess());
+        existing.setToShareOut(request.toShareOut());
 
         return CoverageReferenceMapper.map(coverageReferenceRepository.save(existing));
     }

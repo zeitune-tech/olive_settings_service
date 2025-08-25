@@ -9,6 +9,7 @@ import java.util.UUID;
 @Builder
 public record ProductResponse(
         UUID id,
+        String code,
         String name,
         BranchResponseDTO branch,
         String description,

@@ -12,6 +12,7 @@ public class CoverageReferenceMapper {
                 .family(request.family())
                 .accessCharacteristic(request.accessCharacteristic())
                 .tariffAccess(request.tariffAccess())
+                .toShareOut(request.toShareOut())
                 .build();
     }
 
@@ -27,6 +28,7 @@ public class CoverageReferenceMapper {
                 .accessCharacteristic(reference.isAccessCharacteristic())
                 .tariffAccess(reference.isTariffAccess())
                 .managementEntity(reference.getManagementEntity())
+                .toShareOut(reference.isToShareOut())
                 .build();
     }
 }
