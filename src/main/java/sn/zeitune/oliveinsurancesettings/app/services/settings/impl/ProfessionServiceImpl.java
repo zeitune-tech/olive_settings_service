@@ -60,11 +60,16 @@ public class ProfessionServiceImpl implements ProfessionService {
     @Transactional(readOnly = true)
     public Page<ProfessionResponse> listAdmin(String q, Boolean actif, Boolean includeDeleted, Pageable pageable) {
         Specification<Profession> spec = Specification.<Profession>where(CommonSpecifications.includeDeleted(includeDeleted))
-                .and(CommonSpecifications.actifEquals(actif))
-                .and(CommonSpecifications.or(
-                        CommonSpecifications.containsInsensitive("code", q),
-                        CommonSpecifications.containsInsensitive("libelle", q)
-                ));
+                .and(CommonSpecifications.actifEquals(actif));
+
+        // Only add search criteria if q is not null/empty
+        if (q != null && !q.trim().isEmpty()) {
+            spec = spec.and(CommonSpecifications.or(
+                    CommonSpecifications.containsInsensitive("code", q),
+                    CommonSpecifications.containsInsensitive("libelle", q)
+            ));
+        }
+
         return repository.findAll(spec, pageable).map(ProfessionMapper::map);
     }
 
@@ -123,11 +128,16 @@ public class ProfessionServiceImpl implements ProfessionService {
     @Transactional(readOnly = true)
     public Page<ProfessionResponse> listInterService(String q, Pageable pageable) {
         Specification<Profession> spec = Specification.<Profession>where(CommonSpecifications.actifEquals(true))
-                .and(CommonSpecifications.includeDeleted(false))
-                .and(CommonSpecifications.or(
-                        CommonSpecifications.containsInsensitive("code", q),
-                        CommonSpecifications.containsInsensitive("libelle", q)
-                ));
+                .and(CommonSpecifications.includeDeleted(false));
+
+        // Only add search criteria if q is not null/empty
+        if (q != null && !q.trim().isEmpty()) {
+            spec = spec.and(CommonSpecifications.or(
+                    CommonSpecifications.containsInsensitive("code", q),
+                    CommonSpecifications.containsInsensitive("libelle", q)
+            ));
+        }
+
         return repository.findAll(spec, pageable).map(ProfessionMapper::map);
     }
 }

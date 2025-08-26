@@ -43,7 +43,7 @@ public class ActivityServiceImpl implements ActivityService {
         Activity entity = Activity.builder()
                 .code(code)
                 .libelle(libelle)
-                .actif(request.actif() == null ? true : request.actif())
+                .actif(request.actif() == null || request.actif())
                 .build();
         entity = repository.save(entity);
         return ActivityMapper.map(entity);
@@ -60,11 +60,16 @@ public class ActivityServiceImpl implements ActivityService {
     @Transactional(readOnly = true)
     public Page<ActivityResponse> listAdmin(String q, Boolean actif, Boolean includeDeleted, Pageable pageable) {
         Specification<Activity> spec = Specification.where(CommonSpecifications.<Activity>includeDeleted(includeDeleted))
-                .and(CommonSpecifications.<Activity>actifEquals(actif))
-                .and(CommonSpecifications.<Activity>or(
-                        CommonSpecifications.<Activity>containsInsensitive("code", q),
-                        CommonSpecifications.<Activity>containsInsensitive("libelle", q)
-                ));
+                .and(CommonSpecifications.actifEquals(actif));
+
+        // Only add search criteria if q is not null/empty
+        if (q != null && !q.trim().isEmpty()) {
+            spec = spec.and(CommonSpecifications.or(
+                    CommonSpecifications.containsInsensitive("code", q),
+                    CommonSpecifications.containsInsensitive("libelle", q)
+            ));
+        }
+
         return repository.findAll(spec, pageable).map(ActivityMapper::map);
     }
 
@@ -123,11 +128,16 @@ public class ActivityServiceImpl implements ActivityService {
     @Transactional(readOnly = true)
     public Page<ActivityResponse> listInterService(String q, Pageable pageable) {
         Specification<Activity> spec = Specification.where(CommonSpecifications.<Activity>actifEquals(true))
-                .and(CommonSpecifications.<Activity>includeDeleted(false))
-                .and(CommonSpecifications.<Activity>or(
-                        CommonSpecifications.<Activity>containsInsensitive("code", q),
-                        CommonSpecifications.<Activity>containsInsensitive("libelle", q)
-                ));
+                .and(CommonSpecifications.includeDeleted(false));
+
+        // Only add search criteria if q is not null/empty
+        if (q != null && !q.trim().isEmpty()) {
+            spec = spec.and(CommonSpecifications.or(
+                    CommonSpecifications.containsInsensitive("code", q),
+                    CommonSpecifications.containsInsensitive("libelle", q)
+            ));
+        }
+
         return repository.findAll(spec, pageable).map(ActivityMapper::map);
     }
 }

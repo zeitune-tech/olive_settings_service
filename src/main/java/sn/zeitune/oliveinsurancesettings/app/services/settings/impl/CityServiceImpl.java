@@ -60,11 +60,16 @@ public class CityServiceImpl implements CityService {
     @Transactional(readOnly = true)
     public Page<CityResponse> listAdmin(String q, Boolean actif, Boolean includeDeleted, Pageable pageable) {
         Specification<City> spec = Specification.where(CommonSpecifications.<City>includeDeleted(includeDeleted))
-                .and(CommonSpecifications.<City>actifEquals(actif))
-                .and(CommonSpecifications.<City>or(
-                        CommonSpecifications.<City>containsInsensitive("code", q),
-                        CommonSpecifications.<City>containsInsensitive("libelle", q)
-                ));
+                .and(CommonSpecifications.actifEquals(actif));
+
+        // Only add search criteria if q is not null/empty
+        if (q != null && !q.trim().isEmpty()) {
+            spec = spec.and(CommonSpecifications.or(
+                    CommonSpecifications.containsInsensitive("code", q),
+                    CommonSpecifications.containsInsensitive("libelle", q)
+            ));
+        }
+
         return repository.findAll(spec, pageable).map(CityMapper::map);
     }
 
@@ -123,11 +128,16 @@ public class CityServiceImpl implements CityService {
     @Transactional(readOnly = true)
     public Page<CityResponse> listInterService(String q, Pageable pageable) {
         Specification<City> spec = Specification.<City>where(CommonSpecifications.actifEquals(true))
-                .and(CommonSpecifications.includeDeleted(false))
-                .and(CommonSpecifications.or(
-                        CommonSpecifications.containsInsensitive("code", q),
-                        CommonSpecifications.containsInsensitive("libelle", q)
-                ));
+                .and(CommonSpecifications.includeDeleted(false));
+
+        // Only add search criteria if q is not null/empty
+        if (q != null && !q.trim().isEmpty()) {
+            spec = spec.and(CommonSpecifications.or(
+                    CommonSpecifications.containsInsensitive("code", q),
+                    CommonSpecifications.containsInsensitive("libelle", q)
+            ));
+        }
+
         return repository.findAll(spec, pageable).map(CityMapper::map);
     }
 }

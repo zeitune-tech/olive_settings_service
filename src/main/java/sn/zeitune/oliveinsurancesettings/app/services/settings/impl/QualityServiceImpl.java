@@ -60,11 +60,16 @@ public class QualityServiceImpl implements QualityService {
     @Transactional(readOnly = true)
     public Page<QualityResponse> listAdmin(String q, Boolean actif, Boolean includeDeleted, Pageable pageable) {
         Specification<Quality> spec = Specification.<Quality>where(CommonSpecifications.includeDeleted(includeDeleted))
-                .and(CommonSpecifications.actifEquals(actif))
-                .and(CommonSpecifications.or(
-                        CommonSpecifications.containsInsensitive("code", q),
-                        CommonSpecifications.containsInsensitive("libelle", q)
-                ));
+                .and(CommonSpecifications.actifEquals(actif));
+
+        // Only add search criteria if q is not null/empty
+        if (q != null && !q.trim().isEmpty()) {
+            spec = spec.and(CommonSpecifications.or(
+                    CommonSpecifications.containsInsensitive("code", q),
+                    CommonSpecifications.containsInsensitive("libelle", q)
+            ));
+        }
+
         return repository.findAll(spec, pageable).map(QualityMapper::map);
     }
 
@@ -123,11 +128,16 @@ public class QualityServiceImpl implements QualityService {
     @Transactional(readOnly = true)
     public Page<QualityResponse> listInterService(String q, Pageable pageable) {
         Specification<Quality> spec = Specification.<Quality>where(CommonSpecifications.actifEquals(true))
-                .and(CommonSpecifications.includeDeleted(false))
-                .and(CommonSpecifications.or(
-                        CommonSpecifications.containsInsensitive("code", q),
-                        CommonSpecifications.containsInsensitive("libelle", q)
-                ));
+                .and(CommonSpecifications.includeDeleted(false));
+
+        // Only add search criteria if q is not null/empty
+        if (q != null && !q.trim().isEmpty()) {
+            spec = spec.and(CommonSpecifications.or(
+                    CommonSpecifications.containsInsensitive("code", q),
+                    CommonSpecifications.containsInsensitive("libelle", q)
+            ));
+        }
+
         return repository.findAll(spec, pageable).map(QualityMapper::map);
     }
 }
