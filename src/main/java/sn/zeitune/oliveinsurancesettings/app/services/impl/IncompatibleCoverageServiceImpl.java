@@ -38,6 +38,16 @@ public class IncompatibleCoverageServiceImpl implements IncompatibleCoverageServ
         Coverage incompatible = coverageRepository.findByUuid(request.incompatibleId())
                 .orElseThrow(() -> new IllegalArgumentException("Incompatible coverage not found"));
 
+        incompatibleCoverageRepository.findByCoverageAndIncompatibleCoverageAndManagementEntityAndDeletedIsFalse(coverage, incompatible, managementEntity)
+                .ifPresent(existing -> {
+                    throw new IllegalArgumentException("This incompatibility already exists.");
+                });
+
+        incompatibleCoverageRepository.findByCoverageAndIncompatibleCoverageAndManagementEntityAndDeletedIsFalse(incompatible, coverage, managementEntity)
+                .ifPresent(existing -> {
+                    throw new IllegalArgumentException("This incompatibility already exists.");
+                });
+
         IncompatibleCoverage entity = IncompatibleCoverageMapper.map(request, coverage, incompatible);
         entity.setManagementEntity(managementEntity);
         IncompatibleCoverage saved = incompatibleCoverageRepository.save(entity);
