@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
+import org.hibernate.annotations.SQLRestriction;
 import sn.zeitune.oliveinsurancesettings.app.entities.BaseEntity;
 
 import java.util.UUID;
@@ -14,6 +15,7 @@ import java.util.UUID;
 @Entity(name = "garanties_incompatibles")
 @NoArgsConstructor
 @AllArgsConstructor
+@SQLRestriction("deleted = false")
 public class IncompatibleCoverage  extends BaseEntity {
 
     @Id

@@ -15,13 +15,13 @@ import java.util.UUID;
 public interface IncompatibleCoverageRepository extends JpaRepository<IncompatibleCoverage, Long>, JpaSpecificationExecutor<IncompatibleCoverage> {
 
     Optional<IncompatibleCoverage> findByUuid(UUID uuid);
-    Optional<IncompatibleCoverage> findByCoverageAndIncompatibleCoverageAndManagementEntityAndDeletedIsFalse(
+    Optional<IncompatibleCoverage> findByCoverageAndIncompatibleCoverageAndManagementEntity(
             Coverage coverage,
             Coverage incompatibleCoverage,
             UUID managementEntity
     );
 
-    Page<IncompatibleCoverage> findAllByManagementEntityAndDeletedIsFalse(UUID managementEntity, Pageable pageable);
+    Page<IncompatibleCoverage> findAllByManagementEntity(UUID managementEntity, Pageable pageable);
 
 }
 

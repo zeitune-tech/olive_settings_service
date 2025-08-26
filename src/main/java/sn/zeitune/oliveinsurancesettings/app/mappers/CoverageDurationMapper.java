@@ -17,6 +17,8 @@ public class CoverageDurationMapper {
     }
 
     public static CoverageDurationResponse map(CoverageDuration duration) {
+        if (duration == null) return null;
+
         return CoverageDurationResponse.builder()
                 .id(duration.getUuid())
                 .from(duration.getFrom())
