@@ -17,7 +17,7 @@ import sn.zeitune.oliveinsurancesettings.app.services.settings.QualityService;
 import java.util.UUID;
 
 @RestController
-@RequestMapping("/admin/settings/qualites")
+@RequestMapping("/app/admin/qualites")
 @RequiredArgsConstructor
 public class QualityAdminController {
 

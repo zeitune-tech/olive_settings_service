@@ -17,7 +17,7 @@ import sn.zeitune.oliveinsurancesettings.app.services.settings.ProfessionService
 import java.util.UUID;
 
 @RestController
-@RequestMapping("/admin/settings/professions")
+@RequestMapping("/app/admin/professions")
 @RequiredArgsConstructor
 public class ProfessionAdminController {
 

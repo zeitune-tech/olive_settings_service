@@ -17,7 +17,7 @@ import sn.zeitune.oliveinsurancesettings.app.services.settings.CityService;
 import java.util.UUID;
 
 @RestController
-@RequestMapping("/admin/settings/villes")
+@RequestMapping("/app/admin/villes")
 @RequiredArgsConstructor
 public class CityAdminController {
 

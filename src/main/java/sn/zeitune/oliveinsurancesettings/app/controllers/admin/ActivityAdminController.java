@@ -17,7 +17,7 @@ import sn.zeitune.oliveinsurancesettings.app.services.settings.ActivityService;
 import java.util.UUID;
 
 @RestController
-@RequestMapping("/admin/settings/activites")
+@RequestMapping("/app/admin/activites")
 @RequiredArgsConstructor
 public class ActivityAdminController {
 
