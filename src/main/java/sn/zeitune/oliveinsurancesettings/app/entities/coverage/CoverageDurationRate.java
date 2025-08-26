@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
+import org.hibernate.annotations.SQLRestriction;
 import sn.zeitune.oliveinsurancesettings.app.entities.BaseEntity;
 import sn.zeitune.oliveinsurancesettings.app.entities.product.Product;
 
@@ -16,6 +17,7 @@ import java.util.UUID;
 @Entity(name = "taux_duree")
 @NoArgsConstructor
 @AllArgsConstructor
+@SQLRestriction("deleted = false")
 public class CoverageDurationRate extends BaseEntity {
 
     @Id

@@ -9,6 +9,7 @@ import sn.zeitune.oliveinsurancesettings.app.dtos.responses.DurationRateResponse
 import sn.zeitune.oliveinsurancesettings.app.entities.coverage.CoverageDuration;
 import sn.zeitune.oliveinsurancesettings.app.entities.coverage.CoverageDurationRate;
 import sn.zeitune.oliveinsurancesettings.app.entities.product.Product;
+import sn.zeitune.oliveinsurancesettings.app.mappers.CoverageDurationMapper;
 import sn.zeitune.oliveinsurancesettings.app.mappers.DurationRateMapper;
 import sn.zeitune.oliveinsurancesettings.app.mappers.ProductMapper;
 import sn.zeitune.oliveinsurancesettings.app.repositories.CoverageDurationRepository;
@@ -41,8 +42,8 @@ public class DurationRateServiceImpl implements DurationRateService {
 
         CoverageDuration coverageDuration = coverageDurationRepository.findByUuid(request.durationId())
                 .orElseThrow(() -> new IllegalArgumentException("CoverageDuration not found"));
-
         entity.setDuration(coverageDuration);
+
         entity = repository.save(entity);
         return DurationRateMapper.map(entity, ProductMapper.map(product));
     }
@@ -76,5 +77,25 @@ public class DurationRateServiceImpl implements DurationRateService {
 
         entity.setDeleted(true);
         repository.save(entity);
+    }
+
+    @Override
+    public DurationRateResponse update(UUID uuid, DurationRateRequest request, UUID managementEntity) {
+        CoverageDurationRate entity = repository.findByUuid(uuid)
+                .orElseThrow(() -> new IllegalArgumentException("DurationRate not found"));
+        // TODO: verify managementEntity privileges
+
+        entity.setRate(request.rate());
+        entity.setDateEffective(request.dateEffective());
+
+        Product product = productRepository.findByUuid(request.productId())
+                .orElseThrow(() -> new IllegalArgumentException("Product not found"));
+        entity.setProduct(product);
+
+        CoverageDuration duration = coverageDurationRepository.findByUuid(request.durationId())
+                .orElseThrow(() -> new IllegalArgumentException("CoverageDuration not found"));
+        entity.setDuration(duration);
+
+        return DurationRateMapper.map(repository.save(entity), ProductMapper.map(product));
     }
 }

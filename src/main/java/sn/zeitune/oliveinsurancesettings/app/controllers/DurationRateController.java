@@ -44,6 +44,13 @@ public class DurationRateController {
         return ResponseEntity.ok(responses);
     }
 
+    @PutMapping("/{uuid}")
+    public ResponseEntity<DurationRateResponse> update(@PathVariable UUID uuid, @RequestBody DurationRateRequest request, Authentication authentication) {
+        Employee employee = (Employee) authentication.getPrincipal();
+        DurationRateResponse response = durationRateService.update(uuid, request, employee.getManagementEntity());
+        return ResponseEntity.ok(response);
+    }
+
     @DeleteMapping("/{uuid}")
     public ResponseEntity<Void> delete(@PathVariable UUID uuid) {
         durationRateService.delete(uuid);
