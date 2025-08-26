@@ -7,6 +7,7 @@ import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.jpa.repository.Query;
 import sn.zeitune.oliveinsurancesettings.app.entities.coverage.IncompatibleCoverage;
 
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -14,6 +15,7 @@ public interface IncompatibleCoverageRepository extends JpaRepository<Incompatib
 
     Optional<IncompatibleCoverage> findByUuid(UUID uuid);
 
-    Page<IncompatibleCoverage> findAllByManagementEntity(UUID managementEntity, Pageable pageable);
+    Page<IncompatibleCoverage> findAllByManagementEntityAndDeletedIsFalse(UUID managementEntity, Pageable pageable);
+
 }
 

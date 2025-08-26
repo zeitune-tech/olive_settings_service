@@ -53,8 +53,13 @@ public class IncompatibleCoverageServiceImpl implements IncompatibleCoverageServ
     }
 
     @Override
+    public List<IncompatibleCoverageResponse> getAllIncompatibilitiesWith(UUID coverage, UUID managementEntity) {
+        return null;
+    }
+
+    @Override
     public Page<IncompatibleCoverageResponse> getAll(UUID managementEntity, Pageable pageable) {
-        return incompatibleCoverageRepository.findAllByManagementEntity(managementEntity, pageable)
+        return incompatibleCoverageRepository.findAllByManagementEntityAndDeletedIsFalse(managementEntity, pageable)
                 .map(IncompatibleCoverageMapper::map);
     }
 

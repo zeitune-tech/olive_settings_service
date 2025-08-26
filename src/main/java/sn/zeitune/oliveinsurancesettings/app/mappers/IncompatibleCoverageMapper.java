@@ -21,8 +21,8 @@ public class IncompatibleCoverageMapper {
     public static IncompatibleCoverageResponse map(IncompatibleCoverage entity) {
         return IncompatibleCoverageResponse.builder()
                 .id(entity.getUuid())
-                .coverage(CoverageReferenceMapper.map(entity.getCoverage().getCoverageReference()))
-                .incompatibleCoverage(CoverageReferenceMapper.map(entity.getIncompatibleCoverage().getCoverageReference()))
+                .coverage(CoverageMapper.map(entity.getCoverage(), ProductMapper.map(entity.getCoverage().getProduct())))
+                .incompatibleCoverage(CoverageMapper.map(entity.getIncompatibleCoverage(), ProductMapper.map(entity.getIncompatibleCoverage().getProduct())))
                 .managementEntity(entity.getManagementEntity())
                 .build();
     }
