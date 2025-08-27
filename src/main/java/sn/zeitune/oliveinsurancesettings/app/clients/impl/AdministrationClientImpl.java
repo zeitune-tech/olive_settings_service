@@ -25,7 +25,7 @@ public class AdministrationClientImpl  implements AdministrationClient {
 
     public AdministrationClientImpl(
             WebClient.Builder webClientBuilder,
-            @Value("${services.olive-insurance-administration-service}") String administrationServiceUrl
+            @Value("${services.olive-insurance-administration-service.base-url}") String administrationServiceUrl
     ) {
         this.administrationWebClient = webClientBuilder.baseUrl(administrationServiceUrl).build();
     }

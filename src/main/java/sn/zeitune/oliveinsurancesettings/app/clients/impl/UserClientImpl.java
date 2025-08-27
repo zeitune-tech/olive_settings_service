@@ -19,7 +19,7 @@ public class UserClientImpl implements UserClient {
     private final WebClient userWebClient;
 
     public UserClientImpl(WebClient.Builder webClientBuilder,
-          @Value("${services.olive-insurance-auth-service}")
+          @Value("${services.olive-insurance-auth-service.base-url}")
           String authServiceUrl
     ) {
         this.userWebClient = webClientBuilder.baseUrl(authServiceUrl).build();
