@@ -1,0 +1,15 @@
+package sn.zeitune.oliveinsurancesettings.app.dtos.responses;
+
+import java.time.LocalDateTime;
+import java.util.UUID;
+
+public record UsageResponse(
+        UUID uuid,
+        String code,
+        String libelle,
+        boolean actif,
+        UUID genre,
+        LocalDateTime createdAt,
+        LocalDateTime updatedAt
+) {}
+
