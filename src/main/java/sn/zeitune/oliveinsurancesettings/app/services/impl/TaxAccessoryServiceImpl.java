@@ -5,18 +5,14 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import sn.zeitune.oliveinsurancesettings.app.dtos.requests.TaxRequest;
 import sn.zeitune.oliveinsurancesettings.app.dtos.responses.TaxAccessoryResponse;
-import sn.zeitune.oliveinsurancesettings.app.entities.coverage.Coverage;
 import sn.zeitune.oliveinsurancesettings.app.entities.product.Product;
 import sn.zeitune.oliveinsurancesettings.app.entities.tax.TaxAccessory;
-import sn.zeitune.oliveinsurancesettings.app.entities.tax.TaxPremium;
 import sn.zeitune.oliveinsurancesettings.app.entities.tax.TaxType;
 import sn.zeitune.oliveinsurancesettings.app.exceptions.NotFoundException;
-import sn.zeitune.oliveinsurancesettings.app.mappers.CoverageMapper;
 import sn.zeitune.oliveinsurancesettings.app.mappers.ProductMapper;
 import sn.zeitune.oliveinsurancesettings.app.mappers.TaxMapper;
 import sn.zeitune.oliveinsurancesettings.app.repositories.ProductRepository;
 import sn.zeitune.oliveinsurancesettings.app.repositories.TaxAccessoryRepository;
-import sn.zeitune.oliveinsurancesettings.app.repositories.TaxRepository;
 import sn.zeitune.oliveinsurancesettings.app.repositories.TaxTypeRepository;
 import sn.zeitune.oliveinsurancesettings.app.services.TaxAccessoryService;
 
@@ -35,7 +31,7 @@ public class TaxAccessoryServiceImpl implements TaxAccessoryService {
 
     @Override
     public TaxAccessoryResponse create(TaxRequest request, UUID managementEntity) {
-        TaxType taxType = taxTypeRepository.findByUuidAndDeletedFalse(request.taxTypeId())
+        TaxType taxType = taxTypeRepository.findByUuid(request.taxTypeId())
                 .orElseThrow(() -> new NotFoundException("TaxType not found"));
 
         Product product = productRepository.findByUuid(request.productId())
@@ -57,7 +53,7 @@ public class TaxAccessoryServiceImpl implements TaxAccessoryService {
         TaxAccessory taxAccessory = taxRepository.findByUuidAndDeletedFalse(uuid)
                 .orElseThrow(() -> new NotFoundException("TaxAccessory not found"));
 
-        TaxType taxType = taxTypeRepository.findByUuidAndDeletedFalse(request.taxTypeId())
+        TaxType taxType = taxTypeRepository.findByUuid(request.taxTypeId())
                 .orElseThrow(() -> new NotFoundException("TaxType not found"));
 
         Product product = productRepository.findByUuid(request.productId())
@@ -85,7 +81,7 @@ public class TaxAccessoryServiceImpl implements TaxAccessoryService {
         TaxAccessory taxAccessory = taxRepository.findByUuidAndDeletedFalse(uuid)
                 .orElseThrow(() -> new NotFoundException("TaxAccessory not found"));
 
-        TaxType taxType = taxTypeRepository.findByUuidAndDeletedFalse(taxAccessory.getTaxType().getUuid())
+        TaxType taxType = taxTypeRepository.findByUuid(taxAccessory.getTaxType().getUuid())
                 .orElseThrow(() -> new NotFoundException("TaxType not found"));
 
         Product product = productRepository.findByUuid(taxAccessory.getProduct().getUuid())
@@ -103,7 +99,7 @@ public class TaxAccessoryServiceImpl implements TaxAccessoryService {
         List<TaxAccessory> taxAccessories = taxRepository.findAllByManagementEntityAndDeletedFalse(managementEntity);
         return taxAccessories.stream()
                 .map(taxAccessory -> {
-                    TaxType taxType = taxTypeRepository.findByUuidAndDeletedFalse(taxAccessory.getTaxType().getUuid())
+                    TaxType taxType = taxTypeRepository.findByUuid(taxAccessory.getTaxType().getUuid())
                             .orElseThrow(() -> new NotFoundException("TaxType not found"));
                     Product product = productRepository.findByUuid(taxAccessory.getProduct().getUuid())
                             .orElseThrow(() -> new NotFoundException("Product not found"));

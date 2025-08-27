@@ -20,9 +20,10 @@ public class TaxCommissionsPointOfSaleServiceImpl implements TaxCommissionsPoint
     private final TaxCommissionsPointOfSaleRepository repository;
 
     @Override
-    public TaxCommissionsPointOfSaleResponse create(TaxCommissionsPointOfSaleRequest request) {
+    public TaxCommissionsPointOfSaleResponse create(TaxCommissionsPointOfSaleRequest request, UUID managementEntity) {
         TaxCommissionsPointOfSale entity = TaxCommissionMapper.toPointOfSaleEntity(request);
         entity.setDeleted(false);
+        entity.setManagementEntity(managementEntity);
         repository.save(entity);
         return TaxCommissionMapper.toPointOfSaleResponse(entity);
     }

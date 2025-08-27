@@ -12,7 +12,7 @@ import java.util.UUID;
 public interface CommissionContributorRepository extends JpaRepository<CommissionContributor, Long>,
         JpaSpecificationExecutor<CommissionContributor> {
 
-    Optional<CommissionContributor> findByUuidAndDeletedFalse(UUID uuid);
+    Optional<CommissionContributor> findByUuid(UUID uuid);
 
-    List<CommissionContributor> findAllByManagementEntityAndDeletedFalse(UUID managementEntity);
+    List<CommissionContributor> findAllByManagementEntity(UUID managementEntity);
 }

@@ -13,7 +13,7 @@ import java.util.List;
 import java.util.UUID;
 
 @RestController
-@RequestMapping("/app/taxes/accessories")
+@RequestMapping("/app/taxes-accessories")
 @RequiredArgsConstructor
 public class TaxAccessoryController {
 

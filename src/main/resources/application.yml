@@ -10,7 +10,6 @@ spring:
     url: ${SPRING_DATASOURCE_URL:jdbc:postgresql://localhost:5600/olive_settings}
     username: ${SPRING_DATASOURCE_USERNAME:lhacksrt}
     password: ${SPRING_DATASOURCE_PASSWORD:lhacksrt}
-
   jpa:
     hibernate:
       ddl-auto: update
@@ -19,7 +18,6 @@ spring:
       hibernate:
         format_sql: true
         dialect: org.hibernate.dialect.PostgreSQLDialect
-
   cloud:
     consul:
       host: ${SPRING_CLOUD_CONSUL_HOST:localhost}

@@ -19,6 +19,6 @@ import sn.zeitune.oliveinsurancesettings.app.entities.coverage.Coverage;
 public class CommissionPointOfSalePremium extends CommissionPointOfSale {
 
     @ManyToOne
-    @JoinColumn(name = "code_garantie", nullable = false)
+    @JoinColumn(name = "code_garantie")
     private Coverage coverage;
 }

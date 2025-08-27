@@ -7,7 +7,7 @@ import java.util.UUID;
 @Builder
 public record IncompatibleCoverageResponse(
         UUID id,
-        CoverageReferenceResponse coverage,
-        CoverageReferenceResponse incompatibleCoverage,
+        CoverageResponse coverage,
+        CoverageResponse incompatibleCoverage,
         UUID managementEntity
 ) {}

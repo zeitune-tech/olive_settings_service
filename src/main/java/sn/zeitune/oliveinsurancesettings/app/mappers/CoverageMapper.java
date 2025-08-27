@@ -48,6 +48,11 @@ public class CoverageMapper {
     }
 
     public static CoverageResponse map(Coverage coverage, ProductResponse product, ManagementEntityResponse managementEntityResponse) {
+
+        if (coverage == null) {
+            return null;
+        }
+
         return CoverageResponse.builder()
                 .id(coverage.getUuid())
                 .nature(coverage.getNature())

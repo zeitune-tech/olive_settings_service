@@ -11,6 +11,9 @@ public interface DurationRateService {
 
     DurationRateResponse getByUuid(UUID uuid);
 
-    List<DurationRateResponse> getAll(UUID managementEntity);
+    List<DurationRateResponse> getAllIncludingDeleted(UUID managementEntity);
+    List<DurationRateResponse> getAllActive(UUID managementEntity);
     void delete(UUID uuid);
+
+    DurationRateResponse update(UUID uuid, DurationRateRequest request, UUID managementEntity);
 }

@@ -48,6 +48,9 @@ public class CoverageReference extends BaseEntity {
     @Column(name = "acces_tarif")
     private boolean tariffAccess;
 
+    // TODO:
+    private boolean toShareOut;
+
     /// External references
     @Column(name = "code_entite")
     private UUID managementEntity;

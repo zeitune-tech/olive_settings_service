@@ -34,11 +34,11 @@ public class TaxPremiumServiceImpl implements TaxPremiumService {
 
     @Override
     public TaxPremiumResponse create(TaxRequest request, UUID managementEntity) {
-        TaxType taxType = taxTypeRepository.findByUuidAndDeletedFalse(request.taxTypeId())
+        TaxType taxType = taxTypeRepository.findByUuid(request.taxTypeId())
                 .orElseThrow(() -> new NotFoundException("TaxType not found"));
 
         Coverage coverage = coverageRepository.findByUuid(request.coverageId())
-                .orElseThrow(() -> new NotFoundException("Coverage not found"));
+                .orElse(null);
 
         Product product = productRepository.findByUuid(request.productId())
                 .orElseThrow(() -> new NotFoundException("Product not found"));
@@ -61,7 +61,7 @@ public class TaxPremiumServiceImpl implements TaxPremiumService {
         TaxPremium taxPremium = (TaxPremium) taxRepository.findByUuid(uuid)
                 .orElseThrow(() -> new NotFoundException("TaxPremium not found"));
 
-        TaxType taxType = taxTypeRepository.findByUuidAndDeletedFalse(request.taxTypeId())
+        TaxType taxType = taxTypeRepository.findByUuid(request.taxTypeId())
                 .orElseThrow(() -> new NotFoundException("TaxType not found"));
 
         Coverage coverage = coverageRepository.findByUuid(request.coverageId())

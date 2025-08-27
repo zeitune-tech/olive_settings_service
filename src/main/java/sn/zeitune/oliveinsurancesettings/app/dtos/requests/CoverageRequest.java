@@ -20,7 +20,7 @@ public record CoverageRequest(
         @NotNull(message = "Calculation mode is required")
         CalculationMode calculationMode,
 
-        @DecimalMin(value = "0.0", inclusive = false, message = "Fixed capital must be positive")
+        @DecimalMin(value = "0.0", inclusive = true, message = "Fixed capital must be positive")
         Long fixedCapital,
 
         @DecimalMin(value = "0.0", inclusive = true, message = "Minimum capital must be non-negative")

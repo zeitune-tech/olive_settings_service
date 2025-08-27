@@ -1,5 +1,6 @@
 package sn.zeitune.oliveinsurancesettings.app.dtos.requests;
 
+import jakarta.validation.constraints.FutureOrPresent;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.PastOrPresent;
 import lombok.Builder;
@@ -11,6 +12,7 @@ import java.util.UUID;
 @Builder
 public record DurationRateRequest(
 
+        @FutureOrPresent(message = "Effective date cannot be in the past")
         @NotNull(message = "Effective date must not be null")
         LocalDate dateEffective,
 

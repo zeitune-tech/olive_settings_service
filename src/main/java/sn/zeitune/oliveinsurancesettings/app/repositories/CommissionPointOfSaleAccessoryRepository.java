@@ -1,0 +1,18 @@
+package sn.zeitune.oliveinsurancesettings.app.repositories;
+
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
+import sn.zeitune.oliveinsurancesettings.app.entities.comission.CommissionPointOfSaleAccessory;
+import sn.zeitune.oliveinsurancesettings.app.entities.comission.CommissionPointOfSalePremium;
+
+import java.util.List;
+import java.util.Optional;
+import java.util.UUID;
+
+public interface CommissionPointOfSaleAccessoryRepository extends JpaRepository<CommissionPointOfSaleAccessory, Long>,
+            JpaSpecificationExecutor<CommissionPointOfSaleAccessory> {
+
+        Optional<CommissionPointOfSaleAccessory> findByUuid(UUID uuid);
+
+        List<CommissionPointOfSaleAccessory> findAllByManagementEntity(UUID managementEntity);
+}

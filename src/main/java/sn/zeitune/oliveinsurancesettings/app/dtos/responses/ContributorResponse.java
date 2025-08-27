@@ -1,6 +1,10 @@
 package sn.zeitune.oliveinsurancesettings.app.dtos.responses;
 
+import java.util.UUID;
+
 public record ContributorResponse(
-        String fullName
+        UUID id,
+        String fullName,
+        ContributorTypeResponse contributorType
 ) {
 }

@@ -20,9 +20,13 @@ public class TaxCommissionsContributorServiceImpl implements TaxCommissionsContr
     private final TaxCommissionsContributorRepository repository;
 
     @Override
-    public TaxCommissionsContributorResponse create(TaxCommissionsContributorRequest request) {
-        TaxCommissionsContributor entity = TaxCommissionMapper.toContributorEntity(request);
+    public TaxCommissionsContributorResponse create(
+            TaxCommissionsContributorRequest request,
+            UUID managementEntity
+    ) {
+        TaxCommissionsContributor entity = TaxCommissionMapper.map(request);
         entity.setDeleted(false);
+        entity.setManagementEntity(managementEntity);
         repository.save(entity);
         return TaxCommissionMapper.toContributorResponse(entity);
     }

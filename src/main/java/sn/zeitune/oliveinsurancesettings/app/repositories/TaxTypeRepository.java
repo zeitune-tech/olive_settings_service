@@ -10,7 +10,7 @@ import java.util.UUID;
 
 public interface TaxTypeRepository extends JpaRepository<TaxType, Long>, JpaSpecificationExecutor<TaxType> {
 
-    Optional<TaxType> findByUuidAndDeletedFalse(UUID uuid);
+    Optional<TaxType> findByUuid(UUID uuid);
 
     List<TaxType> findAllByDeletedFalse();
 

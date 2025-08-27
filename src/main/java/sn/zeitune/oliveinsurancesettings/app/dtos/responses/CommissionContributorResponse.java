@@ -16,5 +16,6 @@ public record CommissionContributorResponse(
         UUID contributorId,
         ProductResponse product,
         CoverageResponse coverage,
-        ContributorResponse contributor
+        ContributorResponse contributor,
+        ContributorTypeResponse contributorType
 ) {}

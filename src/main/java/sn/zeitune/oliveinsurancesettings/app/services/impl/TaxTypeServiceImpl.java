@@ -35,7 +35,7 @@ public class TaxTypeServiceImpl implements TaxTypeService {
 
     @Override
     public TaxTypeResponse update(UUID uuid, TaxTypeRequest request) {
-        TaxType taxType = taxTypeRepository.findByUuidAndDeletedFalse(uuid)
+        TaxType taxType = taxTypeRepository.findByUuid(uuid)
                 .orElseThrow(() -> new IllegalArgumentException("TaxType not found"));
 
         if (!request.name().equals(taxType.getName()) &&
@@ -52,7 +52,7 @@ public class TaxTypeServiceImpl implements TaxTypeService {
 
     @Override
     public TaxTypeResponse getByUuid(UUID uuid) {
-        TaxType taxType = taxTypeRepository.findByUuidAndDeletedFalse(uuid)
+        TaxType taxType = taxTypeRepository.findByUuid(uuid)
                 .orElseThrow(() -> new IllegalArgumentException("TaxType not found"));
         return TaxMapper.map(taxType);
     }
@@ -67,7 +67,7 @@ public class TaxTypeServiceImpl implements TaxTypeService {
 
     @Override
     public void deleteByUuid(UUID uuid) {
-        TaxType taxType = taxTypeRepository.findByUuidAndDeletedFalse(uuid)
+        TaxType taxType = taxTypeRepository.findByUuid(uuid)
                 .orElseThrow(() -> new IllegalArgumentException("TaxType not found"));
         taxType.setDeleted(true);
         taxTypeRepository.save(taxType);

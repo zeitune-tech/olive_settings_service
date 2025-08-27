@@ -16,6 +16,9 @@ public record CoverageReferenceRequest(
         Boolean accessCharacteristic,
 
         @NotNull(message = "Tariff access must be specified")
-        Boolean tariffAccess
+        Boolean tariffAccess,
+
+        @NotNull(message = "Product sharing must be specified")
+        Boolean toShareOut
 ) {
 }

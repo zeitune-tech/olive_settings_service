@@ -5,7 +5,6 @@ import jakarta.validation.constraints.PastOrPresent;
 import lombok.Builder;
 import sn.zeitune.oliveinsurancesettings.enums.CalculationBase;
 
-import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.UUID;
 
@@ -17,7 +16,7 @@ public record CommissionContributorRequest(
         LocalDate dateEffective,
 
         @NotNull(message = "Commission base must not be null")
-        CalculationBase commissionBase,
+        CalculationBase calculationBase,
 
         @NotNull(message = "Contributor rate must not be null")
         Double contributionRate,

@@ -40,7 +40,7 @@ public class CoverageDurationController {
             Authentication authentication
     ) {
         Employee employee = (Employee) authentication.getPrincipal();
-        return ResponseEntity.ok(coverageDurationService.getAll(
+        return ResponseEntity.ok(coverageDurationService.getAllActive(
                 employee.getManagementEntity()
         ));
     }

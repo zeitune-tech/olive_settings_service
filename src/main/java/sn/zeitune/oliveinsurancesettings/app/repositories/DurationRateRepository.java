@@ -14,4 +14,5 @@ public interface DurationRateRepository extends JpaRepository<CoverageDurationRa
     Optional<CoverageDurationRate> findByUuid(UUID uuid);
 
     List<CoverageDurationRate> findAllByManagementEntity(UUID managementEntity);
+    List<CoverageDurationRate> findAllByManagementEntityAndDeletedIsFalse(UUID managementEntity);
 }

@@ -24,5 +24,7 @@ public interface CoverageRepository extends JpaRepository<Coverage, Long>, JpaSp
     void deleteAllByProduct(Product product);
 
     Optional<Coverage> findByProductAndCoverageReference(Product product, CoverageReference reference);
+
+    boolean existsByProductAndCoverageReference_Uuid(Product product, UUID coverage);
 }
 

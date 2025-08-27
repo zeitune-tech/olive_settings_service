@@ -2,8 +2,14 @@ package sn.zeitune.oliveinsurancesettings.enums;
 
 public enum NatureEndorsement {
 
-    NEW_BUSINESS,
-    SUSPENSION,
     MODIFICATION,
-    REINSTATEMENT
+    RENEWAL,
+    SUSPENSION,
+    REINSTATEMENT_WITH_DISCOUNT,
+    REINSTATEMENT,
+    CANCELLATION,
+    RETRACT,
+    INCORPORATION,
+    NEW_BUSINESS
+
 }

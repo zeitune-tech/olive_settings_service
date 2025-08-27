@@ -50,7 +50,7 @@ public class AccessoryController {
     @GetMapping
     public ResponseEntity<List<AccessoryResponse>> getAll(Authentication authentication) {
         Employee employee = (Employee) authentication.getPrincipal();
-        List<AccessoryResponse> responses = accessoryService.getAll(employee.getManagementEntity());
+        List<AccessoryResponse> responses = accessoryService.getAllActive(employee.getManagementEntity());
         return ResponseEntity.ok(responses);
     }
 

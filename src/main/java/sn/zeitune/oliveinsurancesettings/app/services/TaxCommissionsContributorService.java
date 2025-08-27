@@ -8,7 +8,7 @@ import java.util.UUID;
 
 public interface TaxCommissionsContributorService {
 
-    TaxCommissionsContributorResponse create(TaxCommissionsContributorRequest request);
+    TaxCommissionsContributorResponse create(TaxCommissionsContributorRequest request, UUID managementEntity);
 
     TaxCommissionsContributorResponse update(UUID uuid, TaxCommissionsContributorRequest request);
 

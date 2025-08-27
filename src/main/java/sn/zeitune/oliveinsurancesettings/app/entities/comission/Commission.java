@@ -5,6 +5,7 @@ import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
 import sn.zeitune.oliveinsurancesettings.app.entities.BaseEntity;
+import sn.zeitune.oliveinsurancesettings.app.entities.coverage.Coverage;
 import sn.zeitune.oliveinsurancesettings.app.entities.product.Product;
 import sn.zeitune.oliveinsurancesettings.enums.CalculationBase;
 
@@ -48,6 +49,7 @@ public abstract class Commission extends BaseEntity {
     @ManyToOne
     @JoinColumn(name = "code_produit", nullable = false)
     private Product product;
+
 
     @Column(name = "entite_gestion", nullable = false)
     private UUID managementEntity;

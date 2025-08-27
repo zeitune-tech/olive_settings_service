@@ -12,5 +12,6 @@ public record CoverageReferenceResponse(
         String family,
         boolean accessCharacteristic,
         boolean tariffAccess,
+        boolean toShareOut,
         UUID managementEntity
 ) {}

@@ -3,20 +3,20 @@ package sn.zeitune.oliveinsurancesettings.app.services.impl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import sn.zeitune.oliveinsurancesettings.app.clients.AdministrationClient;
-import sn.zeitune.oliveinsurancesettings.app.dtos.externals.ProductResponseDTO;
 import sn.zeitune.oliveinsurancesettings.app.dtos.requests.AccessoryRequest;
 import sn.zeitune.oliveinsurancesettings.app.dtos.responses.AccessoryResponse;
 import sn.zeitune.oliveinsurancesettings.app.entities.Accessory;
+import sn.zeitune.oliveinsurancesettings.app.entities.endorsement.Endorsement;
 import sn.zeitune.oliveinsurancesettings.app.entities.product.Product;
 import sn.zeitune.oliveinsurancesettings.app.mappers.AccessoryMapper;
+import sn.zeitune.oliveinsurancesettings.app.mappers.EndorsementMapper;
 import sn.zeitune.oliveinsurancesettings.app.mappers.ProductMapper;
 import sn.zeitune.oliveinsurancesettings.app.repositories.AccessoryRepository;
+import sn.zeitune.oliveinsurancesettings.app.repositories.endorsement.EndorsementRepository;
 import sn.zeitune.oliveinsurancesettings.app.repositories.ProductRepository;
 import sn.zeitune.oliveinsurancesettings.app.services.AccessoryService;
 
 import java.util.List;
-import java.util.Map;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
@@ -26,44 +26,54 @@ import java.util.stream.Collectors;
 public class AccessoryServiceImpl implements AccessoryService {
 
     private final AccessoryRepository repository;
-    private final AdministrationClient administrationClient;
     private final ProductRepository productRepository;
+    private final EndorsementRepository endorsementRepository;
 
     @Override
     public AccessoryResponse create(AccessoryRequest request, UUID managementEntity) {
-        Accessory entity = AccessoryMapper.map(request);
-        entity.setManagementEntity(managementEntity);
-
-        // Validate that the product exists in the product repository
+        // Résoudre relations
         Product product = productRepository.findByUuid(request.productId())
                 .orElseThrow(() -> new IllegalArgumentException("Product not found"));
 
+        Endorsement endorsement = endorsementRepository.findByUuid(request.actType())
+                .orElseThrow(() -> new IllegalArgumentException("Endorsement not found"));
+
+        // Mapper la requête -> entité (sans relations)
+        Accessory entity = AccessoryMapper.map(request);
         entity.setProduct(product);
+        entity.setActType(endorsement);            // actType = Endorsement
+        entity.setManagementEntity(managementEntity);
 
         entity = repository.save(entity);
-        return AccessoryMapper.map(entity, ProductMapper.map(product));
-    }
 
+        return AccessoryMapper.map(
+                entity,
+                ProductMapper.map(product),
+                EndorsementMapper.map(endorsement)
+        );
+    }
 
     @Override
     public AccessoryResponse getByUuid(UUID uuid) {
-
-
         return repository.findByUuid(uuid)
-                .map( accessory -> AccessoryMapper.map(accessory,
-                        ProductMapper.map(accessory.getProduct())))
+                .map(a -> AccessoryMapper.map(
+                        a,
+                        ProductMapper.map(a.getProduct()),
+                        EndorsementMapper.map(a.getActType())
+                ))
                 .orElseThrow(() -> new IllegalArgumentException("Accessory not found"));
     }
 
     @Override
-    public List<AccessoryResponse> getAll(UUID managementEntity) {
-        // Assuming you want to fetch all accessories for a specific management entity
-        List<Accessory> accessories = repository.findAllByManagementEntity(managementEntity);
+    public List<AccessoryResponse> getAllActive(UUID managementEntity) {
+        List<Accessory> accessories = repository.findAllByManagementEntityAndDeletedIsFalse(managementEntity);
 
-        // Map each accessory to its corresponding product
         return accessories.stream()
-                .map(accessory -> AccessoryMapper.map(accessory,
-                        ProductMapper.map(accessory.getProduct())))
+                .map(a -> AccessoryMapper.map(
+                        a,
+                        ProductMapper.map(a.getProduct()),
+                        EndorsementMapper.map(a.getActType())
+                ))
                 .collect(Collectors.toList());
     }
 
@@ -71,8 +81,6 @@ public class AccessoryServiceImpl implements AccessoryService {
     public void delete(UUID uuid) {
         Accessory accessory = repository.findByUuid(uuid)
                 .orElseThrow(() -> new IllegalArgumentException("Accessory not found"));
-
-        // Delete the accessory
         accessory.setDeleted(true);
         repository.save(accessory);
     }
@@ -82,24 +90,32 @@ public class AccessoryServiceImpl implements AccessoryService {
         Accessory accessory = repository.findByUuid(uuid)
                 .orElseThrow(() -> new IllegalArgumentException("Accessory not found"));
 
-        // Validate that the management entity matches
         if (!accessory.getManagementEntity().equals(managementEntity)) {
             throw new IllegalArgumentException("Accessory does not belong to the specified management entity");
         }
 
-        // Validate that the product exists in the product repository
         Product product = productRepository.findByUuid(request.productId())
                 .orElseThrow(() -> new IllegalArgumentException("Product not found"));
+
+        Endorsement endorsement = endorsementRepository.findByUuid(request.actType())
+                .orElseThrow(() -> new IllegalArgumentException("Endorsement not found"));
+
+        // Maj champs
         accessory.setProduct(product);
-
-        // Update the accessory fields
+        accessory.setActType(endorsement);
         accessory.setAccessoryAmount(request.accessoryAmount());
+        accessory.setAccessoryRisk(request.accessoryRisk());
         accessory.setDateEffective(request.dateEffective());
-        accessory.setActType(request.actType());
+        accessory.setDay(request.day());
+        accessory.setHour(request.hour());
+        accessory.setMinute(request.minute());
 
-        // Save the updated accessory
         accessory = repository.save(accessory);
 
-        return AccessoryMapper.map(accessory, ProductMapper.map(product));
+        return AccessoryMapper.map(
+                accessory,
+                ProductMapper.map(product),
+                EndorsementMapper.map(endorsement)
+        );
     }
 }

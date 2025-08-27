@@ -13,7 +13,7 @@ import java.util.List;
 import java.util.UUID;
 
 @RestController
-@RequestMapping("/api/taxes/premium")
+@RequestMapping("/app/taxes-primes")
 @RequiredArgsConstructor
 public class TaxPremiumController {
 
@@ -22,8 +22,10 @@ public class TaxPremiumController {
     @PostMapping
     public ResponseEntity<TaxPremiumResponse> create(
             @RequestBody TaxRequest request,
-            @RequestParam UUID managementEntity) {
-        TaxPremiumResponse response = taxPremiumService.create(request, managementEntity);
+            Authentication authentication
+    ) {
+        Employee employee = (Employee) authentication.getPrincipal();
+        TaxPremiumResponse response = taxPremiumService.create(request, employee.getManagementEntity());
         return ResponseEntity.ok(response);
     }
 

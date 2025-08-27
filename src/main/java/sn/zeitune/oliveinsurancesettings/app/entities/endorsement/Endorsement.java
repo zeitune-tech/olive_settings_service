@@ -35,8 +35,6 @@ public class Endorsement extends BaseEntity {
         }
     }
 
-    @Column(name = "date_effective", nullable = false)
-    private LocalDate dateEffective;
 
     @Column(name = "name", nullable = false)
     private String name;

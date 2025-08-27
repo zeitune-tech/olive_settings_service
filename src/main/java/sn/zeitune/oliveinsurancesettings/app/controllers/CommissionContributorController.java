@@ -13,7 +13,7 @@ import java.util.List;
 import java.util.UUID;
 
 @RestController
-@RequestMapping("/app/commissions/contributors")
+@RequestMapping("/app/commissions-contributors")
 @RequiredArgsConstructor
 public class CommissionContributorController {
 
@@ -52,6 +52,28 @@ public class CommissionContributorController {
         UUID managementEntity = employee.getManagementEntity();
         List<CommissionContributorResponse> responses =
                 commissionContributorService.getAll(managementEntity);
+        return ResponseEntity.ok(responses);
+    }
+
+    @GetMapping("/primes")
+    public ResponseEntity<List<CommissionContributorResponse>> getAllPrimes(
+            Authentication authentication
+    ) {
+        Employee employee = (Employee) authentication.getPrincipal();
+        UUID managementEntity = employee.getManagementEntity();
+        List<CommissionContributorResponse> responses =
+                commissionContributorService.getAllPrimes(managementEntity);
+        return ResponseEntity.ok(responses);
+    }
+
+    @GetMapping("/accessories")
+    public ResponseEntity<List<CommissionContributorResponse>> getAllAccessories(
+            Authentication authentication
+    ) {
+        Employee employee = (Employee) authentication.getPrincipal();
+        UUID managementEntity = employee.getManagementEntity();
+        List<CommissionContributorResponse> responses =
+                commissionContributorService.getAllAccessories(managementEntity);
         return ResponseEntity.ok(responses);
     }
 

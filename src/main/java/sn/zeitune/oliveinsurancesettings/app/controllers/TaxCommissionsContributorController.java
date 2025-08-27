@@ -25,7 +25,7 @@ public class TaxCommissionsContributorController {
                         Authentication authentication) {
         Employee employee = (Employee) authentication.getPrincipal();
         UUID managementEntity = employee.getManagementEntity();
-        return ResponseEntity.ok(service.create(request));
+        return ResponseEntity.ok(service.create(request, managementEntity));
     }
 
     @PutMapping("/{uuid}")

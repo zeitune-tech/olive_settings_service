@@ -43,6 +43,7 @@ public class ProductMapper {
 
         return ProductResponse.builder()
                 .id(product.getUuid())
+                .code(String.format("%s%s",product.getBranch().getId(), product.getId()))
                 .name(product.getName())
                 .description(product.getDescription())
                 .branch(null)
@@ -62,6 +63,7 @@ public class ProductMapper {
     public static ProductResponse map(Product product, BranchResponseDTO branch, ManagementEntityResponse managementEntityResponse) {
         return ProductResponse.builder()
                 .id(product.getUuid())
+                .code(String.format("%02d%02d",product.getBranch().getId(), product.getId()))
                 .name(product.getName())
                 .description(product.getDescription())
                 .branch(branch)

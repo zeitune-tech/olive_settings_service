@@ -12,7 +12,9 @@ public interface CoverageDurationService {
 
     CoverageDurationResponse getByUuid(UUID uuid);
 
-    List<CoverageDurationResponse> getAll(UUID managementEntity);
+    List<CoverageDurationResponse> getAllActive(UUID managementEntity);
+
+    List<CoverageDurationResponse> getAllIncludingDeleted(UUID managementEntity);
 
     CoverageDurationResponse update(UUID uuid, CoverageDurationRequest request);
 

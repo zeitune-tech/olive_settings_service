@@ -40,8 +40,15 @@ public class DurationRateController {
     @GetMapping
     public ResponseEntity<List<DurationRateResponse>> getAll(Authentication authentication) {
         Employee employee = (Employee) authentication.getPrincipal();
-        List<DurationRateResponse> responses = durationRateService.getAll(employee.getManagementEntity());
+        List<DurationRateResponse> responses = durationRateService.getAllActive(employee.getManagementEntity());
         return ResponseEntity.ok(responses);
+    }
+
+    @PutMapping("/{uuid}")
+    public ResponseEntity<DurationRateResponse> update(@PathVariable UUID uuid, @RequestBody DurationRateRequest request, Authentication authentication) {
+        Employee employee = (Employee) authentication.getPrincipal();
+        DurationRateResponse response = durationRateService.update(uuid, request, employee.getManagementEntity());
+        return ResponseEntity.ok(response);
     }
 
     @DeleteMapping("/{uuid}")

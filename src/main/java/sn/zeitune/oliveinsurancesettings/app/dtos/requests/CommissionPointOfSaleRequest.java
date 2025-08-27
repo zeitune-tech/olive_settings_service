@@ -25,7 +25,7 @@ public record CommissionPointOfSaleRequest(
         @NotNull(message = "Contribution rate must not be null")
         Double contributionRate,
 
-        UUID salesPointId,
+        UUID pointOfSaleId,
 
         PointOfSaleType pointOfSaleType,
 

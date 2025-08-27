@@ -9,6 +9,7 @@ import sn.zeitune.oliveinsurancesettings.app.dtos.responses.EndorsementResponse;
 import sn.zeitune.oliveinsurancesettings.app.services.EndorsementService;
 import sn.zeitune.oliveinsurancesettings.security.Employee;
 
+import java.util.List;
 import java.util.UUID;
 
 @RestController
@@ -19,17 +20,14 @@ public class EndorsementController {
     private final EndorsementService endorsementService;
 
     @GetMapping
-    public EndorsementResponse getEndorsements(
+    public List<EndorsementResponse> getEndorsements(
             Authentication authentication
     ) {
         Employee employee = (Employee) authentication.getPrincipal();
-        return endorsementService.findAllByManagementEntity(employee.getManagementEntity())
-                .stream()
-                .findFirst()
-                .orElseThrow(() -> new IllegalArgumentException("No endorsements found for management entity: " + employee.getManagementEntity()));
+        return endorsementService.findAllByManagementEntity(employee.getManagementEntity());
     }
 
-    @GetMapping("/uuid")
+    @GetMapping("/{uuid}")
     public EndorsementResponse getEndorsementByUuid(
             Authentication authentication,
             @PathVariable UUID uuid
@@ -46,6 +44,26 @@ public class EndorsementController {
     ) {
         Employee employee = (Employee) authentication.getPrincipal();
         return endorsementService.create(request, employee.getManagementEntity());
+    }
+
+    @PutMapping("/{endorsementUuid}/add-product/{productUuid}")
+    public EndorsementResponse addProductToEndorsement(
+            Authentication authentication,
+            @PathVariable UUID endorsementUuid,
+            @PathVariable UUID productUuid
+    ) {
+        Employee employee = (Employee) authentication.getPrincipal();
+        return endorsementService.addProductToEndorsement(endorsementUuid, productUuid);
+    }
+
+    @PutMapping("/{endorsementUuid}/remove-product/{productUuid}")
+    public EndorsementResponse removeProductFromEndorsement(
+            Authentication authentication,
+            @PathVariable UUID endorsementUuid,
+            @PathVariable UUID productUuid
+    ) {
+        Employee employee = (Employee) authentication.getPrincipal();
+        return endorsementService.removeProductFromEndorsement(endorsementUuid, productUuid);
     }
 
     @DeleteMapping("/{uuid}")
