@@ -8,8 +8,7 @@ public record UsageResponse(
         String code,
         String libelle,
         boolean actif,
-        UUID genre,
+        GenreResponse genre,
         LocalDateTime createdAt,
         LocalDateTime updatedAt
 ) {}
-
