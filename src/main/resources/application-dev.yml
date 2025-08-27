@@ -41,8 +41,20 @@ logging:
         sn.lhacksrt.mpssarl: DEBUG
 
 services:
-    olive-insurance-auth-service: ${OLIVE_AUTH_SERVICE_URL}
-    olive-insurance-administration-service: ${OLIVE_ADMINISTRATION_SERVICE_URL}
+  olive-insurance-auth-service:
+    base-url: ${OLIVE_AUTH_SERVICE_URL}
+  olive-insurance-administration-service:
+    base-url: ${OLIVE_ADMINISTRATION_SERVICE_URL}
+  olive-insurance-insured-service:
+    base-url: http://localhost:8080/insured
+  olive-insurance-pricing-service:
+    base-url: http://localhost:8080/pricing
+  olive-insurance-attestation-service:
+    base-url: http://localhost:8080/attestations
+  olive-insurance-settings-service:
+    base-url: http://localhost:8080/settings
+  olive-insurance-exploitation-service:
+    base-url: http://localhost:8080/exploitation
 
 jwt:
     user:
