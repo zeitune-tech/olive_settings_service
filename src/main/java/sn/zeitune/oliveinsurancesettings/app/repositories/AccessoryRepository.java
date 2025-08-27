@@ -16,4 +16,5 @@ public interface AccessoryRepository extends JpaRepository<Accessory, Long>, Jpa
     Optional<Accessory> findByUuid(UUID uuid);
 
     List<Accessory> findAllByManagementEntity(UUID managementEntity);
+    List<Accessory> findAllByManagementEntityAndDeletedIsFalse(UUID managementEntity);
 }

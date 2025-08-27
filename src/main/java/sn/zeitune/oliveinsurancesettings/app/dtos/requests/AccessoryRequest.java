@@ -14,6 +14,7 @@ import sn.zeitune.oliveinsurancesettings.enums.AccessoryActType;
 @Builder
 public record AccessoryRequest(
 
+        @FutureOrPresent(message = "Effective date cannot be in the past")
         @NotNull(message = "Effective date must not be null")
         LocalDate dateEffective,
 
@@ -26,9 +27,8 @@ public record AccessoryRequest(
         @NotNull(message = "Accessory risk must not be null")
         Double accessoryRisk,
 
-        @FutureOrPresent(message = "Day cannot be in the past")
         @NotNull(message = "Day must not be null")
-        LocalDate day,
+        Integer day,
 
         @NotNull(message = "Hour must not be null")
         Integer hour,

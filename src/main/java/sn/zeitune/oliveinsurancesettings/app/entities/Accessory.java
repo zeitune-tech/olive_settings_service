@@ -44,7 +44,7 @@ public class Accessory  extends BaseEntity {
     private Double accessoryRisk;
 
     @Column(name = "jour", nullable = false)
-    private LocalDate day;
+    private Integer day;
     @Column(name = "heure", nullable = false)
     private Integer hour;
     @Column(name = "minute", nullable = false)

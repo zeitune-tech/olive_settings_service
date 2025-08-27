@@ -65,8 +65,8 @@ public class AccessoryServiceImpl implements AccessoryService {
     }
 
     @Override
-    public List<AccessoryResponse> getAll(UUID managementEntity) {
-        List<Accessory> accessories = repository.findAllByManagementEntity(managementEntity);
+    public List<AccessoryResponse> getAllActive(UUID managementEntity) {
+        List<Accessory> accessories = repository.findAllByManagementEntityAndDeletedIsFalse(managementEntity);
 
         return accessories.stream()
                 .map(a -> AccessoryMapper.map(

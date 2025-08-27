@@ -10,7 +10,7 @@ import java.util.UUID;
 public interface AccessoryService {
     AccessoryResponse create(AccessoryRequest request, UUID managementEntity);
     AccessoryResponse getByUuid(UUID uuid);
-    List<AccessoryResponse> getAll(UUID managementEntity);
+    List<AccessoryResponse> getAllActive(UUID managementEntity);
     void delete(UUID uuid);
 
     AccessoryResponse update(UUID uuid, AccessoryRequest request, UUID managementEntity);
