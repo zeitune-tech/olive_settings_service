@@ -17,7 +17,6 @@ import java.util.UUID;
 @Entity(name = "taux_duree")
 @NoArgsConstructor
 @AllArgsConstructor
-@SQLRestriction("deleted = false")
 public class CoverageDurationRate extends BaseEntity {
 
     @Id

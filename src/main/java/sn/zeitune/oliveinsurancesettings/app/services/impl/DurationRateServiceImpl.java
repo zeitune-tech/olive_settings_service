@@ -58,10 +58,21 @@ public class DurationRateServiceImpl implements DurationRateService {
     }
 
     @Override
-    public List<DurationRateResponse> getAll(UUID managementEntity) {
-
+    public List<DurationRateResponse> getAllIncludingDeleted(UUID managementEntity) {
         // Fetch all duration rates for the management entity
         List<CoverageDurationRate> coverageDurationRates = repository.findAllByManagementEntity(managementEntity);
+
+        // Map each duration rate to its corresponding product
+        return coverageDurationRates.stream()
+                .map(coverageDurationRate -> DurationRateMapper.map(coverageDurationRate,
+                        ProductMapper.map(coverageDurationRate.getProduct())))
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public List<DurationRateResponse> getAllActive(UUID managementEntity) {
+        // Fetch all duration rates for the management entity
+        List<CoverageDurationRate> coverageDurationRates = repository.findAllByManagementEntityAndDeletedIsFalse(managementEntity);
 
         // Map each duration rate to its corresponding product
         return coverageDurationRates.stream()

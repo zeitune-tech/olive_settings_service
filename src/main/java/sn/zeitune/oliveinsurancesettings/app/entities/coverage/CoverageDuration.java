@@ -18,7 +18,6 @@ import java.util.UUID;
 @Entity(name = "durees_de_couverture")
 @NoArgsConstructor
 @AllArgsConstructor
-@SQLRestriction("deleted = false")
 public class CoverageDuration extends BaseEntity {
 
     @Id

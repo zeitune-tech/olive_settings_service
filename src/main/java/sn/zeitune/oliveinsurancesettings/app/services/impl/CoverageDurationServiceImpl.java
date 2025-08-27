@@ -31,13 +31,20 @@ public class CoverageDurationServiceImpl implements CoverageDurationService {
 
     @Override
     public CoverageDurationResponse getByUuid(UUID uuid) {
-        CoverageDuration duration = coverageDurationRepository.findByUuid(uuid)
+        CoverageDuration duration = coverageDurationRepository.findByUuidAndDeletedIsFalse(uuid)
                 .orElseThrow(() -> new IllegalArgumentException("CoverageDuration not found with UUID: " + uuid));
         return CoverageDurationMapper.map(duration);
     }
 
     @Override
-    public List<CoverageDurationResponse> getAll(UUID managementEntity) {
+    public List<CoverageDurationResponse> getAllActive(UUID managementEntity) {
+        return coverageDurationRepository.findAllByManagementEntityAndDeletedIsFalse(managementEntity).stream()
+                .map(CoverageDurationMapper::map)
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public List<CoverageDurationResponse> getAllIncludingDeleted(UUID managementEntity) {
         return coverageDurationRepository.findAllByManagementEntity(managementEntity).stream()
                 .map(CoverageDurationMapper::map)
                 .collect(Collectors.toList());
@@ -45,7 +52,7 @@ public class CoverageDurationServiceImpl implements CoverageDurationService {
 
     @Override
     public CoverageDurationResponse update(UUID uuid, CoverageDurationRequest request) {
-        CoverageDuration existing = coverageDurationRepository.findByUuid(uuid)
+        CoverageDuration existing = coverageDurationRepository.findByUuidAndDeletedIsFalse(uuid)
                 .orElseThrow(() -> new IllegalArgumentException("CoverageDuration not found with UUID: " + uuid));
 
         existing.setFrom(request.from());
@@ -59,7 +66,7 @@ public class CoverageDurationServiceImpl implements CoverageDurationService {
 
     @Override
     public void delete(UUID uuid) {
-        CoverageDuration duration = coverageDurationRepository.findByUuid(uuid)
+        CoverageDuration duration = coverageDurationRepository.findByUuidAndDeletedIsFalse(uuid)
                 .orElseThrow(() -> new IllegalArgumentException("CoverageDuration not found with UUID: " + uuid));
 
         duration.setDeleted(true);

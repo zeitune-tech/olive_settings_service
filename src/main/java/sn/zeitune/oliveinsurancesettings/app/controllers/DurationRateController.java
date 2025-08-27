@@ -40,7 +40,7 @@ public class DurationRateController {
     @GetMapping
     public ResponseEntity<List<DurationRateResponse>> getAll(Authentication authentication) {
         Employee employee = (Employee) authentication.getPrincipal();
-        List<DurationRateResponse> responses = durationRateService.getAll(employee.getManagementEntity());
+        List<DurationRateResponse> responses = durationRateService.getAllActive(employee.getManagementEntity());
         return ResponseEntity.ok(responses);
     }
 
