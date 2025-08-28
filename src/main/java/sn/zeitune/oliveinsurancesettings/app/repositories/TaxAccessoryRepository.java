@@ -13,4 +13,5 @@ public interface TaxAccessoryRepository extends JpaRepository<TaxAccessory, Long
     Optional<TaxAccessory> findByUuidAndDeletedFalse(UUID uuid);
 
     List<TaxAccessory> findAllByManagementEntityAndDeletedFalse(UUID managementEntity);
+    List<TaxAccessory> findAllByManagementEntity(UUID managementEntity);
 }

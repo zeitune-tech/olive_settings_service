@@ -51,7 +51,7 @@ public class TaxAccessoryController {
             Authentication authentication) {
         Employee employee = (Employee) authentication.getPrincipal();
         UUID managementEntity = employee.getManagementEntity();
-        List<TaxAccessoryResponse> responses = taxAccessoryService.getAllByManagementEntity(managementEntity);
+        List<TaxAccessoryResponse> responses = taxAccessoryService.getAllActive(managementEntity);
         return ResponseEntity.ok(responses);
     }
 

@@ -14,7 +14,8 @@ public interface TaxAccessoryService {
 
     TaxAccessoryResponse getByUuid(UUID uuid);
 
-    List<TaxAccessoryResponse> getAllByManagementEntity(UUID managementEntity);
+    List<TaxAccessoryResponse> getAllActive(UUID managementEntity);
+    List<TaxAccessoryResponse> getAllIncludeDeleted(UUID managementEntity);
 
     void deleteByUuid(UUID uuid);
 }

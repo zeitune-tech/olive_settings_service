@@ -95,8 +95,26 @@ public class TaxAccessoryServiceImpl implements TaxAccessoryService {
     }
 
     @Override
-    public List<TaxAccessoryResponse> getAllByManagementEntity(UUID managementEntity) {
+    public List<TaxAccessoryResponse> getAllActive(UUID managementEntity) {
         List<TaxAccessory> taxAccessories = taxRepository.findAllByManagementEntityAndDeletedFalse(managementEntity);
+        return taxAccessories.stream()
+                .map(taxAccessory -> {
+                    TaxType taxType = taxTypeRepository.findByUuid(taxAccessory.getTaxType().getUuid())
+                            .orElseThrow(() -> new NotFoundException("TaxType not found"));
+                    Product product = productRepository.findByUuid(taxAccessory.getProduct().getUuid())
+                            .orElseThrow(() -> new NotFoundException("Product not found"));
+                    return TaxMapper.map(
+                            taxAccessory,
+                            TaxMapper.map(taxType),
+                            ProductMapper.map(product)
+                    );
+                })
+                .toList();
+    }
+
+    @Override
+    public List<TaxAccessoryResponse> getAllIncludeDeleted(UUID managementEntity) {
+        List<TaxAccessory> taxAccessories = taxRepository.findAllByManagementEntity(managementEntity);
         return taxAccessories.stream()
                 .map(taxAccessory -> {
                     TaxType taxType = taxTypeRepository.findByUuid(taxAccessory.getTaxType().getUuid())
@@ -116,7 +134,6 @@ public class TaxAccessoryServiceImpl implements TaxAccessoryService {
     public void deleteByUuid(UUID uuid) {
         TaxAccessory taxAccessory = taxRepository.findByUuidAndDeletedFalse(uuid)
                 .orElseThrow(() -> new NotFoundException("TaxAccessory not found"));
-
         taxAccessory.setDeleted(true);
         taxRepository.save(taxAccessory);
     }
