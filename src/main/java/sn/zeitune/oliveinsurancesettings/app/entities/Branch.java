@@ -15,8 +15,9 @@ import java.util.UUID;
 public class Branch extends BaseEntity {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "branch_seq")
+    @SequenceGenerator(name = "branch_seq", sequenceName = "branch_seq", initialValue = 11, allocationSize = 1)
     @Column(name = "code_bran")
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Column(name = "uuid", updatable = false, nullable = false, unique = true)
