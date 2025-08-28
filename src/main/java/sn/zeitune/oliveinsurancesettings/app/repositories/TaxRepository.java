@@ -14,6 +14,7 @@ public interface TaxRepository extends JpaRepository<Tax, Long>, JpaSpecificatio
     Optional<Tax> findByUuid(UUID uuid);
 
     List<Tax> findAllByManagementEntity(UUID managementEntity);
+    List<Tax> findAllByManagementEntityAndDeletedIsFalse(UUID managementEntity);
 
     List<Tax> findAllByUuidInAndDeletedFalse(List<UUID> uuids);
 }

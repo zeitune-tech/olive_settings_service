@@ -23,9 +23,9 @@ public class TaxMapper {
     ) {
         return TaxPremium.builder()
                 .dateEffective(request.dateEffective())
-                .rate(request.rate())
+                .rate( request.isFlatRate() ? 0.0 : request.rate())
                 .isFlatRate(request.isFlatRate())
-                .flatRateAmount(request.flatRateAmount())
+                .flatRateAmount(request.isFlatRate() ? request.flatRateAmount() : 0.0)
                 .name(request.name())
                 .taxType(type)
                 .coverage(coverage)

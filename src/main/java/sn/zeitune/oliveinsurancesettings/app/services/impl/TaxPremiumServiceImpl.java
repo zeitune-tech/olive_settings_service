@@ -71,9 +71,9 @@ public class TaxPremiumServiceImpl implements TaxPremiumService {
                 .orElseThrow(() -> new NotFoundException("Product not found"));
 
         taxPremium.setDateEffective(request.dateEffective());
-        taxPremium.setRate(request.rate());
+        taxPremium.setRate(request.isFlatRate() ? 0.0 : request.rate());
         taxPremium.setIsFlatRate(request.isFlatRate());
-        taxPremium.setFlatRateAmount(request.flatRateAmount());
+        taxPremium.setFlatRateAmount(request.isFlatRate() ? request.flatRateAmount() : 0.0);
         taxPremium.setName(request.name());
         taxPremium.setTaxType(taxType);
         taxPremium.setCoverage(coverage);
@@ -107,7 +107,26 @@ public class TaxPremiumServiceImpl implements TaxPremiumService {
     }
 
     @Override
-    public List<TaxPremiumResponse> getAllByManagementEntity(UUID managementEntity) {
+    public List<TaxPremiumResponse> getAllActive(UUID managementEntity) {
+        return taxRepository.findAllByManagementEntityAndDeletedIsFalse(managementEntity).stream()
+                .filter(t -> t instanceof TaxPremium)
+                .map(tax -> {
+                    TaxPremium taxPremium = (TaxPremium) tax;
+                    TaxType taxType = taxPremium.getTaxType();
+                    Coverage coverage = taxPremium.getCoverage();
+                    Product product = taxPremium.getProduct();
+                    return TaxMapper.map(
+                            taxPremium,
+                            TaxMapper.map(taxType),
+                            CoverageMapper.map(coverage, null, null),
+                            ProductMapper.map(product)
+                    );
+                })
+                .toList();
+    }
+
+    @Override
+    public List<TaxPremiumResponse> getAllIncludeDeleted(UUID managementEntity) {
         return taxRepository.findAllByManagementEntity(managementEntity).stream()
                 .filter(t -> t instanceof TaxPremium)
                 .map(tax -> {
