@@ -2,6 +2,8 @@ package sn.zeitune.oliveinsurancesettings.app.services.impl;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import sn.zeitune.oliveinsurancesettings.app.clients.AdministrationClient;
+import sn.zeitune.oliveinsurancesettings.app.dtos.externals.ManagementEntityResponse;
 import sn.zeitune.oliveinsurancesettings.app.dtos.requests.CommissionPointOfSaleRequest;
 import sn.zeitune.oliveinsurancesettings.app.dtos.responses.CommissionPointOfSaleResponse;
 import sn.zeitune.oliveinsurancesettings.app.entities.comission.CommissionPointOfSale;
@@ -29,20 +31,22 @@ public class CommissionPointOfSaleServiceImpl implements CommissionPointOfSaleSe
     private final CommissionPointOfSaleAccessoryRepository commissionPointOfSaleAccessoryRepository;
     private final CoverageRepository coverageRepository;
     private final ProductRepository productRepository;
+    private final AdministrationClient administrationClient;
 
     @Override
     public CommissionPointOfSaleResponse create(CommissionPointOfSaleRequest request, UUID managementEntity) {
         Product product = productRepository.findByUuid(request.productId())
                 .orElseThrow(() -> new NotFoundException("Product not found"));
 
-        if (request.calculationBase() == CalculationBase.PRIME) {
+        ManagementEntityResponse entityResponse = administrationClient.findManagementEntityByUuid(request.pointOfSaleId())
+                .orElseThrow(() -> new NotFoundException("Management entity not found"));
 
+        if (request.calculationBase() == CalculationBase.PRIME) {
             Coverage coverage = null;
             if (request.coverageId() != null) {
                 coverage = coverageRepository.findByUuid(request.coverageId())
-                        .orElseThrow( () -> new NotFoundException("Coverage not found"));
+                        .orElseThrow(() -> new NotFoundException("Coverage not found"));
             }
-
             CommissionPointOfSalePremium premium = CommissionMapper.map(request, coverage, product);
             premium.setManagementEntity(managementEntity);
             premium.setDeleted(false);
@@ -53,7 +57,7 @@ public class CommissionPointOfSaleServiceImpl implements CommissionPointOfSaleSe
                     premium,
                     ProductMapper.map(product),
                     CoverageMapper.map(coverage, null, null),
-                    null
+                    entityResponse
             );
         } else if (request.calculationBase() == CalculationBase.ACCESSORY) {
 
@@ -87,6 +91,7 @@ public class CommissionPointOfSaleServiceImpl implements CommissionPointOfSaleSe
             Coverage coverage = coverageRepository.findByUuid(request.coverageId())
                     .orElseThrow(() -> new NotFoundException("Coverage not found"));
             ((CommissionPointOfSalePremium) commission).setCoverage(coverage);
+
         } else if (commission instanceof CommissionPointOfSaleAccessory) {
             if (request.calculationBase() != CalculationBase.ACCESSORY) {
                 throw new IllegalArgumentException("Cannot update to non-ACCESSORY commission base for an accessory point of sale");
@@ -98,9 +103,16 @@ public class CommissionPointOfSaleServiceImpl implements CommissionPointOfSaleSe
         Product product = productRepository.findByUuid(request.productId())
                 .orElseThrow(() -> new NotFoundException("Product not found"));
 
-        commission.setManagementEntity(managementEntity);
-        commission.setDeleted(false);
+        ManagementEntityResponse pointOfSaleManagementEntity = administrationClient.findManagementEntityByUuid(request.pointOfSaleId())
+                .orElseThrow(() -> new NotFoundException("Management entity not found"));
 
+        commission.setManagementEntity(managementEntity);
+        commission.setDateEffective(request.dateEffective());
+        commission.setManagementRate(request.managementRate());
+        commission.setContributionRate(request.contributionRate());
+        commission.setPointOfSaleType(request.pointOfSaleType());
+        commission.setPointOfSale(request.pointOfSaleId());
+        commission.setDeleted(false);
         commissionPointOfSaleRepository.save(commission);
 
         return CommissionMapper.map(
@@ -108,20 +120,26 @@ public class CommissionPointOfSaleServiceImpl implements CommissionPointOfSaleSe
                 ProductMapper.map(product),
                 commission instanceof CommissionPointOfSalePremium ?
                         CoverageMapper.map(((CommissionPointOfSalePremium) commission).getCoverage(), null, null) : null,
-                null
+                pointOfSaleManagementEntity
         );
     }
 
     @Override
-    public List<CommissionPointOfSaleResponse> getAllPrimes(UUID managementEntity) {
+    public List<CommissionPointOfSaleResponse> getAllActivePrimes(UUID managementEntity) {
+
         return commissionPointOfSalePrimeRepository
-                .findAllByManagementEntity(managementEntity).stream()
-                .map(commission -> CommissionMapper.map(
-                        commission,
-                        ProductMapper.map(commission.getProduct(), null, null),
-                        CoverageMapper.map(commission.getCoverage(), null, null),
-                        null
-                ))
+                .findAllByManagementEntityAndDeletedIsFalse(managementEntity).stream()
+                .map(commission -> {
+                    ManagementEntityResponse entityResponse = administrationClient.findManagementEntityByUuid(commission.getPointOfSale())
+                            .orElseThrow(() -> new NotFoundException("Management entity not found"));
+
+                    return CommissionMapper.map(
+                            commission,
+                            ProductMapper.map(commission.getProduct(), null, null),
+                            CoverageMapper.map(commission.getCoverage(), null, null),
+                            entityResponse
+                    );
+                })
                 .toList();
     }
 
@@ -156,9 +174,23 @@ public class CommissionPointOfSaleServiceImpl implements CommissionPointOfSaleSe
     }
 
     @Override
-    public List<CommissionPointOfSaleResponse> getAll(UUID managementEntity) {
+    public List<CommissionPointOfSaleResponse> getAllActive(UUID managementEntity) {
         return commissionPointOfSaleRepository
                 .findAllByManagementEntity(managementEntity).stream()
+                .map(commission -> CommissionMapper.map(
+                        commission,
+                        ProductMapper.map(commission.getProduct(), null, null),
+                        commission instanceof CommissionPointOfSalePremium ?
+                                CoverageMapper.map(((CommissionPointOfSalePremium) commission).getCoverage(), null, null) : null,
+                        null
+                ))
+                .toList();
+    }
+
+    @Override
+    public List<CommissionPointOfSaleResponse> getAllIncludeDeleted(UUID managementEntity) {
+        return commissionPointOfSaleRepository
+                .findAllByManagementEntityAndDeletedIsFalse(managementEntity).stream()
                 .map(commission -> CommissionMapper.map(
                         commission,
                         ProductMapper.map(commission.getProduct(), null, null),

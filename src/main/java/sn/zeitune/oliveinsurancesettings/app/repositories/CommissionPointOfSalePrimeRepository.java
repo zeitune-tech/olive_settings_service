@@ -15,4 +15,5 @@ public interface CommissionPointOfSalePrimeRepository extends JpaRepository<Comm
         Optional<CommissionPointOfSalePremium> findByUuid(UUID uuid);
 
         List<CommissionPointOfSalePremium> findAllByManagementEntity(UUID managementEntity);
+        List<CommissionPointOfSalePremium> findAllByManagementEntityAndDeletedIsFalse(UUID managementEntity);
 }

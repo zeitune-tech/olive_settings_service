@@ -10,12 +10,13 @@ import java.util.UUID;
 public interface CommissionPointOfSaleService {
     CommissionPointOfSaleResponse create(CommissionPointOfSaleRequest request, UUID insuranceUuid);
     CommissionPointOfSaleResponse getByUuid(UUID uuid);
-    List<CommissionPointOfSaleResponse> getAll(UUID managementEntity);
+    List<CommissionPointOfSaleResponse> getAllActive(UUID managementEntity);
+    List<CommissionPointOfSaleResponse> getAllIncludeDeleted(UUID managementEntity);
     void delete(UUID uuid);
 
     CommissionPointOfSaleResponse update(UUID uuid, @Valid CommissionPointOfSaleRequest request, UUID managementEntity);
 
-    List<CommissionPointOfSaleResponse> getAllPrimes(UUID managementEntity);
+    List<CommissionPointOfSaleResponse> getAllActivePrimes(UUID managementEntity);
 
     List<CommissionPointOfSaleResponse> getAllAccessories(UUID managementEntity);
 }

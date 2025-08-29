@@ -55,7 +55,7 @@ public class CommissionPointOfSaleController {
         Employee employee = (Employee) authentication.getPrincipal();
         UUID managementEntity = employee.getManagementEntity();
         List<CommissionPointOfSaleResponse> responses =
-                commissionPointOfSaleService.getAll(managementEntity);
+                commissionPointOfSaleService.getAllActive(managementEntity);
         return ResponseEntity.ok(responses);
     }
 
@@ -65,7 +65,7 @@ public class CommissionPointOfSaleController {
         Employee employee = (Employee) authentication.getPrincipal();
         UUID managementEntity = employee.getManagementEntity();
         List<CommissionPointOfSaleResponse> responses =
-                commissionPointOfSaleService.getAllPrimes(managementEntity);
+                commissionPointOfSaleService.getAllActivePrimes(managementEntity);
         return ResponseEntity.ok(responses);
     }
 

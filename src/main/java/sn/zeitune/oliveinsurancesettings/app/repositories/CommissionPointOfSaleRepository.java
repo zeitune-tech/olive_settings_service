@@ -17,5 +17,6 @@ public interface CommissionPointOfSaleRepository extends JpaRepository<Commissio
     Optional<CommissionPointOfSale> findByUuid(UUID uuid);
 
     List<CommissionPointOfSale> findAllByManagementEntity(UUID managementEntity);
+    List<CommissionPointOfSale> findAllByManagementEntityAndDeletedIsFalse(UUID managementEntity);
 
 }
