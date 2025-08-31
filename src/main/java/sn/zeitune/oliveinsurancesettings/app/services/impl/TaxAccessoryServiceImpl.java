@@ -60,9 +60,9 @@ public class TaxAccessoryServiceImpl implements TaxAccessoryService {
                 .orElseThrow(() -> new NotFoundException("Product not found"));
 
         taxAccessory.setDateEffective(request.dateEffective());
-        taxAccessory.setRate(request.rate());
+        taxAccessory.setRate(request.isFlatRate() ? 0.0 : request.rate());
         taxAccessory.setIsFlatRate(request.isFlatRate());
-        taxAccessory.setFlatRateAmount(request.flatRateAmount());
+        taxAccessory.setFlatRateAmount(request.isFlatRate() ? request.flatRateAmount() : 0.0);
         taxAccessory.setName(request.name());
         taxAccessory.setTaxType(taxType);
         taxAccessory.setProduct(product);

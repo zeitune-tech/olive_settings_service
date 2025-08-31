@@ -48,7 +48,7 @@ public class TaxPremiumController {
             Authentication authentication) {
         Employee employee = (Employee) authentication.getPrincipal();
         UUID managementEntity = employee.getManagementEntity();
-        List<TaxPremiumResponse> responses = taxPremiumService.getAllByManagementEntity(managementEntity);
+        List<TaxPremiumResponse> responses = taxPremiumService.getAllActive(managementEntity);
         return ResponseEntity.ok(responses);
     }
 

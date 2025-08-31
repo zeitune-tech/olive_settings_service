@@ -1,5 +1,7 @@
 package sn.zeitune.oliveinsurancesettings.app.dtos.requests;
 
+import jakarta.validation.constraints.Max;
+import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.Builder;
@@ -18,6 +20,8 @@ public record TaxRequest(
         @NotNull(message = "Effective date must not be null")
         LocalDate dateEffective,
         @NotNull(message = "Rate must not be null")
+        @Min(value = 0, message = "Rate must be at least 0")
+        @Max(value = 100, message = "Rate must not exceed 100")
         Double rate,
 
         @NotNull(message = "Tax Type ID must not be null")

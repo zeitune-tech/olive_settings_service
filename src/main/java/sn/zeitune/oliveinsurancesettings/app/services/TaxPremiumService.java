@@ -14,7 +14,8 @@ public interface TaxPremiumService {
 
     TaxPremiumResponse getByUuid(UUID uuid);
 
-    List<TaxPremiumResponse> getAllByManagementEntity(UUID managementEntity);
+    List<TaxPremiumResponse> getAllActive(UUID managementEntity);
+    List<TaxPremiumResponse> getAllIncludeDeleted(UUID managementEntity);
 
     void deleteByUuid(UUID uuid);
 }
