@@ -40,4 +40,13 @@ public class CoverageInterServiceController {
         List<CoverageReferenceResponse> coverages = coverageReferenceService.initCoverageReference(uuid);
         return ResponseEntity.ok(coverages);
     }
+
+    @GetMapping("/products/{product}/coverages")
+    public ResponseEntity<List<CoverageResponse>> getCoveragesByProduct(
+            @PathVariable UUID product,
+            @RequestParam UUID managementEntity
+    ) {
+        List<CoverageResponse> coverages = coverageService.getByProductUuid(product, managementEntity);
+        return ResponseEntity.ok(coverages);
+    }
 }
