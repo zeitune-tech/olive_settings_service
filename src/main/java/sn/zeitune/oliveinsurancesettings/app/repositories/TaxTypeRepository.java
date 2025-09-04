@@ -17,4 +17,7 @@ public interface TaxTypeRepository extends JpaRepository<TaxType, Long>, JpaSpec
     boolean existsByNameAndDeletedFalse(String name);
 
     List<TaxType> findAllByManagementEntityAndDeletedFalse(UUID managementEntity);
+
+    List<TaxType> findAllByUuidInAndDeletedFalse(List<UUID> uuids);
+
 }

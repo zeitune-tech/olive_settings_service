@@ -47,6 +47,9 @@ public class Coverage extends BaseEntity {
     @Column(name = "mode_de_calcul")
     @Builder.Default
     private CalculationMode calculationMode = CalculationMode.AUTOMATIC;
+    @Column(name = "is_fixed")
+    @Builder.Default
+    private boolean isFixed = false;
     @Column(name = "capital_fixe")
     @Builder.Default
     private Long fixedCapital = 0L;
@@ -62,7 +65,7 @@ public class Coverage extends BaseEntity {
     private boolean prorata;
     @Column(name = "afficher_prime")
     @Builder.Default
-    private boolean displayPrime = false;
+    private boolean displayPrime = true;
     @Column(name = "gene_caracteristique")
     @Builder.Default
     private boolean generatesCharacteristic = false;

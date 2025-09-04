@@ -34,6 +34,8 @@ public record CoverageRequest(
 
         boolean prorata,
 
+        boolean isFixed,
+
         String clause,
 
         @NotNull(message = "Display prime must be specified")

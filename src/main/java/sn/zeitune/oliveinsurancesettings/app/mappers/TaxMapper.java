@@ -26,7 +26,6 @@ public class TaxMapper {
                 .rate( request.isFlatRate() ? 0.0 : request.rate())
                 .isFlatRate(request.isFlatRate())
                 .flatRateAmount(request.isFlatRate() ? request.flatRateAmount() : 0.0)
-                .name(request.name())
                 .taxType(type)
                 .coverage(coverage)
                 .product(product)
@@ -43,7 +42,6 @@ public class TaxMapper {
                 .rate( request.isFlatRate() ? 0.0 : request.rate())
                 .isFlatRate(request.isFlatRate())
                 .flatRateAmount( request.isFlatRate() ? request.flatRateAmount() : 0.0)
-                .name(request.name())
                 .taxType(type)
                 .product(product)
                 .build();
@@ -61,7 +59,7 @@ public class TaxMapper {
     public static TaxExemption map(
             TaxExemptionRequest request,
             Product product,
-            Set<Tax> taxes
+            Set<TaxType> taxes
     ) {
         return TaxExemption.builder()
                 .name(request.name())
@@ -122,7 +120,7 @@ public class TaxMapper {
     public static TaxExemptionResponse map(
             TaxExemption taxExemption,
             ProductResponse product,
-            Set<TaxResponse> taxes
+            Set<TaxTypeResponse> taxes
     ) {
         return TaxExemptionResponse.builder()
                 .id(taxExemption.getUuid())

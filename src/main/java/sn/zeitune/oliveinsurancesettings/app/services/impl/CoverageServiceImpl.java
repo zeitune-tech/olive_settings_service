@@ -83,21 +83,38 @@ public class CoverageServiceImpl implements CoverageService {
         Coverage existing = coverageRepository.findByUuid(uuid)
                 .orElseThrow(() -> new IllegalArgumentException("Coverage not found with UUID: " + uuid));
 
-        // Met à jour les champs
+        // Champs indépendants
         existing.setNature(request.nature());
         existing.setFree(request.isFree());
-        existing.setFlatRate(request.isFlatRate());
         existing.setCalculationMode(request.calculationMode());
-        existing.setFixedCapital(request.fixedCapital());
-        existing.setMinCapital(request.minCapital());
-        existing.setMaxCapital(request.maxCapital());
         existing.setOrder(request.order());
         existing.setProrata(request.prorata());
         existing.setDisplayPrime(request.displayPrime());
         existing.setGeneratesCharacteristic(request.generatesCharacteristic());
 
-        return CoverageMapper.map(coverageRepository.save(existing), ProductMapper.map(existing.getProduct()));
+        // --- Gestion du capital ---
+        // isFixed (indépendant du calculationMode)
+        existing.setFixed(request.isFixed());
+
+        if (Boolean.TRUE.equals(request.isFixed())) {
+            // Capital fixe : on prend fixedCapital, on écrase min/max
+            existing.setFixedCapital(request.fixedCapital());
+            existing.setMinCapital(null);
+            existing.setMaxCapital(null);
+        } else {
+            // Capital variable : on prend min/max, on écrase fixedCapital
+            existing.setFixedCapital(null);
+            existing.setMinCapital(request.minCapital());
+            existing.setMaxCapital(request.maxCapital());
+        }
+
+        // Si tu utilises aussi un flag "isFlatRate" pour la PRIME, on le conserve ici
+        existing.setFlatRate(request.isFlatRate());
+
+        Coverage saved = coverageRepository.save(existing);
+        return CoverageMapper.map(saved, ProductMapper.map(saved.getProduct()));
     }
+
 
     @Override
     public Page<CoverageResponse> search(
