@@ -63,7 +63,6 @@ public class TaxAccessoryServiceImpl implements TaxAccessoryService {
         taxAccessory.setRate(request.isFlatRate() ? 0.0 : request.rate());
         taxAccessory.setIsFlatRate(request.isFlatRate());
         taxAccessory.setFlatRateAmount(request.isFlatRate() ? request.flatRateAmount() : 0.0);
-        taxAccessory.setName(request.name());
         taxAccessory.setTaxType(taxType);
         taxAccessory.setProduct(product);
 

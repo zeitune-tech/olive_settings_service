@@ -74,7 +74,6 @@ public class TaxPremiumServiceImpl implements TaxPremiumService {
         taxPremium.setRate(request.isFlatRate() ? 0.0 : request.rate());
         taxPremium.setIsFlatRate(request.isFlatRate());
         taxPremium.setFlatRateAmount(request.isFlatRate() ? request.flatRateAmount() : 0.0);
-        taxPremium.setName(request.name());
         taxPremium.setTaxType(taxType);
         taxPremium.setCoverage(coverage);
         taxPremium.setProduct(product);

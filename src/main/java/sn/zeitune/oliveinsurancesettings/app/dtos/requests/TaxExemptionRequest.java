@@ -12,6 +12,6 @@ public record TaxExemptionRequest (
 
         @NotNull(message = "Product ID must not be null")
         UUID productId,
-        List<UUID> taxIds
+        List<UUID> taxTypeIds
 ) {
 }

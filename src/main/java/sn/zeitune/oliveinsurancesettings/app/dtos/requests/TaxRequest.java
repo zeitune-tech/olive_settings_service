@@ -14,9 +14,6 @@ import java.util.UUID;
 @Builder
 public record TaxRequest(
 
-        @NotBlank(message = "Tax name must not be blank")
-        String name,
-
         @NotNull(message = "Effective date must not be null")
         LocalDate dateEffective,
         @NotNull(message = "Rate must not be null")

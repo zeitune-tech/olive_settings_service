@@ -15,6 +15,7 @@ public record CoverageResponse(
         boolean isFree,
         boolean isFlatRate,
         CalculationMode calculationMode,
+        boolean isFixed,
         Long fixedCapital,
         Long minCapital,
         Long maxCapital,

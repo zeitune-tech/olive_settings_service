@@ -10,7 +10,7 @@ import java.util.UUID;
 public record TaxExemptionResponse (
         UUID id,
         String name,
-        Set<TaxResponse> taxes,
+        Set<TaxTypeResponse> taxes,
         ProductResponse product
 ) {
 }

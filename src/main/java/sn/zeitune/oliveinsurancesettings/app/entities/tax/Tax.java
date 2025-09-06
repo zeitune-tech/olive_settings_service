@@ -38,7 +38,7 @@ public abstract class Tax extends BaseEntity {
         }
     }
 
-    @Column(name = "name", nullable = false)
+    @Column(name = "name", nullable = true)
     private String name;
 
     @Column(name = "entite_de_gestion", nullable = false)
