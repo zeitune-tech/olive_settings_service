@@ -54,7 +54,7 @@ services:
   olive-insurance-settings-service:
     base-url: http://localhost:8080/settings
   olive-insurance-exploitation-service:
-    base-url: http://localhost:8080/exploitation
+    base-url: ${OLIVE_EXPLOITATION_SERVICE_URL}  # TODO: Update with actual URL
 
 jwt:
     user:
